@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="kr.co.SAMGUN.dao.Common2DAO">
+
+<select  id="checkId" parameterType="Map" resultType="int">
+	
+	SELECT
+		COUNT(*)
+	FROM
+		MEMBER
+	WHERE 1=1
+	AND M_ID = #{mId}
+	
+</select>
+
+<insert id="joinSave" parameterType="Map">
+
+	INSERT INTO MEMBER
+		(
+			SEQ,
+			M_ID,
+			PW,
+			M_NAME,
+			BIRTHDAY,
+			HP,
+			EMAIL,
+			ZIP,
+			ADDR,
+			DETAIL_ADDR,
+			MARKETING,
+			REGID,
+			REGDATE,
+			MODID,
+			MODDATE,
+			NOTE,
+			M_LEVEL
+		)
+	VALUES
+		(
+			(SELECT MAX(NVL(SEQ,0))+1 FROM MEMBER),
+			#{mId},
+			#{sPw},
+			#{sName},
+			#{sBirthday},
+			#{sHp},
+			#{sEmail},
+			#{sZip},
+			#{sAddr},
+			#{sDetailAddr},
+			#{sMarketing},
+			#{mId},
+			SYSDATE,
+			#{mId},
+			SYSDATE,
+			'',
+			20
+		)
+</insert>
+
+<select id="loginIdProc" parameterType="Map" resultType="int">
+
+SELECT
+	COUNT(*)
+FROM 
+	MEMBER
+WHERE 1=1
+AND M_ID = #{mId}
+
+</select>
+
+<select id="loginPwProc" parameterType="Map" resultType="java.util.HashMap">
+
+	SELECT
+		SEQ,
+		M_ID,
+		M_NAME,
+		BIRTHDAY,
+		HP,
+		EMAIL,
+		ZIP,
+		ADDR,
+		DETAIL_ADDR,
+		MARKETING,
+		REGID,
+		REGDATE,
+		MODID,
+		MODDATE,
+		NOTE,
+		M_LEVEL 
+	FROM 
+		MEMBER
+	WHERE 1=1
+	AND M_ID = #{mId}
+	AND PW = #{sPw}
+
+</select>
+
+</mapper>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow:/common/
+Allow:/common2/
+Allow:/common3/
+Allow:/common4/

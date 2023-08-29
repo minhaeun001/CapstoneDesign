@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="kr.co.SAMGUN.dao.ProgramDAO">
+
+	<!-- 총숫자 -->
+	<select id="selectTotalCnt" parameterType="Map" resultType="int">
+
+		select
+
+		COUNT(*) TOTALCNT
+
+		from
+		PROGRAM A
+		where 1 = 1
+		<if test='dataType != null'>
+			<if test='"1".equals(dataType)'>
+				<if test='!"all".equals(programType) and programType != null'>
+					AND BODY_TYPE = #{programType}
+				</if>
+			</if>
+			<if test='"2".equals(dataType)'>
+				<if test='!"all".equals(programType) and programType != null'>
+					AND TIME_TYPE = #{programType}
+				</if>
+			</if>
+			<if test='"3".equals(dataType)'>
+				<if test='!"all".equals(programType) and programType != null'>
+					AND PERIOD_TYPE = #{programType}
+				</if>
+			</if>
+			<if test='"4".equals(dataType)'>
+				<if test='!"all".equals(programType) and programType != null'>
+					AND TEACHER_TYPE = #{programType}
+				</if>
+			</if>
+		</if>
+	</select>
+
+	<!-- 부위별 /시간별 리스트 -->
+	<select id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
+
+		WITH SEARCH AS (
+			SELECT
+			ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS RNUM,
+			A.*,
+			(SELECT M_NAME FROM MEMBER WHERE M_ID=A.REG_ID) REG_NAME,
+			(SELECT M_NAME FROM MEMBER WHERE M_ID=A.MOD_ID) MOD_NAME
+			FROM PROGRAM A
+			WHERE 1=1
+			<if test='dataType != null'>
+				<if test='"1".equals(dataType)'>
+					<if test='!"all".equals(programType) and programType != null'>
+						AND BODY_TYPE = #{programType}
+					</if>
+				</if>
+				<if test='"2".equals(dataType)'>
+					<if test='!"all".equals(programType) and programType != null'>
+						AND TIME_TYPE = #{programType}
+					</if>
+				</if>
+				<if test='"3".equals(dataType)'>
+					<if test='!"all".equals(programType) and programType != null'>
+						AND PERIOD_TYPE = #{programType}
+					</if>
+				</if>
+				<if test='"4".equals(dataType)'>
+					<if test='!"all".equals(programType) and programType != null'>
+					</if>
+				</if>
+			</if>
+
+		)
+
+		SELECT
+		*
+		FROM SEARCH
+		WHERE 1=1
+		AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize})
+
+
+	</select>
+
+
+	<!-- 댓글 리스트 -->
+	<select id="listComments" parameterType="Map" resultType="java.util.HashMap">
+
+		WITH SEARCH AS (	
+			
+			SELECT 
+				
+				ROW_NUMBER() OVER(ORDER BY GSEQ DESC, SEQ DESC) AS RNUM,
+				A.*,
+				LEAD(A.SEQ, 1, 0) OVER (ORDER BY GSEQ DESC, SEQ DESC) AS NEXT_SEQ,
+				LAG(A.SEQ, 1, 0) OVER (ORDER BY GSEQ DESC, SEQ DESC) AS PRE_SEQ
+			FROM 
+				COMMENTS A
+			WHERE 1 = 1
+			AND PSEQ = #{pSeq}
+			AND DEL_YN = 'N'
+		)
+		
+		
+		SELECT
+		*
+		FROM SEARCH 
+		WHERE 1=1
+		AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize})
+		
+	</select>
+
+	<!-- 댓글 토탈 갯수 -->
+	<select id="listTotalComments" parameterType="Map"
+		resultType="int">
+
+		SELECT
+
+		COUNT(*) TOTALCNT
+
+		FROM
+		COMMENTS A
+		WHERE 1=1
+		AND PSEQ = #{pSeq}
+		AND DEL_YN = 'N'
+
+	</select>
+
+
+	<!-- 댓글 등록하기 -->
+	<insert id="save_comments" parameterType="Map">
+
+		INSERT INTO COMMENTS (
+		SEQ ,
+		PSEQ,
+		GSEQ,
+		CONTENT,
+		REG_ID,
+		MOD_ID,
+		NICKNAME
+		) VALUES (
+		(SELECT MAX(NVL(SEQ,0))+1 FROM COMMENTS),
+		#{pSeq},
+		#{gSeq},
+		#{content},
+		<choose>
+			<when test='mId == null'>
+				#{nickName}
+			</when>
+			<otherwise>
+				#{mId}
+			</otherwise>
+		</choose>,
+		<choose>
+			<when test='mId == null'>
+				#{nickName}
+			</when>
+			<otherwise>
+				#{mId}
+			</otherwise>
+		</choose>,
+		#{nickName}
+		)
+
+	</insert>
+	<!-- 상세보기 정보 -->
+	<select id="boardDetail" parameterType="Map" resultType="java.util.HashMap">
+
+		SELECT Z.* FROM (
+			SELECT
+			A.*,
+			LEAD(SEQ, 1, 0) OVER (ORDER BY SEQ DESC) AS NEXT_SEQ,
+			LAG(SEQ, 1, 0) OVER (ORDER BY SEQ DESC) AS PRE_SEQ
+			FROM
+			PROGRAM A
+			WHERE 1=1
+		) Z
+		WHERE 1 =1
+		AND Z.SEQ = #{seq}
+
+	</select>
+	
+	
+	<!--  상세보기 뷰카운트 업데이트-->
+	<update  id="boardDetailCount" parameterType="Map">
+		
+		UPDATE PROGRAM SET
+		VIEW_CNT = (SELECT MAX(NVL(VIEW_CNT,0)) + 1 FROM PROGRAM WHERE SEQ = #{seq} ) 
+		WHERE SEQ = #{seq}
+		
+	</update>
+
+	<!--  메인글 좋아요 업데이트 -->
+	<update  id="boardUpdateGood" parameterType="Map">
+		
+		UPDATE PROGRAM SET
+		GOOD = (SELECT MAX(NVL(GOOD,0)) + 1 FROM PROGRAM WHERE SEQ = #{seq} ) 
+		WHERE SEQ = #{seq}
+	</update>
+	
+	
+	<!--  메인글 좋아요 값 가져오기 -->
+	<select  id="boardGood" parameterType="Map" resultType="java.util.HashMap">
+		SELECT
+		  GOOD, BAD 
+		FROM 
+		  PROGRAM
+		WHERE 
+		  SEQ = #{seq}
+	</select>
+	
+		<!--  메인글 싫어요 업데이트 -->
+	<update  id="boardUpdateBad" parameterType="Map">
+		
+		UPDATE PROGRAM SET
+		BAD = (SELECT MAX(NVL(BAD,0)) + 1 FROM PROGRAM WHERE SEQ = #{seq} ) 
+		WHERE SEQ = #{seq}
+	</update>
+	
+	
+	<!--  메인글 싫어요 값 가져오기 -->
+	<select  id="boardBad" parameterType="Map" resultType="java.util.HashMap">
+		SELECT
+		  BAD, BAD 
+		FROM 
+		  PROGRAM
+		WHERE 
+		  SEQ = #{seq}
+	</select>
+	
+	<!--  댓글 좋아요 업데이트 -->
+	<update  id="UpdateCommentGood" parameterType="Map">
+		UPDATE COMMENTS SET
+		GOOD = (SELECT MAX(NVL(GOOD,0)) + 1 FROM COMMENTS WHERE 1=1 AND SEQ = #{seq} AND PSEQ = #{pseq} ) 
+		WHERE 1=1 
+		AND SEQ = #{seq} 
+	</update>
+	
+	
+	<!--  댓글 좋아요 값 가져오기 -->
+	<select  id="commentGood" parameterType="Map" resultType="java.util.HashMap">
+		SELECT
+		  GOOD, BAD, SEQ
+		FROM 
+		  COMMENTS
+		WHERE 1=1 
+		AND SEQ = #{seq} 
+	</select>
+	
+	<!--  댓글 좋아요 업데이트 -->
+	<update  id="UpdateCommentBad" parameterType="Map">
+		UPDATE COMMENTS SET
+		BAD = (SELECT MAX(NVL(BAD,0)) + 1 FROM COMMENTS WHERE 1=1 AND SEQ = #{seq} AND PSEQ = #{pseq} ) 
+		WHERE 1=1 
+		AND SEQ = #{seq} 
+	</update>
+	
+	
+	<!--  댓글 좋아요 값 가져오기 -->
+	<select  id="commentBad" parameterType="Map" resultType="java.util.HashMap">
+		SELECT
+		  GOOD, BAD, SEQ
+		FROM 
+		  COMMENTS
+		WHERE 1=1 
+		AND SEQ = #{seq} 
+	</select>
+
+
+	<!-- 마이페이지 리스트 -->
+	<select id="listMypage" parameterType="Map" resultType="java.util.HashMap">
+
+		select
+
+		A.*
+
+		from
+		MY_PAGE A
+		where
+		ID = #{mId}
+
+	</select>
+
+
+	<!-- 마이페이지에 찜 기존의 아이디가 있으면 업데이트 없으면 등록하기 -->
+	<insert id="saveMypage" parameterType="Map">
+
+		MERGE INTO MY_PAGE M
+
+		USING DUAL
+
+		ON (M.ID = #{mId})
+
+		WHEN MATCHED THEN
+		<!-- bodyType : 1 , timeType:2, periodType:3 , teacherType:4 -->
+		UPDATE SET
+		<if test='dataType != null'>
+			<if test='"1".equals(dataType)'>
+				M.BODY_TYPE = #{dataVal},
+			</if>
+			<if test='"2".equals(dataType)'>
+				M.TIME_TYPE = #{dataVal},
+			</if>
+			<if test='"3".equals(dataType)'>
+				M.PERIOD_TYPE = #{dataVal},
+			</if>
+			<if test='"4".equals(dataType)'>
+				M.TEACHER_TYPE = #{dataVal},
+			</if>
+		</if>
+		M.MOD_ID = #{mId},
+		M.MOD_DATE = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+
+		WHEN NOT MATCHED THEN
+		INSERT
+		(
+		SEQ,
+		ID,
+		<if test='dataType != null'>
+			<if test='"1".equals(dataType)'>
+				BODY_TYPE,
+			</if>
+			<if test='"2".equals(dataType)'>
+				TIME_TYPE,
+			</if>
+			<if test='"3".equals(dataType)'>
+				PERIOD_TYPE,
+			</if>
+			<if test='"4".equals(dataType)'>
+				TEACHER_TYPE,
+			</if>
+		</if>
+		REG_ID,
+		MOD_ID
+		)
+		VALUES
+		(
+		(SELECT MAX(NVL(SEQ,0))+1 FROM MY_PAGE),
+		#{mId},
+		<if test='dataType != null'>
+			<if test='"1".equals(dataType)'>
+				#{dataVal},
+			</if>
+			<if test='"2".equals(dataType)'>
+				#{dataVal},
+			</if>
+			<if test='"3".equals(dataType)'>
+				#{dataVal},
+			</if>
+			<if test='"4".equals(dataType)'>
+				#{dataVal},
+			</if>
+		</if>
+		#{mId},
+		#{mId}
+		)
+
+	</insert>
+
+</mapper>

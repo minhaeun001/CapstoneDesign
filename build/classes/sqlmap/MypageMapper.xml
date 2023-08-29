@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="kr.co.SAMGUN.dao.MypageDAO">
+
+<select  id="selectTotalCnt" parameterType="Map" resultType="int">
+	
+	SELECT 
+		
+		COUNT(*) TOTALCNT
+
+	FROM 
+		PDS_BOARD A
+	WHERE 1 = 1
+	<if test='searchSelector != null'>
+		<if test='"1".equals(searchSelector)'>
+	       AND TITLE LIKE  '%' || #{searchText} || '%'
+        </if>
+		<if test='"2".equals(searchSelector)'>
+	       AND CONTENTS LIKE  '%' || #{searchText} || '%'
+        </if>
+		<if test='"all".equals(searchSelector)'>
+	       AND (TITLE LIKE  '%' || #{searchText} || '%' OR CONTENTS LIKE  '%' || #{searchText} || '%')
+        </if>
+    </if>	
+    AND A.M_ID = #{mId}
+	AND A.BOARD_TYPE = #{boardType}
+	AND	A.DEL_YN = 'N'
+	
+	
+</select>
+
+
+
+<!-- 마이페이지 프로그램 리스트 -->
+<select  id="listMypageType" parameterType="Map" resultType="java.util.HashMap">
+
+WITH SEARCH AS (	
+	
+	SELECT 
+		
+		ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS RNUM,
+		A.*,
+		LEAD(A.SEQ, 1, 0) OVER (ORDER BY A.SEQ DESC) AS NEXT_SEQ,
+		LAG(A.SEQ, 1, 0) OVER (ORDER BY A.SEQ DESC) AS PRE_SEQ
+	FROM 
+		PDS_BOARD A
+	WHERE 1 = 1
+	<if test='searchSelector != null'>
+		<if test='"1".equals(searchSelector)'>
+	       AND TITLE LIKE  '%' || #{searchText} || '%'
+        </if>
+		<if test='"2".equals(searchSelector)'>
+	       AND CONTENTS LIKE  '%' || #{searchText} || '%'
+        </if>
+		<if test='"all".equals(searchSelector)'>
+	       AND (TITLE LIKE  '%' || #{searchText} || '%' OR CONTENTS LIKE  '%' || #{searchText} || '%')
+        </if>
+    </if>	
+    AND A.M_ID = #{mId}
+	AND	A.BOARD_TYPE = #{boardType}
+	AND	A.DEL_YN = 'N'
+	
+)
+
+SELECT
+*
+FROM SEARCH 
+WHERE 1=1
+AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize})
+
+
+</select>
+
+<!--  상세보기 뷰카운트 업데이트보 -->
+<update  id="boardDetailCount" parameterType="Map">
+	
+	UPDATE PDS_BOARD SET
+	VIEWS = (SELECT MAX(NVL(VIEWS,0)) + 1 FROM PDS_BOARD WHERE SEQ = #{seq} ) 
+	WHERE M_ID =#{mId}
+	AND SEQ = #{seq}
+	AND	BOARD_TYPE = #{boardType}
+	AND	DEL_YN = 'N'
+	
+</update>
+
+<!--  상세보기 정보 -->
+<select  id="boardDetail" parameterType="Map" resultType="java.util.HashMap">
+
+	SELECT Z.* FROM (	
+		SELECT 
+			
+			A.*,
+			LEAD(SEQ, 1, 0) OVER (ORDER BY SEQ DESC) AS NEXT_SEQ,
+			LAG(SEQ, 1, 0) OVER (ORDER BY SEQ DESC) AS PRE_SEQ
+	
+		FROM 
+			PDS_BOARD A
+		WHERE 1=1
+		AND M_ID =#{mId}
+		AND A.BOARD_TYPE = #{boardType}	
+		AND	A.DEL_YN = 'N'
+	) Z 
+	WHERE 1 =1 
+	AND M_ID =#{mId}
+	AND Z.SEQ = #{seq}
+	
+</select>
+
+
+<!-- 게시글 등록하기 -->
+<insert id="mypageBoardWrite" parameterType="Map">	
+
+	INSERT INTO PDS_BOARD (
+		SEQ ,	
+		BOARD_TYPE,
+		TITLE,
+		CONTENTS,
+		NOTE,
+		REG_ID,
+		MOD_ID,
+		ORIGIN_FILE_NAME1,
+		TARGET_FILE_NAME1,
+		FILE_EXT1,
+		FILE_SIZE1,
+		ORIGIN_FILE_NAME2,
+		TARGET_FILE_NAME2,
+		FILE_EXT2,
+		FILE_SIZE2,
+		ORIGIN_FILE_NAME3,
+		TARGET_FILE_NAME3,
+		FILE_EXT3,
+		FILE_SIZE3,
+		ORIGIN_FILE_NAME4,
+		TARGET_FILE_NAME4,
+		FILE_EXT4,
+		FILE_SIZE4,
+		FILE_PATH,
+		M_ID
+	) VALUES (
+		(SELECT  MAX(NVL(SEQ,0))+1 FROM PDS_BOARD),
+		#{boardType},
+		#{sTitle},
+		#{sContent},
+		#{sNote},
+		#{mId},
+		#{mId},
+		#{originFileName1},
+		#{targetFileName1},
+		#{fileExt1},
+		#{fileSize1},
+		#{originFileName2},
+		#{targetFileName2},
+		#{fileExt2},
+		#{fileSize2},
+		#{originFileName3},
+		#{targetFileName3},
+		#{fileExt3},
+		#{fileSize3},
+		#{originFileName4},
+		#{targetFileName4},
+		#{fileExt4},
+		#{fileSize4},
+		#{filePath},
+		#{mId}
+	)
+	
+</insert>
+
+
+<!-- notice_01_modify 영역 시작 -->
+<select  id="boardModifyDetail" parameterType="Map" resultType="java.util.HashMap">
+	
+	SELECT 
+		
+		A.*
+	FROM 
+		PDS_BOARD A
+	WHERE 1=1
+	AND A.M_ID = #{mId}
+	AND A.SEQ = #{seq}
+	AND A.BOARD_TYPE = #{boardType}	
+	AND A.DEL_YN = 'N'
+	
+</select>
+
+
+<update id="boardModifySave" parameterType="Map">
+	UPDATE PDS_BOARD SET 
+	
+		TITLE = #{sTitle},
+		CONTENTS = #{sContent},
+		NOTE = #{sNote},
+		M_ID = #{mId},
+		MOD_ID = #{mId},
+		MOD_DATE = SYSDATE,
+		ORIGIN_FILE_NAME1= #{originFileName1},
+		TARGET_FILE_NAME1= #{targetFileName1},
+		FILE_SIZE1= #{fileSize1},
+		FILE_EXT1= #{fileExt1},
+		ORIGIN_FILE_NAME2= #{originFileName2},
+		TARGET_FILE_NAME2= #{targetFileName2},
+		FILE_SIZE2= #{fileSize2},
+		FILE_EXT2= #{fileExt2},
+		ORIGIN_FILE_NAME3= #{originFileName3},
+		TARGET_FILE_NAME3= #{targetFileName3},
+		FILE_SIZE3= #{fileSize3},
+		FILE_EXT3= #{fileExt3},
+		ORIGIN_FILE_NAME4= #{originFileName4},
+		TARGET_FILE_NAME4= #{targetFileName4},
+		FILE_SIZE4= #{fileSize4},
+		FILE_EXT4= #{fileExt4},
+		FILE_PATH= #{file_path}
+
+	WHERE 1=1
+	AND M_ID = #{mId}
+	AND SEQ = #{seq}
+	AND BOARD_TYPE = #{boardType}
+
+</update>
+
+<delete id="boardDelete" parameterType="Map">
+	DELETE FROM PDS_BOARD 
+	WHERE 1=1
+	AND M_ID = #{mId}
+	AND SEQ = #{seq}
+	AND BOARD_TYPE = #{boardType}
+</delete>
+
+<select id="boardFileSelect" parameterType="Map" resultType="java.util.HashMap">
+	SELECT * FROM PDS_BOARD 
+	WHERE 1=1
+	AND M_ID = #{mId}
+	AND SEQ = #{seq}
+	AND BOARD_TYPE = #{boardType}
+</select>
+
+<!-- notice_01_modify 영역 끝 -->
+
+
+
+<!-- 마이페이지 리스트 -->
+
+
+<!-- 총숫자 -->
+<select  id="selectTotalCnt2" parameterType="Map" resultType="int">
+	
+	select 
+		
+		COUNT(*) TOTALCNT
+
+	from 
+		PROGRAM A
+	where 1 = 1
+	
+	<if test='dataType != null'>
+	
+		<if test='"1".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+				<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(BODY_TYPE, 0, LENGTH( BODY_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				  AND BODY_TYPE =  #{programType}
+				]]>		   
+	        </if>
+	        <if test='"all".equals(programType) and programType != null'>
+				<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(BODY_TYPE, 0, LENGTH( BODY_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>		   
+	        </if>
+		</if>
+		<if test='"2".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TIME_TYPE, 0, LENGTH( TIME_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				   AND TIME_TYPE =  #{programType}
+				]]>	
+	        </if>
+		<if test='"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TIME_TYPE, 0, LENGTH( TIME_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>	
+	        </if>
+        </if>
+		<if test='"3".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(PERIOD_TYPE, 0, LENGTH( PERIOD_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				   AND PERIOD_TYPE =  #{programType}
+				]]>	
+	        </if>
+			<if test='"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(PERIOD_TYPE, 0, LENGTH( PERIOD_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>	
+	        </if>
+        </if>
+		<if test='"4".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TEACHER_TYPE, 0, LENGTH( TEACHER_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				   AND TEACHER_TYPE =  #{programType}
+				]]>	
+
+	        </if>
+			<if test='"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TEACHER_TYPE, 0, LENGTH( TEACHER_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>	
+	        </if>
+        </if>
+     </if>
+     
+</select>
+
+
+
+<select  id="listMypage" parameterType="Map" resultType="java.util.HashMap">
+	
+	select 
+		
+		A.*
+
+	from 
+		MY_PAGE A
+	where 
+		ID = #{mId}
+
+</select>
+
+<!-- 부위별 /시간별 리스트 -->
+<select  id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
+
+WITH SEARCH AS (	
+	select 
+		ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS RNUM,
+		A.*,
+		(SELECT M_NAME FROM MEMBER WHERE M_ID=A.REG_ID) REG_NAME,
+		(SELECT M_NAME FROM MEMBER WHERE M_ID=A.MOD_ID) MOD_NAME
+	from 
+		PROGRAM A
+	where 1=1
+	<if test='dataType != null'>
+	
+		<if test='"1".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+				<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(BODY_TYPE, 0, LENGTH( BODY_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				  AND BODY_TYPE =  #{programType}
+				]]>		   
+	        </if>
+	        <if test='"all".equals(programType) and programType != null'>
+				<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(BODY_TYPE, 0, LENGTH( BODY_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>		   
+	        </if>
+		</if>
+		<if test='"2".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TIME_TYPE, 0, LENGTH( TIME_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				   AND TIME_TYPE =  #{programType}
+				]]>	
+	        </if>
+		<if test='"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TIME_TYPE, 0, LENGTH( TIME_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>	
+	        </if>
+        </if>
+		<if test='"3".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(PERIOD_TYPE, 0, LENGTH( PERIOD_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				   AND PERIOD_TYPE =  #{programType}
+				]]>	
+	        </if>
+			<if test='"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(PERIOD_TYPE, 0, LENGTH( PERIOD_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>	
+	        </if>
+        </if>
+		<if test='"4".equals(dataType)'>
+			<if test='!"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TEACHER_TYPE, 0, LENGTH( TEACHER_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				   AND TEACHER_TYPE =  #{programType}
+				]]>	
+
+	        </if>
+			<if test='"all".equals(programType) and programType != null'>
+		       	<![CDATA[
+				  AND SEQ IN (SELECT REGEXP_SUBSTR(A.MYDATAS,'[^,]+', 1, ROWNUM) AS SEQ
+				   FROM (SELECT SUBSTR(TEACHER_TYPE, 0, LENGTH( TEACHER_TYPE) - 1 ) AS MYDATAS FROM MY_PAGE WHERE ID = #{mId}	) a
+				   CONNECT BY ROWNUM  <=  LENGTH(REGEXP_REPLACE(MYDATAS,'[^,]+')) + 1
+				   )
+				]]>	
+	        </if>
+        </if>
+     </if>
+
+)
+
+SELECT
+*
+FROM SEARCH 
+WHERE 1=1
+AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize})
+
+
+</select>
+
+<!-- 운동법 상세보기 정보 -->
+<select  id="boardDetail2" parameterType="Map" resultType="java.util.HashMap">
+	
+SELECT Z.* FROM ( 
+	SELECT 
+		
+		A.*,
+		LEAD(SEQ, 1, 0) OVER (ORDER BY SEQ DESC) AS NEXT_SEQ,
+		LAG(SEQ, 1, 0) OVER (ORDER BY SEQ DESC) AS PRE_SEQ
+
+	FROM 
+		PROGRAM A
+) Z
+
+WHERE 
+		Z.SEQ = #{seq}
+
+</select>
+
+
+
+<!-- 마이페이지에  찜 기존의 아이디가 있으면 업데이트 없으면 등록하기 -->
+<insert id="saveMypage" parameterType="Map">	
+
+	MERGE INTO MY_PAGE M
+
+    USING DUAL
+
+       ON (M.ID = #{mId})
+
+    WHEN MATCHED THEN
+<!-- bodyType : 1 , timeType:2, periodType:3 , teacherType:4 -->
+        UPDATE SET 
+		<if test='dataType != null'>
+			<if test='"1".equals(dataType)'>
+		        M.BODY_TYPE = #{dataVal},
+	        </if>
+			<if test='"2".equals(dataType)'>
+		        M.TIME_TYPE = #{dataVal},
+	        </if>
+			<if test='"3".equals(dataType)'>
+		        M.PERIOD_TYPE = #{dataVal},
+	        </if>
+			<if test='"4".equals(dataType)'>
+		        M.TEACHER_TYPE = #{dataVal},
+	        </if>
+        </if>
+        M.MOD_ID =  #{mId},
+        M.MOD_DATE = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+
+    WHEN NOT MATCHED THEN
+		INSERT
+			(
+				SEQ,
+				ID,
+				<if test='dataType != null'>
+					<if test='"1".equals(dataType)'>
+							BODY_TYPE,
+			        </if>
+					<if test='"2".equals(dataType)'>
+							TIME_TYPE,
+			        </if>
+					<if test='"3".equals(dataType)'>
+							PERIOD_TYPE,
+			        </if>
+					<if test='"4".equals(dataType)'>
+							TEACHER_TYPE,
+			        </if>
+		        </if>
+				REG_ID,
+				MOD_ID
+			)
+		VALUES
+			(
+				(SELECT  MAX(NVL(SEQ,0))+1 FROM MY_PAGE),
+				#{mId},
+				<if test='dataType != null'>
+					<if test='"1".equals(dataType)'>
+							#{dataVal},
+			        </if>
+					<if test='"2".equals(dataType)'>
+							#{dataVal},
+			        </if>
+					<if test='"3".equals(dataType)'>
+							#{dataVal},
+			        </if>
+					<if test='"4".equals(dataType)'>
+							#{dataVal},
+			        </if>        
+			     </if>
+				#{mId},
+				#{mId}
+			)
+		
+</insert>
+
+<select id="myInfo" parameterType="Map" resultType="java.util.HashMap">
+	SELECT
+	  SEQ,
+	  M_ID,
+	  M_NAME,
+	  BIRTHDAY,
+	  HP,
+	  EMAIL,
+	  ZIP,
+	  ADDR,
+	  DETAIL_ADDR,
+	  MARKETING
+	FROM 
+	  MEMBER 
+	WHERE 1=1 
+	AND M_ID = #{mId}
+</select>
+
+<update id="myInfoModifySave" parameterType="Map">
+
+	
+
+UPDATE MEMBER SET
+			PW = #{sPw},
+			BIRTHDAY = #{sBirthday},
+			HP = #{sHp},
+			EMAIL = #{sEmail},
+			ZIP = #{sZip},
+			ADDR = #{sAddr},
+			DETAIL_ADDR = #{sDetailAddr},
+			MARKETING = #{sMarketing},
+			REGID = #{mId},
+			REGDATE = SYSDATE,
+			MODID = #{mId},
+			MODDATE = SYSDATE,
+			NOTE = ''
+    WHERE 1=1
+    AND M_ID = #{mId}
+
+</update>
+
+</mapper>

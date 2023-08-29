@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+/**********************************************
+
+* Project :온라인 전시관
+* File name : common.css
+* date : 2021.10.20
+
+**********************************************/
+
+/* 기본 스타일 */
+* {box-sizing: border-box;}
+body, button,select,input,textarea {font-family:'scdream', sans-serif !important; font-weight: 400; font-size: 16px;}
+body {margin: 0; padding: 0; font-size: 17px; color: #101010; line-height: 26px; letter-spacing: -0.025em;}
+div,ul,ol,li,p,h1,h2,h3,h4,small,th,td {margin: 0; padding: 0;}
+ul li {list-style: none;}
+a {display: inline-block; color: #101010; text-decoration: none; transition: all .4s;}
+img {border: none; vertical-align: middle;}
+mark {background-color: #eeffc1;}
+strong {font-weight: 500;}
+table {width: 100%; border-collapse: collapse; table-layout: fixed; background-color: #fff;}
+table caption {text-indent: -9999px; overflow: hidden; height: 0px; margin-top: -2px;}
+fieldset {overflow: hidden; border: 0px; padding: 0px; margin: 0px;}
+fieldset legend {text-indent: -9999px; overflow: hidden; height: 0px;}
+em {font-style: normal;}
+button {cursor: pointer; border: none; outline: none; transition: all 0.4s;}
+
+/* 커스텀 스타일 */
+.clear:after {content: ''; display: block; clear: both;  height: 0; }
+.hide {font-size: 0; opacity: 0; }
+.vam {vertical-align: middle;}
+.tal {text-align: left !important;}
+.tac {text-align: center;}
+.fl {float: left;}
+.fr {float: right;}
+.mt70 {margin-top: 40px;}   
+.por {position: relative;}
+
+/* btn_area 공통 */
+.btn_area {text-align: center;}
+.btn_area button {width: 120px; height: 48px; margin-right: 4px; color: #fff; font-size: 16px; font-weight: 400 !important; border-radius: 4px; transition: all 0.4s; letter-spacing: 0;}
+.btn_area button:last-child {margin-right: 0px;}
+.btn_area .btn_blue {background-color: #000000;}
+.btn_area .btn_blue:hover {background-color: #272829;}
+.btn_area .btn_green {background-color: #26c8c2;}
+.btn_area .btn_green:hover {background-color: #00b9b2;}
+.btn_area .btn_gray {background-color: #fff; color: #000; border: 1px solid #000;}
+.btn_area .btn_gray:hover {background-color: #efefef;}
+
+input,select,textarea {border-radius: 4px;}
+select {font-weight: 500; padding: 0 12px;}
+input {font-weight: 500; padding: 0 12px;}
+input:focus,textarea:focus,select:focus {outline: none;}
+
+
+
+/* select 스타일 */
+select {padding: 0px 20px; background: url(../img/arr01.png) no-repeat 92% 50%; background-size: 12px 8px;}
+select {-webkit-appearance:none; /* 화살표 없애기 for chrome*/ -moz-appearance:none; /* 화살표 없애기 for firefox*/ appearance:none /* 화살표 없애기 공통*/ }
+select::-ms-expand{ display:none /* 화살표 없애기 for IE10, 11*/ }
+select:focus {border-color: #000; color: #222; outline: none;}
+input:-ms-input-placeholder {color: #888888;}
+textarea::-webkit-input-placeholder {color: #888888;}
+textarea:-ms-input-placeholder {color: #888888;}
+input::placeholder {color: #888888;}
+textarea::placeholder {color: #888888;}
+
+/***** Font *****/
+
+@font-face {
+    font-family: 'scdream';
+    src: url('../font/scdream3.woff2') format('woff2'),
+         url('../font/scdream3.woff') format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'scdream';
+    src: url('../font/scdream4.woff2') format('woff2'),
+         url('../font/scdream4.woff') format('woff');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'scdream';
+    src: url('../font/scdream5.woff2') format('woff2'),
+         url('../font/scdream5.woff') format('woff');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'scdream';
+    src: url('../../font/scdream6.woff2') format('woff2'),
+         url('../../font/scdream6.woff') format('woff');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'scdream';
+    src: url('../font/scdream7.woff2') format('woff2'),
+         url('../font/scdream7.woff') format('woff');
+    font-weight: 700;
+}
+

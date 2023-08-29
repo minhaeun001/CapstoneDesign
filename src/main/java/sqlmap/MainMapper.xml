@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="kr.co.SAMGUN.dao.MainDAO">
+
+<select id="bestProgram" parameterType="Map" resultType="java.util.HashMap">
+	
+	WITH RANKING AS (
+    SELECT M.*,
+    	   ROW_NUMBER() OVER (ORDER BY M.VIEW_CNT DESC) RN  
+    FROM PROGRAM M
+	)
+	SELECT
+	  * 
+	FROM 
+		RANKING SC 
+	WHERE 1=1 
+	AND SC.RN  <![CDATA[ <= ]]> 4
+	
+	
+</select>
+
+
+<select id="bestProgram2" parameterType="Map" resultType="java.util.HashMap">
+	
+	WITH RANKING AS (
+    SELECT M.*,
+    	   ROW_NUMBER() OVER (ORDER BY M.VIEWS DESC) RN  
+    FROM PDS_BOARD M
+    WHERE BOARD_TYPE = '4'
+	)
+	SELECT
+	  * 
+	FROM 
+		RANKING SC 
+	WHERE 1=1 
+	AND SC.RN  <![CDATA[ <= ]]> 4
+	
+	
+</select>
+
+
+
+</mapper>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="kr.co.SAMGUN.dao.ReviewDAO">
+
+<select  id="selectTotalCnt" parameterType="Map" resultType="int">
+	
+	SELECT 
+		
+		COUNT(*) TOTALCNT
+
+	FROM 
+		PDS_BOARD A
+	WHERE 1 = 1
+	AND A.BOARD_TYPE = #{boardType}
+	AND	A.DEL_YN = 'N'
+	
+	
+</select>
+
+
+<!--베스트 후기 게시판 리스트 -->
+<select  id="listBestReviewType" parameterType="Map" resultType="java.util.HashMap">
+
+WITH RANKING AS (
+    SELECT M.*,
+    	   ROW_NUMBER() OVER (ORDER BY M.VIEWS DESC) RN  
+    FROM PDS_BOARD M
+    WHERE M.BOARD_TYPE = #{boardType}
+)
+SELECT
+  * 
+FROM 
+	RANKING SC 
+WHERE 1=1 
+AND SC.RN <![CDATA[ <= ]]> 4 
+
+
+</select>
+
+
+<!-- 게시판 리스트 리스트 -->
+<select  id="listReviewType" parameterType="Map" resultType="java.util.HashMap">
+
+SELECT
+*
+FROM BOARD 
+WHERE 1=1
+<if test = 'searchSelector != null'>
+	<if test = '"title".equals(searchSelector)'>
+		AND TITLE LIKE '%' || #{searchText}|| '%'
+	</if>
+	<if test = '"contents".equals(searchSelector)'>
+		AND CONTENTS LIKE '%' || #{searchText}|| '%'
+	</if>
+	<if test = '"*".equals(searchSelector)'>
+		AND (TITLE LIKE '%' || #{searchText}|| '%' OR CONTENTS LIKE '%' || #{searchText}|| '%')
+	</if>
+</if>
+
+
+AND TITLE LIKE '%' ||  #{searchText} || '%'
+order by regnt_dtm desc
+<!-- AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) -->
+</select>
+
+
+
+<!-- 게시글 등록하기 -->
+<insert id="reviewBoardWrite" parameterType="Map">	
+
+	INSERT INTO PDS_BOARD (
+		SEQ ,	
+		BOARD_TYPE,
+		TITLE,
+		CONTENTS,
+		NOTE,
+		REG_ID,
+		MOD_ID,
+		ORIGIN_FILE_NAME1,
+		TARGET_FILE_NAME1,
+		FILE_EXT1,
+		FILE_SIZE1,
+		ORIGIN_FILE_NAME2,
+		TARGET_FILE_NAME2,
+		FILE_EXT2,
+		FILE_SIZE2,
+		ORIGIN_FILE_NAME3,
+		TARGET_FILE_NAME3,
+		FILE_EXT3,
+		FILE_SIZE3,
+		ORIGIN_FILE_NAME4,
+		TARGET_FILE_NAME4,
+		FILE_EXT4,
+		FILE_SIZE4,
+		FILE_PATH,
+		M_ID
+	) VALUES (
+		(SELECT  MAX(NVL(SEQ,0))+1 FROM PDS_BOARD),
+		#{boardType},
+		#{sTitle},
+		#{sContent},
+		#{sNote},
+		#{mId},
+		#{mId},
+		#{originFileName1},
+		#{targetFileName1},
+		#{fileExt1},
+		#{fileSize1},
+		#{originFileName2},
+		#{targetFileName2},
+		#{fileExt2},
+		#{fileSize2},
+		#{originFileName3},
+		#{targetFileName3},
+		#{fileExt3},
+		#{fileSize3},
+		#{originFileName4},
+		#{targetFileName4},
+		#{fileExt4},
+		#{fileSize4},
+		#{filePath},
+		#{mId}
+	)
+	
+</insert>
+
+<!--  상세보기 뷰카운트 업데이트보 -->
+<update  id="boardDetailCount" parameterType="Map">
+	
+	UPDATE PDS_BOARD SET
+	VIEWS = (SELECT MAX(NVL(VIEWS,0)) + 1 FROM PDS_BOARD WHERE SEQ = #{seq} ) 
+	WHERE SEQ = #{seq}
+	AND	BOARD_TYPE = #{boardType}
+	AND	DEL_YN = 'N'
+	
+</update>
+
+<!--  상세보기 정보 -->
+<select id="boardDetail" parameterType="Map" resultType="java.util.HashMap">
+	
+	SELECT * FROM BOARD WHERE seq_no = #{seqno}
+	
+</select>
+
+<!-- notice_01_modify 영역 시작 -->
+<select  id="boardModifyDetail" parameterType="Map" resultType="java.util.HashMap">
+	
+	SELECT 
+		
+		A.*
+	FROM 
+		PDS_BOARD A
+	WHERE 1=1
+	AND A.SEQ = #{seq}
+	AND A.BOARD_TYPE = #{boardType}	
+	AND A.DEL_YN = 'N'
+	
+</select>
+
+
+<update id="boardModifySave" parameterType="Map">
+	UPDATE PDS_BOARD SET 
+	
+		TITLE = #{sTitle},
+		CONTENTS = #{sContent},
+		NOTE = #{sNote},
+		MOD_ID = #{modId},
+		MOD_DATE = SYSDATE,
+		ORIGIN_FILE_NAME1= #{originFileName1},
+		TARGET_FILE_NAME1= #{targetFileName1},
+		FILE_SIZE1= #{fileSize1},
+		FILE_EXT1= #{fileExt1},
+		ORIGIN_FILE_NAME2= #{originFileName2},
+		TARGET_FILE_NAME2= #{targetFileName2},
+		FILE_SIZE2= #{fileSize2},
+		FILE_EXT2= #{fileExt2},
+		ORIGIN_FILE_NAME3= #{originFileName3},
+		TARGET_FILE_NAME3= #{targetFileName3},
+		FILE_SIZE3= #{fileSize3},
+		FILE_EXT3= #{fileExt3},
+		ORIGIN_FILE_NAME4= #{originFileName4},
+		TARGET_FILE_NAME4= #{targetFileName4},
+		FILE_SIZE4= #{fileSize4},
+		FILE_EXT4= #{fileExt4},
+		FILE_PATH= #{file_path}
+
+	WHERE SEQ = #{seq}
+	AND BOARD_TYPE = #{boardType}
+
+</update>
+
+<delete id="boardDelete" parameterType="Map">
+	DELETE FROM PDS_BOARD 
+	WHERE SEQ = #{seq}
+	AND BOARD_TYPE = #{boardType}
+</delete>
+
+<select id="boardFileSelect" parameterType="Map" resultType="java.util.HashMap">
+	SELECT * FROM PDS_BOARD 
+	WHERE SEQ = #{seq}
+	AND BOARD_TYPE = #{boardType}
+</select>
+
+<!-- notice_01_modify 영역 끝 -->
+
+<update  id="LikeCntReview" parameterType="Map">
+	
+	UPDATE BOARD
+	SET LIKE_CNT = LIKE_CNT + 1
+	WHERE seq_no = #{seqno}
+</update>
+
+<update  id="ViewCntReview" parameterType="Map">
+	
+	UPDATE BOARD
+	SET VIEW_CNT = VIEW_CNT + 1
+	WHERE seq_no = #{seqno}
+</update>
+
+<delete id="DeleteReview" parameterType="Map">
+	DELETE FROM BOARD
+	WHERE SEQ_NO = #{seqno}
+</delete>
+</mapper>
