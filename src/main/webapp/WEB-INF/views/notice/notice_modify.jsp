@@ -174,6 +174,7 @@
                                 <div class="radioArea">
                                     <span><input type="radio" id="important" name="category"><label for="important">중요 공지</label></span>
                                     <span><input type="radio" id="normal" name="category"><label for="normal">일반 공지</label></span>
+                                    <span><input type="radio" id="etc" name="category"><label for="etc">기타</label></span>
                                 </div>
                             </td>
                         </tr>

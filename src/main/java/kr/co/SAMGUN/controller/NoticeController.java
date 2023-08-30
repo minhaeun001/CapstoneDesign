@@ -67,10 +67,12 @@ public class NoticeController {
 		
 		String searchSelector = request.getParameter("searchSelector");
 		String searchText = request.getParameter("searchText");
+		String boardType = request.getParameter("boardType");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("searchSelector", searchSelector);
 		hm.put("searchText", searchText);
+		hm.put("boardType", boardType);
 		
 		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
 //		Map<String,Object> hm = RequestUtil.requestToMap(request, false) ;

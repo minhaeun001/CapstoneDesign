@@ -70,6 +70,7 @@
 		});
 	}
 	
+	
 	function fn_Delete() {
 		
 		//Url - 컨트롤러에 던져줄 것
@@ -85,7 +86,6 @@
 			method : 'post', // controller로 넘겨줄 방식
 			dataType : 'json', // controller로부터 넘겨받을 데이터의 형식
 			success : function(response) {
-				alert('삭제되었습니다.');
 				location.href = './notice.do';				
 			},	
 			error : function(xhr, status, error) {
@@ -181,6 +181,15 @@
 	$(document).on("click", ".btn_modify", function(){
 		fn_mod();
 	});
+	
+	$(document).on("click", ".btn_delete", function() {
+	    if (confirm("게시글을 삭제하시겠습니까?")) {
+	    	fn_Delete();
+	    } else {
+	        // 사용자가 취소를 선택한 경우
+	        // 아무 작업도 수행하지 않음
+	    }
+	});
 	/******************************************************************************************** 
 	 5. 기타 함수                            						                              														  
 	*********************************************************************************************/ 
@@ -220,12 +229,12 @@
                         <div class="col02">첨부파일이 없습니다</div>
                     </div>
                     <div class="navigation clear">
-                        <a href="#" class="fl nv_prev">이전</a>
-                        <a href="#">LIST</a>
-                        <a href="#" class="fr nv_next">다음</a>
+                        <a href="javascript:///" class="fl nv_prev">이전</a>
+                        <a href="../notice/notice.do">LIST</a>
+                        <a href="javascript:///" class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
-                        <button class="btn_gray btn_delete" OnClick="fn_Delete();">삭제하기</button>
+                        <button class="btn_gray btn_delete"">삭제하기</button>
                         <button class="btn_green btn_modify" onclick = "fn_mod();">수정하기</button>
                     </div> 
                 </div>

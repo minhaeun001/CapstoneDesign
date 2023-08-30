@@ -30,4 +30,8 @@ public interface ReviewDAO {
 	public int DeleteReview(Map<String, Object> hm);
 	
 	public int ViewCntReview(Map<String, Object> hm);
+	
+	public int ReviewMod(Map<String, Object> hm);
+	
+	public int ReviewSave(Map<String, Object> hm);
 }

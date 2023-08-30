@@ -30,4 +30,8 @@ public interface ReviewService {
 	int DeleteReview(Map<String, Object> hm);
 	
 	int ViewCntReview(Map<String, Object> hm);
+	
+	int ReviewMod(Map<String, Object> hm);
+	
+	int ReviewSave(Map<String, Object> hm);
 }

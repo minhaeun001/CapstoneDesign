@@ -99,7 +99,7 @@ $(document).ready(function(){
  			pageBlock:10, // 한번에 나오는 페이지 넘버링 개수	고정
  			navigatorNum:10, 
  			totalcnt:0	,  // 총 개수 db서버 에서 가져옴
- 			boardType:boardType,  // 공지사항: 1, 이벤트: 2, Q&A: 3
+ 			boardType:boardType,  // PROGRAM:10 NOTICE:20 REVIEW:30
  			searchText:searchText, //검색어
  			searchSelector:searchSelector //검색조건
 		}
@@ -168,14 +168,15 @@ $(document).ready(function(){
 		$(".tb_type1:eq(0) tr:gt(0)").remove();
 		
 		var tmpStr = "";
-		
+		var categoryNm = "";
 		
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 					
 				tmpStr += "<tr>";
-				tmpStr += "	<td id='sNo'>0</td>";
+				tmpStr += "	<td id='sNo'>"+params.result[i].NO+"</td>";
+				tmpStr += "	<td>"+params.result[i].CATEGORY_NM+"</td>";
 				tmpStr += "	<td>";
-				tmpStr += "	<a href='../notice/notice_view.do?" + "seqno="+params.result[i].SEQ_NO+"' id='sTitle'>"+params.result[i].TITLE+"</a>";
+				tmpStr += "<a href='../notice/notice_view.do?seqno="+params.result[i].SEQ_NO+"' id='sTitle'>"+params.result[i].TITLE+"</a>";
 				tmpStr += "	</td>";
 				tmpStr += "	<td id='sView'>"+params.result[i].VIEW_CNT+"</td>";
 				tmpStr += "	<td id='sRegdate'>"+params.result[i].LIKE_CNT+"</td>";
@@ -257,6 +258,7 @@ $(document).ready(function(){
                     <table class="tb_type1 notice">
                         <colgroup>
                         	<col style="width: 5%;">
+                        	<col style="width: 5%;">
                             <col style="width: *%;">
                             <col style="width: 7%">
                             <col style="width: 7%">
@@ -265,13 +267,14 @@ $(document).ready(function(){
                             <col style="width: 0">
                         </colgroup>
                         <tr>
-                        	<th id="sno">NO</th>
-							<th id="bltndTitl">제목</th>
-							<th id="bltnInqrCnt">조회수</th>
-							<th id="recommendCounty">추천</th>
-							<th id="commentCount">댓글</th>
-							<th id="sysRegDtm">날짜</th>
-							<th id="totalcount" style="display:none">전체갯수</th>
+                        	<th>NO</th>
+                        	<th>구분</th>
+							<th>제목</th>
+							<th>조회수</th>
+							<th>추천</th>
+							<th>댓글</th>
+							<th>날짜</th>
+							<th style="display:none">전체갯수</th>
 						</tr>	
                         
                     </table>

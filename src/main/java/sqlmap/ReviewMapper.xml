@@ -60,6 +60,7 @@ WHERE 1=1
 
 
 AND TITLE LIKE '%' ||  #{searchText} || '%'
+AND BOARD_TYPE = #{boardType}
 order by regnt_dtm desc
 <!-- AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) -->
 </select>
@@ -143,7 +144,7 @@ order by regnt_dtm desc
 	
 </select>
 
-<!-- notice_01_modify 영역 시작 -->
+<!-- review_01_modify 영역 시작 -->
 <select  id="boardModifyDetail" parameterType="Map" resultType="java.util.HashMap">
 	
 	SELECT 
@@ -202,7 +203,7 @@ order by regnt_dtm desc
 	AND BOARD_TYPE = #{boardType}
 </select>
 
-<!-- notice_01_modify 영역 끝 -->
+<!-- review_01_modify 영역 끝 -->
 
 <update  id="LikeCntReview" parameterType="Map">
 	
@@ -222,4 +223,56 @@ order by regnt_dtm desc
 	DELETE FROM BOARD
 	WHERE SEQ_NO = #{seqno}
 </delete>
+
+<update  id="ReviewMod" parameterType="Map">
+	
+UPDATE BOARD SET 
+    TITLE = #{title}
+,   CONTENTS = #{contents}
+,   MOD_ID = #{modid}
+,   MOD_DTM = (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL)
+WHERE seq_no = #{seqno}
+
+</update>
+
+<insert id="ReviewSave" parameterType="Map">
+	insert into BOARD
+	(
+	SEQ_NO,
+	TITLE,
+	CATEGORY,
+	REGNT_ID,
+	REGNT_DTM,
+	REGNT_NM,
+	CONTENTS,
+	LIKE_CNT,
+	ATTACH_FILE,
+	GRP_SEQNO,
+	PRT_SEQNO,
+	STEP,
+	VIEW_CNT,
+	MOD_ID,
+	MOD_DTM,
+	BOARD_TYPE
+	)
+	values
+	(
+	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
+	#{title},
+	0,
+	#{regntid},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{regntnm},
+	#{contents},
+	0,
+	#{attachfile},
+	0,
+	0,
+	0,
+	0,
+	#{modid},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{boardtype}
+	)
+</insert>
 </mapper>

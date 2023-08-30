@@ -17,9 +17,9 @@
     <script src="../../js/aos.js"></script>
     <script>
 
-	/******************************************************************************************** 
-	 1. 전역변수 선언                               						                              														  
-	*********************************************************************************************/ 
+ // ******************************************************************************************* 
+ // 1. 전역변수 선언                               						                              														  
+ // ******************************************************************************************* 
 	var g_menu = "${param.g_menu}" ;
 	var l_menu = "${param.l_menu}" ;
 	var m_menu = "${param.m_menu}" ;
@@ -27,16 +27,34 @@
 	
 	var boardType = "30"; //프로그램: 10, 공지:20, 리뷰:30
 	
-	/******************************************************************************************** 
-	 2. 최초 실행 함수                               						                              														  
-	*********************************************************************************************/ 
+	// ******************************************************************************************* 
+	// 2. 최초, 최종 실행 및  addEventListener 등록                                						                              														  
+	// ******************************************************************************************* 
 	$(document).ready(function() {
 		
 		init();
 		
+		$(document).on("click", ".paging.list  a", function(){
+
+			var num = $(this).text();
+			//공지사항 리스트 호출
+			var sUrl = "${pageContext.request.contextPath}/review/review_01_list.ajax" ;
+			var searchSelector = $("#schCd option:selected").val();
+			var searchText = $(".search").eq(0).val()
+			fn_listType(sUrl, boardType, searchSelector, searchText, num)
+			
+		});
+		//검색버튼 클릭했을때
+		$(document).on("click", ".btn_search", function(){
+
+			var num = 1;
+			//리뷰 리스트 호출
+			var sUrl = "${pageContext.request.contextPath}/review/review_01_list.ajax" ;
+			var searchSelector = $("#schCd option:selected").val();
+			var searchText = $(".search").eq(0).val()
+			fn_listType(sUrl, boardType, searchSelector, searchText, num) ;
+		});
 	});
-	
-	
 	
 	function init(){
 		//리뷰 리스트 호출
@@ -47,9 +65,9 @@
 		fn_listType(sUrl, boardType, searchSelector, searchText,  num)
 	}
 	
-	/******************************************************************************************** 
-	 3. ajax 함수                                 						                              														  
-	*********************************************************************************************/ 
+	// ******************************************************************************************* 
+	// 3. ajax 함수                                						                              														  
+	// ******************************************************************************************* 
  	//게시글 데이터 호출
 	function fn_listType(sUrl, boardType, searchSelector, searchText,  num){
 
@@ -76,7 +94,7 @@
  			pageBlock:10, // 한번에 나오는 페이지 넘버링 개수	고정
  			navigatorNum:10, 
  			totalcnt:0	,  // 총 개수 db서버 에서 가져옴
- 			boardType:boardType,  // 공지사항: 1, 이벤트: 2, Q&A: 3
+ 			boardType:boardType,  // PROGRAM:10 NOTICE:20 REVIEW:30
  			searchText:searchText, //검색어
  			searchSelector:searchSelector //검색조건
 		}
@@ -118,24 +136,22 @@
 		    }
 		});
 	}
-	/******************************************************************************************** 
-	 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
-	*********************************************************************************************/ 
+	// ******************************************************************************************* 
+	// 4. 사용자 일반 함수        - ajax 함수 이외 정의 함수                       						                              														  
+	// ******************************************************************************************* 
 	function fn_list(){
 		
-		location.href="../review/review_write.do?g_menu=2&l_menu=0&m_menu=0&s_menu=0" ;
+		location.href="../review/review_write.do" ;
 	}
 	
-// 	function fn_noData(programType){
-// 		var str = "";
-// 		var tmpStr = "";
-// 	tmpStr += "<tr>";
-// 	tmpStr += "	<td colspan='6' style='text-align:center'>조회된 데이터가 없습니다.</td>";
-// 	tmpStr += "</tr>";
+	function fn_noData(programType){
+		var str = "";
+		var tmpStr = "";
+	tmpStr += "<p>조회된 데이터가 없습니다.</p>";
 	
-// 		$("#tbl_list tbody").html(tmpStr);
+		$(".cardBox").html(tmpStr);
 		
-// 	}
+	}
 
 	//프로그램 타입에 따른 바인딩 함수
 	function fn_listType_bind(params){
@@ -149,7 +165,7 @@
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 					
 				tmpStr += "<li class='item'><div class='cardArea'>";
-				tmpStr += "	<a href='../review/review_view.do?'" + "seqno="+params.result[i].SEQ_NO;
+				tmpStr += "	<a href='../review/review_view.do?" + "seqno="+params.result[i].SEQ_NO+"'>";
 				tmpStr += "<p class='tp_txt'><span class='group starting_date'>"+"41일차 수강생"+"</span>";
 				tmpStr += "<span class='author 	review_nm'>"+params.result[i].REGNT_NM+"</span>";
 				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
@@ -168,14 +184,9 @@
 					
 	}
 	
-	/******************************************************************************************** 
-	 5. 기타 함수                            						                              														  
-	*********************************************************************************************/ 
-	
-	
-	/******************************************************************************************** 
-	 6. 이벤트 함수                            						                              														  
-	*********************************************************************************************/ 
+	// ******************************************************************************************* 
+	// 5. 기타 함수                               						                              														  
+	// ******************************************************************************************* 
 	
 </script>
 </head>

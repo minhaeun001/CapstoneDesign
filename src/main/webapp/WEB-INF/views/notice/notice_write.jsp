@@ -85,6 +85,12 @@
 	 6. 이벤트 함수                            						                              														  
 	*********************************************************************************************/ 
 	$(document).on("click", ".btn_save", function() {
+	    var radioValue = $("input[name='category']:checked").val();
+	    
+		if (!radioValue){
+			alert("분야를 선택해주세요.");
+			return ;
+		}
 		if ($(".title").val() === "") {
 			alert("제목은 필수항목입니다.");
 			$(".title").focus();
@@ -126,6 +132,7 @@
                                 <div class="radioArea">
                                     <span><input type="radio" id="important" name="category"><label for="important">중요 공지</label></span>
                                     <span><input type="radio" id="normal" name="category"><label for="normal">일반 공지</label></span>
+                                    <span><input type="radio" id="etc" name="category"><label for="etc">기타</label></span>
                                 </div>
                             </td>
                         </tr>

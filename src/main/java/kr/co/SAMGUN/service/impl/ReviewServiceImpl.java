@@ -128,4 +128,14 @@ public class ReviewServiceImpl implements ReviewService {
 	public int ViewCntReview(Map<String, Object> hm) {
 		return reviewDAO.ViewCntReview(hm);
 	}
+	
+	@Override
+	public int ReviewMod(Map<String, Object> hm) {
+		return reviewDAO.ReviewMod(hm);
+	}
+	
+	@Override
+	public int ReviewSave(Map<String, Object> hm) {
+		return reviewDAO.ReviewSave(hm);
+	}
 }

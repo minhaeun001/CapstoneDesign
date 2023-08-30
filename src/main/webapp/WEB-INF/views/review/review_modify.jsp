@@ -155,8 +155,8 @@
         <div class="main">
             <div class="inner">
                 <div class="tit">
-                    <h2>review</h2>
-					<p>MAKEGYM 운영팀에서 알려 드립니다.</p>
+                    <h2>REVIEW</h2>
+					<p>리뷰를 작성해주세요.</p>
                 </div>
                 <div class="baord bd_write">
                     <table class="tb_type2">
@@ -165,20 +165,7 @@
                             <col style="width: *;">
                         </colgroup>
                         <tr>
-                            <th colspan="2" style="height: 20px;"></th>
-                        </tr>
-                        <tr>
-                        <tr>
-                            <th>CATEGORY&nbsp;&nbsp;<span class="require">*</span></th>
-                            <td>
-                                <div class="radioArea">
-                                    <span><input type="radio" id="important" name="category"><label for="important">중요 공지</label></span>
-                                    <span><input type="radio" id="normal" name="category"><label for="normal">일반 공지</label></span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="height: 20px;"></th>
+                            <th colspan="2" style="height: 40px;"></th>
                         </tr>
                         <tr>
                             <th>TITLE&nbsp;&nbsp;<span class="require">*</span></th>

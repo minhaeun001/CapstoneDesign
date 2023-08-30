@@ -95,7 +95,7 @@
 		    }
 		});
 	}
-	
+		
 	//조회수 업데이트
 	function fn_UpdateViewCnt() {
 		//Url - 컨트롤러에 던져줄 것
@@ -220,8 +220,9 @@
                         <div class="col02">첨부파일이 없습니다</div>
                     </div>
                     <div class="navigation clear">
-                        <a href="#" class="fl nv_prev">이전</a>
-                        <a href="#" class="fr nv_next">다음</a>
+                        <a href="javascript:///" class="fl nv_prev">이전</a>
+                        <a href="../review/review.do">LIST</a>
+                        <a href="javascript:///" class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
                         <button class="btn_gray btn_delete" OnClick="fn_Delete();">삭제하기</button>

@@ -91,6 +91,16 @@ public class ReviewDAOImpl implements ReviewDAO {
 	
 	@Override
 	public int ViewCntReview(Map<String, Object> hm) {
-		return sqlSession.delete(namespace+".ViewCntReview", hm);
+		return sqlSession.update(namespace+".ViewCntReview", hm);
+	}
+	
+	@Override
+	public int ReviewMod(Map<String, Object> hm) {
+		return sqlSession.update(namespace+".ReviewMod", hm);
+	}
+	
+	@Override
+	public int ReviewSave(Map<String, Object> hm) {
+		return sqlSession.insert(namespace+".ReviewSave", hm);
 	}
 }
