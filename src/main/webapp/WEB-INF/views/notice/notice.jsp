@@ -23,48 +23,25 @@
 	var m_menu = "${param.m_menu}" ;
 	var s_menu = "${param.s_menu}" ;
 	
+	var _g_pageNo = 1; // 페이지 넘버
+	var pageNo = _g_pageNo;
 	var boardType = "20"; //프로그램: 10, 공지:20, 리뷰:30
+	
 
 // ******************************************************************************************* 
 // 2. 최초, 최종 실행 및  addEventListener 등록                                						                              														  
 // ******************************************************************************************* 
-$(document).ready(function(){
-	
-	init();  //최초 실행함수
-
-	//각종 addEventListener 등록
-	//페이징의 숫자를 클릭했을때 해당 페이지로 이동하기
-	$(document).on("click", ".paging.list  a", function(){
-
-		var num = $(this).text();
-		//공지사항 리스트 호출
-		var sUrl = "${pageContext.request.contextPath}/notice/notice_01_list.ajax" ;
-		var searchSelector = $("#schCd option:selected").val();
-		var searchText = $(".search").eq(0).val()
-		fn_listType(sUrl, boardType, searchSelector, searchText, num)
+	$(document).ready(function(){
 		
+		init();  //최초 실행함수
+	
 	});
-
-	//검색버튼 클릭했을때
-	$(document).on("click", ".btn_search", function(){
-
-		var num = 1;
-		//공지사항 리스트 호출
-		var sUrl = "${pageContext.request.contextPath}/notice/notice_01_list.ajax" ;
-		var searchSelector = $("#schCd option:selected").val();
-		var searchText = $(".search").eq(0).val()
-		fn_listType(sUrl, boardType, searchSelector, searchText, num) ;
-	});
-});
 
 	//최초 실행시 함수 
 	function init(){
+		
 		//공지사항 리스트 호출
-		var sUrl = "${pageContext.request.contextPath}/notice/notice_01_list.ajax" ;
-		var searchSelector = $("search-selector option:selected").val();
-		var searchText = $("#search-text").text()
-		var num = 1;
-		fn_listType(sUrl, boardType, searchSelector, searchText,  num)
+		fn_listType();
 		
 	}
 	
@@ -73,28 +50,31 @@ $(document).ready(function(){
 // ******************************************************************************************* 
 
  	//게시글 데이터 호출
-	function fn_listType(sUrl, boardType, searchSelector, searchText,  num){
+	function fn_listType(){
 
+		var sUrl = "${pageContext.request.contextPath}/notice/notice_01_list.ajax" ;
+		var searchSelector = $("search-selector option:selected").val();
+		var searchText = $("#search-text").text()
+	
 		//현재 페이지
-		if (num === undefined){
-			num = 1 ;
+		if (pageNo == undefined){
+			pageNo = 1 ;
 		}	
 		
 		//검색어
-		if (searchSelector === undefined){
+		if (searchSelector == undefined){
 			searchSelector = "*" ;
 		}
 		
 		//검색어
-		if (searchText === undefined){
+		if (searchText == undefined){
 			searchText = "" ;
 		}
 		
-		
 		// 파라미터
 		var params = {
- 			pageNo:num,   // 현재 페이지 번호 사용자가 넘겨줌
- 			page:num,	  	
+ 			pageNo:pageNo,   // 현재 페이지 번호 사용자가 넘겨줌
+ 			page:pageNo,	  	
  			pageSize:10,  // 리스트에서 한페이지에 보여줄 개수 고정
  			pageBlock:10, // 한번에 나오는 페이지 넘버링 개수	고정
  			navigatorNum:10, 
@@ -153,10 +133,10 @@ $(document).ready(function(){
 	function fn_noData(programType){
 		var str = "";
 		var tmpStr = "";
-	tmpStr += "<tr>";
-	tmpStr += "	<td colspan='6' style='text-align:center'>조회된 데이터가 없습니다.</td>";
-	tmpStr += "</tr>";
-	
+		tmpStr += "<tr>";
+		tmpStr += "	<td colspan='6' style='text-align:center'>조회된 데이터가 없습니다.</td>";
+		tmpStr += "</tr>";
+		
 		$("#tbl_list tbody").html(tmpStr);
 		
 	}
@@ -170,8 +150,10 @@ $(document).ready(function(){
 		var tmpStr = "";
 		var categoryNm = "";
 		
+		if(params.result.length > 0) {
+			
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
-					
+				
 				tmpStr += "<tr>";
 				tmpStr += "	<td id='sNo'>"+params.result[i].NO+"</td>";
 				tmpStr += "	<td>"+params.result[i].CATEGORY_NM+"</td>";
@@ -185,49 +167,86 @@ $(document).ready(function(){
 				tmpStr += "</tr>";
 
 			}
+			
+			//페이징 처리가 필요할 만큼 데이터가 있다면
+			params.totalCnt = params.result[0].TOTALCNT;
+			fn_paging(params); //페이징  호출
+			
+		} else {
+			
+			tmpStr += "<tr>";
+			tmpStr += "	<td colspan='7' style='text-align:center;'> 등록된 게시글이 없습니다. </td>";
+			tmpStr += "</tr>";
+		}
+		
 		
 		$(".tb_type1 tbody").append(tmpStr);
 		
-		//페이징 처리가 필요할 만큼 데이터가 있다면
-		//pagingView(params); //페이징  호출
 					
 	}
 	
 	
 	//페이징 처리
-	function fn_paging(pagingId) {
+	function fn_paging(params) {
+		
+		var pagingId = "paging";
+		var i;
+		var pageNo = params.pageNo;
+		var pageSize = params.pageSize;
+		var totalCnt = params.totalCnt;
+		var pageBlock = (totalCnt%pageSize) + 1;
+		
 		
 		if (typeof (pagingId) !== "undefined") {
 			pagingId = "paging";
 		}
 
 		var tmpStr = '';
-		tmpStr +="<article class='paging clearfix'>";
-		tmpStr +="	<ul class='paging-list'>";
-		tmpStr +="		<li><a href='javascript://' class='prev-end paging-btn'></a></li>";
-		tmpStr +="		<li><a href='javascript://' class='prev paging-btn'></a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>1</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>2</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>3</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>4</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>5</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>6</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>7</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>8</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>9</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='paging-num'>10</a></li>";
-		tmpStr +="		<li><a href='javascript://' class='next paging-btn'></a></li>";
-		tmpStr +="		<li><a href='javascript://' class='next-end paging-btn'></a></li>";
-		tmpStr +="	</ul>";
-		tmpStr +="</article>";
+		tmpStr +="<a href='javascript://' class='prev_end'>1</a>";
+		tmpStr +="<a href='javascript://' class='prev'>"+(parseInt(_g_pageNo)-1)+"</a>";
 		
-		$("." + pagingId).html(tmpStr);
+		for(i=1; i <= pageBlock; i++) {
+			if(_g_pageNo == i) {
+				tmpStr +="<a href='javascript://' class='paging_num on'>"+i+"</a>";
+			} else {
+				tmpStr +="<a href='javascript://' class='paging_num'>"+i+"</a>";
+			}
+			
+		}
+		
+		tmpStr +="<a href='javascript://' class='next paging-btn'>"+(parseInt(_g_pageNo)+1)+"</a>";
+		tmpStr +="<a href='javascript://' class='next_end paging-btn'>"+pageBlock+"</a>";
+		
+		$("#" + pagingId).html(tmpStr);
 	}
 
 
 	// ******************************************************************************************* 
 	// 5. 기타 함수                               						                              														  
 	// ******************************************************************************************* 
+	
+	
+	// ******************************************************************************************* 
+	// 6. 이벤트 함수                               						                              														  
+	// ******************************************************************************************* 
+	
+	//각종 addEventListener 등록
+	//페이징의 숫자를 클릭했을때 해당 페이지로 이동하기
+	$(document).on("click", ".paging a", function(){
+		_g_pageNo = $(this).text();
+		pageNo = _g_pageNo;
+		fn_listType();
+	});
+
+	
+	//검색버튼 클릭했을때
+	$(document).on("click", ".btn_search", function(){
+		
+		//공지사항 리스트 호출
+		fn_listType() ;
+		
+	});
+	
 	
 	</script>  
 </head>
@@ -278,17 +297,7 @@ $(document).ready(function(){
 						</tr>	
                         
                     </table>
-                    <div class="paging">
-                        <a href="#" class="prev_end"></a>
-                        <a href="#" class="prev"></a>
-                        <a href="#" class="on">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#" class="next"></a>
-                        <a href="#" class="next_end"></a>
-                    </div>
+                    <div id="paging" class="paging"></div>
                 </div>
             </div>
         </div>

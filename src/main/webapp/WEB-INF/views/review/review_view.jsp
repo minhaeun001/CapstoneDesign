@@ -155,7 +155,6 @@
 		var regntnm = response.result.REGNT_NM;
 		var regntdtm = response.result.REGNT_DTM;
 		var contents = response.result.CONTENTS;
-		var category = response.result.CATEGORY;
 		var like = response.result.LIKE_CNT;
 		var view_cnt = response.result.VIEW_CNT;
 		
@@ -163,7 +162,6 @@
 		$(".review_nm").text(regntnm);
 		$(".review_regdtm").text(regntdtm);
 		$(".review_contents").text(contents);
-		$(".review_category").text(category);
 		$(".review_likeNum").text(like);
 		$(".view_cnt").text(view_cnt);
 		
@@ -204,7 +202,6 @@
                 <div class="baord">
                     <div class="view">
                         <div class="col01">
-                            <span class="review_category"><strong></strong></span>
                             <h2 class="review_title"></h2>
                             <p class="sm_txt"><span class="review_nm"></span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="review_regdtm">2023.05.13</span></p>
                             <p>조회수: <span class="view_cnt"></span></p>

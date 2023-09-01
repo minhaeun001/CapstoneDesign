@@ -155,7 +155,7 @@
 		var regntnm = response.result.REGNT_NM;
 		var regntdtm = response.result.REGNT_DTM;
 		var contents = response.result.CONTENTS;
-		var category = response.result.CATEGORY;
+		var category_nm = response.result.CATEGORY_NM;
 		var like = response.result.LIKE_CNT;
 		var view_cnt = response.result.VIEW_CNT;
 		
@@ -163,7 +163,7 @@
 		$(".notice_nm").text(regntnm);
 		$(".notice_regdtm").text(regntdtm);
 		$(".notice_contents").text(contents);
-		$(".notice_category").text(category);
+		$(".notice_category").text(category_nm);
 		$(".notice_likeNum").text(like);
 		$(".view_cnt").text(view_cnt);
 		
