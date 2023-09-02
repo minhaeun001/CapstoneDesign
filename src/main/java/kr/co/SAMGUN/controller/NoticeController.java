@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import kr.co.SAMGUN.service.NoticeService;
+import kr.co.SAMGUN.util.*;
 
 @Controller
 @RequestMapping("/notice")
@@ -169,12 +170,15 @@ public class NoticeController {
 		
 		
 		String title =request.getParameter("title");
+		title = XSSCleanUtil.defaultXSS3(title);
 		String contents = request.getParameter("contents");
+		contents = XSSCleanUtil.defaultXSS3(contents);
 		String regntid = request.getParameter("regntid");
 		String attachfile = request.getParameter("attachfile");
 		String regntnm = request.getParameter("regntnm");
 		String modid = request.getParameter("modid");
 		String boardtype = request.getParameter("boardtype");
+		String category = request.getParameter("category");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("title", title);
@@ -184,6 +188,7 @@ public class NoticeController {
 		hm.put("regntnm", regntnm);
 		hm.put("modid", modid);
 		hm.put("boardtype", boardtype);
+		hm.put("category", category);
 		
 		int saveCnt = noticeService.NoticeSave(hm); //결과적으로 리턴받는 타입 int
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -200,6 +205,7 @@ public class NoticeController {
 		String seqno = request.getParameter("seqno");
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
+		String category = request.getParameter("category");
 //		String regntid = request.getParameter("regntid");
 //		String attachfile = request.getParameter("attachfile");
 //		String regntnm = request.getParameter("regntnm");
@@ -211,6 +217,7 @@ public class NoticeController {
 		hm.put("seqno",seqno);
 		hm.put("title", title);
 		hm.put("contents", contents);
+		hm.put("category", category);
 //		hm.put("regntid", regntid);
 //		hm.put("attachfile", attachfile);
 //		hm.put("regntnm", regntnm);

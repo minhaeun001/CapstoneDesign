@@ -16,12 +16,7 @@
 <script>
 // ******************************************************************************************* 
 // 1. 전역변수 선언                               						                              														  
-// ******************************************************************************************* 
-	
-	var g_menu = "${param.g_menu}" ;
-	var l_menu = "${param.l_menu}" ;
-	var m_menu = "${param.m_menu}" ;
-	var s_menu = "${param.s_menu}" ;
+// *******************************************************************************************
 	
 	var _g_pageNo = 1; // 페이지 넘버
 	var pageNo = _g_pageNo;
@@ -53,8 +48,8 @@
 	function fn_listType(){
 
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_01_list.ajax" ;
-		var searchSelector = $("search-selector option:selected").val();
-		var searchText = $("#search-text").text()
+		var searchSelector = $("#schCd option:selected").val();
+		var searchText = $(".search").val();
 	
 		//현재 페이지
 		if (pageNo == undefined){
@@ -125,19 +120,21 @@
 // ******************************************************************************************* 
 // 4. 사용자 일반 함수        - ajax 함수 이외 정의 함수                       						                              														  
 // ******************************************************************************************* 
-	function fn_list(){
-	
-		location.href="../notice/notice_write.do?g_menu=2&l_menu=0&m_menu=0&s_menu=0" ;
-	}
+	$(document).on("keypress",".search", function(){
+		if (event.keyCode == 13){
+			$(".btn_search").click();	
+		}
+	})
 
 	function fn_noData(programType){
+		$(".tb_type1:eq(0) tr:gt(0)").remove();
 		var str = "";
 		var tmpStr = "";
 		tmpStr += "<tr>";
 		tmpStr += "	<td colspan='6' style='text-align:center'>조회된 데이터가 없습니다.</td>";
 		tmpStr += "</tr>";
 		
-		$("#tbl_list tbody").html(tmpStr);
+		$(".tb_type1 tbody").append(tmpStr);
 		
 	}
 
@@ -194,30 +191,36 @@
 		var pageNo = params.pageNo;
 		var pageSize = params.pageSize;
 		var totalCnt = params.totalCnt;
-		var pageBlock = (totalCnt%pageSize) + 1;
+		var pageBlock = parseInt((totalCnt/pageSize)) + 1;
 		
 		
 		if (typeof (pagingId) !== "undefined") {
 			pagingId = "paging";
 		}
 
-		var tmpStr = '';
-		tmpStr +="<a href='javascript://' class='prev_end'>1</a>";
-		tmpStr +="<a href='javascript://' class='prev'>"+(parseInt(_g_pageNo)-1)+"</a>";
+		var tmpStr = "";
+		tmpStr +="<a href='javascript://' class='prev_end' data-num='1'></a>";
+		tmpStr +="<a href='javascript://' class='prev' data-num='"+(parseInt(_g_pageNo)-1)+"'></a>";
 		
 		for(i=1; i <= pageBlock; i++) {
 			if(_g_pageNo == i) {
-				tmpStr +="<a href='javascript://' class='paging_num on'>"+i+"</a>";
+				tmpStr +="<a href='javascript://' class='paging_num on' data-num='"+i+"'>"+ i +"</a>";
 			} else {
-				tmpStr +="<a href='javascript://' class='paging_num'>"+i+"</a>";
+				tmpStr +="<a href='javascript://' class='paging_num' data-num='"+i+"'>"+ i +"</a>";
 			}
 			
 		}
 		
-		tmpStr +="<a href='javascript://' class='next paging-btn'>"+(parseInt(_g_pageNo)+1)+"</a>";
-		tmpStr +="<a href='javascript://' class='next_end paging-btn'>"+pageBlock+"</a>";
+		tmpStr +="<a href='javascript://' class='next paging-btn' data-num='"+(parseInt(_g_pageNo)+1)+"'> </a>";
+		tmpStr +="<a href='javascript://' class='next_end paging-btn' data-num='"+pageBlock+"'></a>";
 		
 		$("#" + pagingId).html(tmpStr);
+		
+		if (pageBlock > 0){
+			$("#" + pagingId).show();		
+		} else {
+			$("#" + pagingId).hide();
+		}
 	}
 
 
@@ -233,7 +236,15 @@
 	//각종 addEventListener 등록
 	//페이징의 숫자를 클릭했을때 해당 페이지로 이동하기
 	$(document).on("click", ".paging a", function(){
-		_g_pageNo = $(this).text();
+		_g_pageNo = $(this).attr("data-num");
+		
+		if (_g_pageNo < 1){
+			_g_pageNo = $(".prev_end").attr("data-num");
+		}
+		else if (_g_pageNo > $(".next_end").attr("data-num")){
+			_g_pageNo = $(".next_end").attr("data-num");
+		}
+		
 		pageNo = _g_pageNo;
 		fn_listType();
 	});
@@ -311,4 +322,5 @@
             }
             myAOS();
     </script>
-</body></html>
+</body>
+</html>

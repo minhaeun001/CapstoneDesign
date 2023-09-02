@@ -19,49 +19,51 @@
 </select>
 
 
-<!--베스트 후기 게시판 리스트 -->
-<select  id="listBestReviewType" parameterType="Map" resultType="java.util.HashMap">
-
-WITH RANKING AS (
-    SELECT M.*,
-    	   ROW_NUMBER() OVER (ORDER BY M.VIEWS DESC) RN  
-    FROM PDS_BOARD M
-    WHERE M.BOARD_TYPE = #{boardType}
-)
-SELECT
-  * 
-FROM 
-	RANKING SC 
-WHERE 1=1 
-AND SC.RN <![CDATA[ <= ]]> 4 
-
-
-</select>
-
-
 <!-- 게시판 리스트 리스트 -->
 <select  id="listReviewType" parameterType="Map" resultType="java.util.HashMap">
 
-SELECT
-*
-FROM BOARD 
-WHERE 1=1
-<if test = 'searchSelector != null'>
-	<if test = '"title".equals(searchSelector)'>
-		AND TITLE LIKE '%' || #{searchText}|| '%'
-	</if>
-	<if test = '"contents".equals(searchSelector)'>
-		AND CONTENTS LIKE '%' || #{searchText}|| '%'
-	</if>
-	<if test = '"*".equals(searchSelector)'>
-		AND (TITLE LIKE '%' || #{searchText}|| '%' OR CONTENTS LIKE '%' || #{searchText}|| '%')
-	</if>
-</if>
 
+	WITH BASE AS(
+		SELECT
+		ROW_NUMBER() OVER(ORDER BY B.REGNT_DTM DESC) RNUM,
+		B.*
+		FROM BOARD B
+		WHERE 1=1
+		<if test = 'searchSelector != null'>
+			<if test = '"title".equals(searchSelector)'>
+				AND TITLE LIKE '%' || #{searchText}|| '%'
+			</if>
+			<if test = '"contents".equals(searchSelector)'>
+				AND CONTENTS LIKE '%' || #{searchText}|| '%'
+			</if>
+			<if test = '"*".equals(searchSelector)'>
+				AND (TITLE LIKE '%' || #{searchText}|| '%' OR CONTENTS LIKE '%' || #{searchText}|| '%')
+			</if>
+		</if>
+		
+		
+		AND TITLE LIKE '%' ||  #{searchText} || '%'
+		AND BOARD_TYPE = #{boardType}
+	)
+<![CDATA[
+	
+	SELECT
+	SEARCHLIST.*
+	FROM
+	(
+	SELECT
+		(SELECT COUNT(*) FROM BASE) totalCnt,
+	    (SELECT COUNT(*) FROM BASE) - BASE.RNUM + 1 AS NO,
+	    BASE.*
+	FROM BASE
+	) SEARCHLIST
+	WHERE 1=1
+	AND (
+				SEARCHLIST.RNUM >= (TO_NUMBER(#{pageSize})*(TO_NUMBER(#{pageNo})-1)+1)
+			AND SEARCHLIST.RNUM <= (TO_NUMBER(#{pageSize})*TO_NUMBER(#{pageNo}))
+		) 
 
-AND TITLE LIKE '%' ||  #{searchText} || '%'
-AND BOARD_TYPE = #{boardType}
-order by regnt_dtm desc
+]]>
 <!-- AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) -->
 </select>
 

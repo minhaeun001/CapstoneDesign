@@ -162,7 +162,7 @@
 		$(".notice_title").text(title);
 		$(".notice_nm").text(regntnm);
 		$(".notice_regdtm").text(regntdtm);
-		$(".notice_contents").text(contents);
+		$(".notice_contents").html(contents);
 		$(".notice_category").text(category_nm);
 		$(".notice_likeNum").text(like);
 		$(".view_cnt").text(view_cnt);
@@ -242,57 +242,46 @@
                 <div class="comments clear">
                     <div class="cm_write clear">
                         <textarea name="" id="" cols="160" rows="10"></textarea>
-                        <button class="btn_comments">Save</button>
+                        <button class="btn_comments">댓글 달기</button>
                     </div>
                     <ul class="cm_list">
                         <li>
                             <p><em>박윤선</em><span>2023.05.13</span></p>
                             <div class="cm_txt">답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.</div>
-                            <button class="btn_reply">Reply</button>
+                            <button class="btn_reply">댓글</button>
                             <div class="reply_write clear">
-                                <textarea name="" id="" cols="100" rows="2" placeholder="댓글입력"></textarea>
+                                <textarea name="" id="" cols="100" rows="2" placeholder="댓글을 입력해주세요."></textarea>
                                 <div class="rp_btn">
-                                    <button>Modify</button>
-                                    <button>Delete</button>
+                                    <button>댓글 수정</button>
+                                    <button>댓글 삭제</button>
                                 </div>
                             </div>
                             <div class="btnRight">
-                                <button>Modify</button>
-                                <button>Delete</button>
                             </div>
                         </li>
                         <li>
                             <p><em>박윤선</em><span>2023.05.13</span></p>
                             <div class="cm_txt">게시판에 동일 내용 문의로 답변 갈음함</div>
-                            <button class="btn_reply">Reply</button>
+                            <button class="btn_reply">댓글</button>
                             <div class="btnRight">
-                                <button>Modify</button>
-                                <button>Delete</button>
+                                    <button>댓글 수정</button>
+                                    <button>댓글 삭제</button>
                             </div>
                         </li>
                         <li>
                             <div class="reply_view">
-                                <p><em>김과기</em><span>2023.05.13</span></p>
-                                <div class="re_reply"><em>박윤선</em>
-                                    <p>사용된 예제는 다음 압축 파일을 다운로드 받아서 확인할 수 있습니다.</p>
+                                <p><em>박정윤</em><span>2023.05.13</span></p>
+                                <div class="re_reply"><em>민하은</em>
+                                    <p>답글에 대한 댓글.</p>
                                 </div>
-                                <button class="btn_reply">Reply</button>
+                                <button class="btn_reply">댓글</button>
                                 <div class="reply_write clear">
-                                    <textarea name="" id="" cols="120" rows="2" placeholder="댓글입력"></textarea>
+                                    <textarea name="" id="" cols="120" rows="2" placeholder="대댓글을 입력해주세요."></textarea>
                                     <div class="rp_btn">
-                                        <button>Modify</button>
-                                        <button>Delete</button>
+                                        <button>대댓글 수정</button>
+                                        <button>대댓글 삭제</button>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <p><em>민하은</em><span>2023.05.13</span></p>
-                            <div class="cm_txt">게시판에 동일 내용 문의로 답변 갈음함</div>
-                            <button class="btn_reply">Reply</button>
-                            <div class="btnRight">
-                                <button>Modify</button>
-                                <button>Delete</button>
                             </div>
                         </li>
                     </ul>

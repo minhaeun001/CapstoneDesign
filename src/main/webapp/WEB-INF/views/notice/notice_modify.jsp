@@ -76,6 +76,7 @@
 		params.title = $(".title").val();
 		params.contents = $(".contents").val();
 		params.seqno = seqno;
+		params.category = $("input[name='category']:checked").val();
 // 		params.regntid = "아이디";
 // 		params.attachfile = "첨부파일";
 // 		params.regntnm = "등록자 이름";
@@ -115,7 +116,7 @@
 		
 		$(".notice_title").val(title);
 		$(".notice_contents").val(contents);
-		
+		$("input[name='category']:checked").val(category);
 	}
 	
 	
@@ -132,7 +133,12 @@
 	*********************************************************************************************/ 
 	//"저장" 버튼 클릭 시 수정 내용 서버로 전송
 	$(document).on("click", ".btn_modify", function(){
-		
+	    var radioValue = $("input[name='category']:checked").val();
+	    
+		if (!radioValue){
+			alert("분야를 선택해주세요.");
+			return ;
+		}
 		if ($(".title").val() === "") {
 			alert("제목은 필수항목입니다.");
 			$(".title").focus();
@@ -172,9 +178,9 @@
                             <th>CATEGORY&nbsp;&nbsp;<span class="require">*</span></th>
                             <td>
                                 <div class="radioArea">
-                                    <span><input type="radio" id="important" name="category"><label for="important">중요 공지</label></span>
-                                    <span><input type="radio" id="normal" name="category"><label for="normal">일반 공지</label></span>
-                                    <span><input type="radio" id="etc" name="category"><label for="etc">기타</label></span>
+                                    <span><input type="radio" id="important" name="category" value="10"><label for="important">중요 공지</label></span>
+                                    <span><input type="radio" id="normal" name="category" value="20"><label for="normal">일반 공지</label></span>
+                                    <span><input type="radio" id="etc" name="category" value="30"><label for="etc">기타</label></span>
                                 </div>
                             </td>
                         </tr>

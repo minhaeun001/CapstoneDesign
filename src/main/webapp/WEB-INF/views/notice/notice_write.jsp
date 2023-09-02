@@ -52,7 +52,7 @@
 		params.regntnm = "등록자 이름";
 		params.modid = "수정자 아이디";
 		params.boardtype = BOARD_TYPE;
-		
+		params.category = $("input[name='category']:checked").val();
 		// jquery가 만든 함수~
 		// 파라미터는 json 타입으로 넘겨줘~
 		$.ajax({
@@ -130,9 +130,9 @@
                             <th>CATEGORY&nbsp;&nbsp;<span class="require">*</span></th>
                             <td>
                                 <div class="radioArea">
-                                    <span><input type="radio" id="important" name="category"><label for="important">중요 공지</label></span>
-                                    <span><input type="radio" id="normal" name="category"><label for="normal">일반 공지</label></span>
-                                    <span><input type="radio" id="etc" name="category"><label for="etc">기타</label></span>
+                                    <span><input type="radio" id="important" name="category" value="10"><label for="important">중요 공지</label></span>
+                                    <span><input type="radio" id="normal" name="category" value="20"><label for="normal">일반 공지</label></span>
+                                    <span><input type="radio" id="etc" name="category" value="30"><label for="etc">기타</label></span>
                                 </div>
                             </td>
                         </tr>

@@ -25,21 +25,6 @@
 
     <div class="wrap index">
     	<%@include file="../include/header.jsp" %>
-                <div class="logo">
-                    <h1><a href="intro.jsp"><img src="../../img/logo.png" alt="MAKEGYM"></a></h1>
-                </div>
-                <nav class="gnb">
-                    <ul>
-                        <li><a href="introduce.jsp">INTRODUCE</a></li>
-                        <li><a href="program.jsp">PROGRAM</a></li>
-                        <li><a href="notice.jsp">NOTICE</a></li>
-                        <li><a href="review.jsp">REVIEW</a></li>
-                    </ul>
-                </nav>
-                <div class="top_right">
-                    <a href="mypage.jsp" >LOGIN | </a>
-                    <a href="mypage.jsp" >JOIN</a>
-                </div>
             </div>
             <div class="main">
                 <h2>회원가입</h2>

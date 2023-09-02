@@ -25,21 +25,6 @@
 
     <div class="wrap index">
 	<%@include file="../include/header.jsp" %>
-            <div class="logo">
-                <h1><a href="intro.jsp"><img src="../../img/logo.png" alt="MAKEGYM"></a></h1>
-            </div>
-            <nav class="gnb">
-                <ul>
-                    <li><a href="introduce.jsp">INTRODUCE</a></li>
-                    <li><a href="program.jsp">PROGRAM</a></li>
-                    <li><a href="notice.jsp">NOTICE</a></li>
-                    <li><a href="review.jsp">REVIEW</a></li>
-                </ul>
-            </nav>
-            <div class="top_right">
-                <a href="mypage.jsp" >LOGIN | </a>
-                <a href="mypage.jsp" >JOIN</a>
-            </div>
         </div>
         <div class="main">
             <div class="login-wrapper">
@@ -51,7 +36,7 @@
                         <input type="checkbox" id="remember-check">아이디 저장
                     </label>
                     <input type="submit" value="로그인">
-                    <a id="go_signup" href ="signup.jsp">회원가입</a>
+                    <a id="go_signup" href ="../login/signup.do">회원가입</a>
                     <div class="links">
                         <a href="memberId">아이디 찾기</a> | <a href="memberPw">비밀번호 찾기</a>
                     </div>

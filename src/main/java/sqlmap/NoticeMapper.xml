@@ -208,7 +208,7 @@ WHERE
 	(
 	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
 	#{title},
-	0,
+	#{category},
 	#{regntid},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 	#{regntnm},
@@ -230,6 +230,7 @@ WHERE
 UPDATE BOARD SET 
     TITLE = #{title}
 ,   CONTENTS = #{contents}
+,	CATEGORY = #{category}
 ,   MOD_ID = #{modid}
 ,   MOD_DTM = (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL)
 WHERE seq_no = #{seqno}

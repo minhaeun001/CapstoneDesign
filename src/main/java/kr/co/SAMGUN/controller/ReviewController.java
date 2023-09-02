@@ -69,11 +69,15 @@ public class ReviewController {
 		String searchSelector = request.getParameter("searchSelector");
 		String searchText = request.getParameter("searchText");
 		String boardType = request.getParameter("boardType");
+		String pageNo = request.getParameter("pageNo");
+		String pageSize = request.getParameter("pageSize");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("searchSelector", searchSelector);
 		hm.put("searchText", searchText);
 		hm.put("boardType", boardType);
+		hm.put("pageNo", pageNo);
+		hm.put("pageSize",pageSize);
 		
 		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
 //		Map<String,Object> hm = RequestUtil.requestToMap(request, false) ;
