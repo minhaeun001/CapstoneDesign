@@ -761,10 +761,10 @@ body {overflow-x: hidden; overflow-y: auto;}
 .lounge .main .inner .baord {width: 1160px;}
 
 .card {position:relative; clear: both;}
-.card .cardBox{font-size:0; margin: -30px 0 0 -30px;}
+.card .cardBox{margin: -30px 0 0 -30px;}
 .card .cardBox .item {display:inline-block; width:50%; margin-top: 30px; padding-left: 30px;}
 .card .cardBox .item a {display:block; border:1px solid #d8d8d8;border-radius:10px;background:#fff; position:relative;overflow:hidden;}
-.card .cardBox .item .cardArea {padding: 20px 44px; border-radius: 20px; border: solid 0.8px #bfbfbf;}
+.card .cardBox .item .cardArea {padding: 20px 44px; border-radius: 20px; border: solid 0.8px #bfbfbf; cursor:pointer;}
 .card .cardBox .item .cardArea:hover {box-shadow: 4px 5px 16px #e8e8e8}
 
 .card .cardBox .item .cardArea .tp_txt {position: relative; margin-bottom: 10px;font-size: 14px; font-weight: 500; color: #888;}

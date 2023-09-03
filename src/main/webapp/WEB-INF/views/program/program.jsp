@@ -44,7 +44,7 @@
                     <div class="subscript">
                         <div class="in">
                             <button onclick="alert('결제창으로 이동합니다.');">
-                                결제하기<img src="../../img/icon_arrow.svg">
+                                등록하기<img src="../../img/icon_arrow.svg">
                             </button>
                         </div>
                     </div>
@@ -53,6 +53,7 @@
                     <section>
                         <div>
                             <div class="thumb">
+                                <input type="checkbox" class="btn_checked">
                                 <span class="thumb_imgBox" href="#"></span>
                                 <div class="thumb_textBox">
                                     <div class="thumb_eyebrow">

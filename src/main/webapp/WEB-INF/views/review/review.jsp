@@ -126,12 +126,12 @@
 	function fn_noData(programType){
 		var str = "";
 		var tmpStr = "";
-		tmpStr += "<ul class='cardBox>'"
+		tmpStr += "<ul class='cardBox'>"
 		tmpStr += "<li>조회된 데이터가 없습니다.</li>";
 		tmpStr += "</ul>"
 	
 		$(".card").html(tmpStr);
-		
+		$(".cardBox").show();
 	}
 
 	//프로그램 타입에 따른 바인딩 함수
