@@ -14,7 +14,11 @@
                </ul>
            </nav>
            <div class="top_right">
-               <a href="../mypage/mypage.do" class="loglout">박윤선(Park12)</a>
+               <a href="../login/login.do" class="logout">LOGIN</a>
+               <span class="login"> | </span>
+               <a href="../login/signup.do" class="login">JOIN</a>
+               <span class="login"> | </span>
+               <a href="../mypage/mypage.do" class="logout">마이페이지</a>
            </div>
        </div>
 </header>

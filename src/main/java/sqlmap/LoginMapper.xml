@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="kr.co.SAMGUN.dao.LoginDAO">
+<insert id="Signup" parameterType="Map">
+	insert into MEMBER
+	(
+	SEQ_NO,
+	M_ID,
+	M_NM,
+	M_HP,
+	REG_ID,
+	REG_DATE,
+	MOD_ID,
+	MOD_DATE,
+	USE_YN,
+	DEL_YN,
+	M_GRADE,
+	M_PWD,
+	M_EMAIL,
+	M_BIRTH
+	)
+	values
+	(
+	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
+	#{m_id},
+	#{m_nm},
+	#{m_hp},
+	#{m_id},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{m_id},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	'Y',
+	'N',
+	10,
+	#{m_pwd},
+	#{m_email},
+	#{m_birth}
+	)
+</insert>
+</mapper>

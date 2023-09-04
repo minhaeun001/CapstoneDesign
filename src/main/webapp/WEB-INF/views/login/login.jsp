@@ -29,7 +29,7 @@
         <div class="main">
             <div class="login-wrapper">
                 <h2>로그인</h2>
-                <form method="post" action="서버의url" id="login-form">
+                <div id="login-form">
                     <input type="text" name="userName" placeholder="아이디를 입력하세요">
                     <input type="password" name="userPassword" placeholder="비밀번호를 입력하세요">
                     <label for="remember-check">
@@ -40,28 +40,10 @@
                     <div class="links">
                         <a href="memberId">아이디 찾기</a> | <a href="memberPw">비밀번호 찾기</a>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         </div>
     </div>
-    <script>
-        
-
-        var myAOS = function() {
-            AOS.init({
-                easing: 'ease-out-back',
-                duration: 1500
-            });
-        }
-        myAOS();
-
-        var myAOS = function() {
-            AOS.init({
-                easing: 'ease-out-back',
-                duration: 1500
-            });
-        }
-        
-    </script>
-</body></html>
+</body>
+</html>

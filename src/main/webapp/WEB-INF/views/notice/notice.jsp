@@ -48,13 +48,13 @@
 	function fn_listType(){
 
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_01_list.ajax" ;
-		var searchSelector = $("#schCd option:selected").val();
+		
 		var searchText = $(".search").val();
 	
 		//현재 페이지
 		if (pageNo == undefined){
 			pageNo = 1 ;
-		}	
+		}	var searchSelector = $("#schCd option:selected").val();
 		
 		//검색어
 		if (searchSelector == undefined){

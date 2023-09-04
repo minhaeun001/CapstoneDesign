@@ -158,7 +158,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 /* 게시판  상단 select*/
 .tb_top .left {float: left;}
-.tb_top .left select {width: 110px; height: 40px; font-size: 15px; border: 1px solid #000;  border-radius: 4px; background: url(../img/arr01.png) 90% 50% no-repeat; vertical-align: middle;}
+.tb_top .left select {width: 110px; height: 40px; font-size: 15px; border: 1px solid #000;  border-radius: 4px; background: url(../img/arr01.png) 90% 50% no-repeat; vertical-align: middle; appearance:none; padding-left:5px;}
 .tb_top .left .search {width: 260px; height: 40px; font-size: 15px; border: 1px solid #000;  border-radius: 4px; vertical-align: middle;}
 .tb_top .left .btn_search {width: 40px; height: 40px; line-height: 40px; font-size: 16px; color: #FFF; background-color: #000; border-radius: 4px; vertical-align: middle; background: #000 url(../img/icon_sch_white.png) 50% 50% no-repeat;}
 .tb_top .right {float: right;}
@@ -882,7 +882,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 
 
 .cau05 {position: relative; color: #e6000c; margin: 10px 0 15px 0; padding-left: 22px; color: #555;}
-.cau05:before {display: block; position: absolute; top: 3px; left: 0; content: ''; width: 17px; height: 21px; background: url(/nrsc/images/common/blt_caution05.png) no-repeat left top; background-size: 16px 16px;}
+.cau05:before {display: block; position: absolute; top: 3px; left: 0; content: ''; width: 17px; height: 21px;}
 
 
 .signup{background-color: white; margin: auto; width: 800px; height: 500px; border-radius: 30px;}
@@ -927,7 +927,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 
 
 .selectboxWrap {position: relative; display: inline-block; width: 100%; vertical-align: middle; text-align: left;}
-.selectboxWrap .select .selectBg {background: #fff url(/nrsc/images/common/btn_selectbox.png) 100% center no-repeat; background-size: 27px 30px; margin-right: 10px;}
+.selectboxWrap .select .selectBg {background-size: 27px 30px; margin-right: 10px;}
 .selectboxWrap .select {width: 100%; padding: 3px 0 4px 8px; height: 32px; border: 1px solid #bbbbbb; font-size: 14px; color: #555; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; appearance: none; -webkit-appearance: none; -moz-appearance: none; background: #fff url(/nrsc/images/common/btn_selectbox.png) 100% center no-repeat; background-size: 27px 30px;}
 .selectboxWrap .select option {color: #555; height: 27px; line-height: 27px; font-size: 14px;}
 .selectBg{border-radius: 10px;}

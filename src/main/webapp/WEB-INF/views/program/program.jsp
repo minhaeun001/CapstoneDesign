@@ -57,13 +57,13 @@
                                 <span class="thumb_imgBox" href="#"></span>
                                 <div class="thumb_textBox">
                                     <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 김과기</span><span class="thumb_date">2023-06-01</span>
+                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
                                     </div>
                                     <a href="#" class="article_link">
                                         <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
                                         <p class="desc">
                                             안녕하세요.
-                                            트레이너 김과기 입니다.
+                                            트레이너 박정윤 입니다.
                                             제 커리큘럼에 대해 소개해드리겠습니다.
                                         </p>
                                     </a>
@@ -73,13 +73,13 @@
                                 <span class="thumb_imgBox" href="#"></span>
                                 <div class="thumb_textBox">
                                     <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 김과기</span><span class="thumb_date">2023-06-01</span>
+                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
                                     </div>
                                     <a href="#" class="article_link">
                                         <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
                                         <p class="desc">
                                             안녕하세요.
-                                            트레이너 김과기 입니다.
+                                            트레이너 박정윤 입니다.
                                             제 커리큘럼에 대해 소개해드리겠습니다.
                                         </p>
                                     </a>
@@ -89,13 +89,13 @@
                                 <span class="thumb_imgBox" href="#"></span>
                                 <div class="thumb_textBox">
                                     <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 김과기</span><span class="thumb_date">2023-06-01</span>
+                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
                                     </div>
                                     <a href="#" class="article_link">
                                         <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
                                         <p class="desc">
                                             안녕하세요.
-                                            트레이너 김과기 입니다.
+                                            트레이너 박정윤 입니다.
                                             제 커리큘럼에 대해 소개해드리겠습니다.
                                         </p>
                                     </a>
@@ -105,13 +105,13 @@
                                 <span class="thumb_imgBox" href="#"></span>
                                 <div class="thumb_textBox">
                                     <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 김과기</span><span class="thumb_date">2023-06-01</span>
+                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
                                     </div>
                                     <a href="#" class="article_link">
                                         <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
                                         <p class="desc">
                                             안녕하세요.
-                                            트레이너 김과기 입니다.
+                                            트레이너 박정윤 입니다.
                                             제 커리큘럼에 대해 소개해드리겠습니다.
                                         </p>
                                     </a>

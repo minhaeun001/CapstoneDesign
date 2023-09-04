@@ -41,7 +41,7 @@
                                     <p class="en">-cm/ -kg / n일차</p>
                                 </div>
                                 <div class="teamTxt">
-                                    <p><span class="team">2023.04.23</span><span class="name">트레이너 김과기</span></p>
+                                    <p><span class="team">2023.04.23</span><span class="name">트레이너 박정윤</span></p>
                                 </div>
                                 <div class="video" style="width: 100; margin-top: 4px;">
                                     <img src="../../img/no_image.png" width="100%">
