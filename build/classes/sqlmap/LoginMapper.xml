@@ -22,7 +22,7 @@
 	)
 	values
 	(
-	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
+	(SELECT MAX(SEQ_NO)+1 FROM MEMBER),
 	#{m_id},
 	#{m_nm},
 	#{m_hp},

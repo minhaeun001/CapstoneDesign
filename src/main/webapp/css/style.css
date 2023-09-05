@@ -830,6 +830,8 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 
 
+
+
 /*로그인 화면 스타일*/
 *{padding: 0; margin: 0; border: none;}
 body{font-size: 14px; font-family: 'Roboto', sans-serif;}
@@ -882,10 +884,10 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 
 
 .cau05 {position: relative; color: #e6000c; margin: 10px 0 15px 0; padding-left: 22px; color: #555;}
-.cau05:before {display: block; position: absolute; top: 3px; left: 0; content: ''; width: 17px; height: 21px;}
+.cau05:before {display: block; position: absolute; top: 3px; left: 0; content: ''; width: 17px; height: 21px; background-size: 16px 16px;}
 
 
-.signup{background-color: white; margin: auto; width: 800px; height: 500px; border-radius: 30px;}
+.signup{background-color: white; margin: auto; width: 800px; height: 570px; border-radius: 30px;}
 .signup > p{color: black; text-align: right; margin-right: 6%;} 
 
 .signup_wrapper > p{display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;}
@@ -927,8 +929,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 
 
 .selectboxWrap {position: relative; display: inline-block; width: 100%; vertical-align: middle; text-align: left;}
-.selectboxWrap .select .selectBg {background-size: 27px 30px; margin-right: 10px;}
-.selectboxWrap .select {width: 100%; padding: 3px 0 4px 8px; height: 32px; border: 1px solid #bbbbbb; font-size: 14px; color: #555; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; appearance: none; -webkit-appearance: none; -moz-appearance: none; background: #fff url(/nrsc/images/common/btn_selectbox.png) 100% center no-repeat; background-size: 27px 30px;}
+.selectboxWrap .select {width: 100%; padding: 3px 15px 4px 8px; height: 32px; border: 1px solid #bbbbbb; font-size: 14px; color: #555; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; appearance: none; -webkit-appearance: none; -moz-appearance: none;}
 .selectboxWrap .select option {color: #555; height: 27px; line-height: 27px; font-size: 14px;}
 .selectBg{border-radius: 10px;}
 
@@ -940,7 +941,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 .rs-mt5 {margin-left: 5px; border-radius: 10px;}
 
 
-.inTxt {display: inline-block; vertical-align: top; width: 98%; height: 32px; padding: 0 9px; line-height: 32px; border: 1px solid #bbbbbb; background: #fff; color: #555; font-size: 14px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0px;}
+.inTxt {display: inline-block; vertical-align: middle; width: 98%; height: 32px; padding: 0 9px; line-height: 32px; border: 1px solid #bbbbbb; background: #fff; color: #555; font-size: 14px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0px;}
 
 
 input:not([type="range"]):not([type="color"]) {writing-mode: horizontal-tb !important; border-radius: 10px;}
@@ -965,4 +966,3 @@ label.disn {position: absolute; left: -10000px; top: auto; height: 1px; overflow
 .btns > span{color: white;}
 
 #sign{color: white;}
-

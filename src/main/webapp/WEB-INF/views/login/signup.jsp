@@ -7,6 +7,7 @@
     <title>MAKEGYM</title>
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/signup.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <script src="../../js/jquery-1.7.2.min.js"></script>
@@ -123,8 +124,10 @@
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-	
-	
+    function hide_popup(){
+        $(".popup").addClass("hidden");
+    }
+    	
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -188,6 +191,50 @@
 		fn_signup();
 	});
 	
+    $(function(){
+        $(".id_input").on('keyup', function(){
+            str = $(".id_input").val();
+            if(str != ""){
+                $(".btn_check").addClass('btn_check_active');
+            }else{
+                $(".btn_check").removeClass('btn_check_active');
+            }
+        });
+        // '중복확인' 클릭시 작동
+        $(".btn_check").on('click', function(){
+            if($(this).hasClass('btn_check_active')){
+                var id = $(".id_input").val();
+            var res = true; //중복여부
+            $(".nickname").html("'"+id+"'");
+            if(res){
+                $(".fail").removeClass('hidden');
+            }else{
+                $(".success").removeClass('hidden');
+            }
+            }
+        });
+
+        // 팝업에서 다시 중복체크 클릭 시
+        $(".re_check").on('click', function(){
+
+        });
+        
+        // 팝업에서 취소버튼 클릭시
+        $(".cancel").on('click', function(){
+            hide_popup()
+        });
+
+        // 팝업에서 확인버튼 클릭시
+        $(".confirm").on('click', function(){
+            hide_popup()
+        });
+
+        // 팝업 내의 '사용하기' 클릭시 작동
+        $(".use").on('click', function(){ 
+            hide_popup()
+        })
+    });    
+	
 	$(document).on("change", ".m_email_03", function(){
 		var m_email_03 = $(this).val();
 		$(".m_email_02").val(m_email_03);
@@ -197,6 +244,42 @@
 </head>
 
 <body class="bg_black">
+    <!-- 팝업창 시작 -->
+    <div class="popup success hidden">
+        <div class="check_info">
+            <img src="../../../img/able.png" alt="">
+            <div class="text">
+                입력하신<span class="nickname"></span>는
+                <br>
+                사용가능합니다.
+            </div>
+            <button class="use">사용하기</button>
+        </div>
+    </div>
+    <div class="popup fail hidden">
+	    <div class="check_info">
+	        <img src="../../../img/disable.png" alt="">
+	        <div class="text">
+	            <span>
+	                입력하신<span class="nickname"></span>는
+	                <br>
+	                이미 사용중인 아이디입니다.
+	            </span>
+	        </div>
+	        <span>다른 아이디를 입력해주세요.</span>
+	        <div class="diff_id">
+	            다른 아이디 입력
+	            <br>
+	            <input type="text" class="diff_id_input" placeholder="6~12자 아이디를 입력해주세요">
+	            <button class="re_check">중복확인</button>
+	        </div>
+	        <div class="button_area">
+	            <button class="cancel">취소</button>
+	            <button class="confirm">확인</button>
+	        </div>
+	    </div>
+	</div>
+    <!-- 팝업창 종료 -->
     <!-- 배경 동영상 -->
     <video muted autoplay loop class="index_video">
         <source src="../../img/clip2_640.mp4" type="video/mp4">
@@ -233,10 +316,8 @@
                                         </span>
                                     </th>
                                     <td colspan="3">
-                                        <input type="text" class="m_id inTxt rs-w100" id="m_szId" placeholder="6~12자리" maxlength="20" title="아이디 입력">
-                                        <label  class="check">
-                                            <a class="tbtns rs-mt5" title="중복확인">중복확인</a>
-                                        </label>
+                                        <input type="text" class="m_id inTxt rs-w100 id_input" id="m_szId" placeholder="6~12자리" maxlength="20" title="아이디 입력">
+										<button class="tbtns rs-mt5 btn_check btn_blue" title="중복확인">중복확인</button>
                                     </td>
                                 </tr>
                                 <tr class="pswd">
@@ -249,7 +330,7 @@
                                     </th>
                                     <td colspan="3">
                                     	<input type="password" class="m_pwd inTxt rs-w100" id="m_szPwd" placeholder="8~14자리" maxlength="14" style="width:180px;ime-mode:disabled;" title="비밀번호">
-                                        <span class="cau05 pwd_message">8~14자리 (영문 대소문자, 숫자, 특수문자 조합)</span>
+                                        <span class="cau05 pw_info pwd_message">8~14자리 (영문 대소문자, 숫자, 특수문자 조합)</span>
                                     </td>
                                 </tr>
                                 <tr class="repswd">
@@ -262,7 +343,7 @@
                                     </th>
                                     <td colspan="3" class="line2">
                                         <input type="password" class="m_pwd_chk inTxt rs-w100" id="m_szPwdChk" placeholder="비밀번호 재입력" maxlength="14" style="width:180px;ime-mode:disabled;" title="비밀번호 확인">
-                                        <span class="pwd_message_chk"></span>
+                                        <span class="cau05 pw_info pwd_message_chk"></span>
                                     </td>
                                 </tr>
                                 <tr class="name">
@@ -286,7 +367,7 @@
                                         </span>
                                     </th>
                                     <td colspan="3" class="hp">
-                                        <input type="text" class="m_hp inTxt rs-w150" id="phone1" maxlength="11" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)" onkeydown="only_number(this)" style="width:80px" title="휴대폰 번호 입력">
+                                        <input type="text" class="m_hp inTxt rs-w150" id="phone1" maxlength="11" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)" style="width:80px" title="휴대폰 번호 입력">
                                     </td>
                                 </tr>
                                 <tr class="eml">
@@ -298,7 +379,7 @@
                                         </span>
                                     </th>
                                     <td colspan="3" class="email">
-                                        <input type="text" class="m_email_01 inTxt rs-w40" id="email_01"  placeholder="이메일 주소" onfocus="checkLen(this.value);" onblur="checkMail(this.value);" style="width:120px;ime-mode:disabled;" title="이메일 아이디 입력">
+                                        <input type="text" class="m_email_01 inTxt rs-w40" id="email_01" placeholder="이메일 주소" style="width:120px;ime-mode:disabled;" title="이메일 아이디 입력">
                                         <span class="dash"> @ </span>
                                         <label class="disn ">이메일 입력</label>
                                         <input type="text" class="m_email_02 inTxt rs-w45" id="email_02" style="width:120px; ime-mode:disabled;" title="이메일 입력">
@@ -348,9 +429,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="btnArea btn_signup">
-                        가입
-                    </button>
+                    <div class="right btn_area">
+                        <button class="tb_top right btn_blue btn_signup">가입</button>
+                    </div>
                 </div>            
             </div>
     </div>
