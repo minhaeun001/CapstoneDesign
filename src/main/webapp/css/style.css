@@ -52,7 +52,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 .index_left .txt_wrap {padding-top:10rem;}
 .index_left .txt_wrap p {color: #fff; text-shadow: 2px 2px 2px rgba(2,2,2,1); margin-left: 80px;}
 .index_left .txt_wrap .p1 {position: relative; top: -70px; left: 0; font-size: 60px; line-height: 84px; margin-bottom: 70px; animation: p1 .6s forwards;animation-delay:0.3s; opacity:0;}
-.index_left .txt_wrap .p1 strong {color: #34daff; font-weight: 700;}
+.index_left .txt_wrap .p1 strong {color: #00d1ff; font-weight: 700;}
 .index_left .txt_wrap .p2 {position: relative; top: -70px; font-size: 40px; line-height: 60px; font-weight: 200; animation: p2 .5s forwards;animation-delay:1s;opacity:0;}
 @keyframes p1 {0% {opacity: 0;} 100% {opacity: 1; top: 0px;}}
 @keyframes p2 {0% {opacity: 0;} 100% {opacity: 1; top: 0px;}}

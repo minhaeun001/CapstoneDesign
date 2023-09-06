@@ -32,7 +32,7 @@ button {cursor: pointer; border: none; outline: none; transition: all 0.4s;}
 
 /* btn_area 공통 */
 .btn_area {text-align: center;}
-.btn_area button {width: 120px; height: 48px; margin-right: 4px; color: #fff; font-size: 16px; font-weight: 400 !important; border-radius: 4px; transition: all 0.4s; letter-spacing: 0;}
+.btn_area button {width: 105px; height: 42px; margin-right: 4px; color: #fff; font-size: 16px; font-weight: 400 !important; border-radius: 4px; transition: all 0.4s; letter-spacing: 0;}
 .btn_area button:last-child {margin-right: 0px;}
 .btn_area .btn_blue {background-color: #000000;}
 .btn_area .btn_blue:hover {background-color: #272829;}

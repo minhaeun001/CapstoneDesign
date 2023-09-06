@@ -100,24 +100,4 @@
         </div>
         </div>
     </div>
-    <script>
-        $('.sub_popWrap').css('display', 'none');
-        });
-
-        var myAOS = function() {
-            AOS.init({
-                easing: 'ease-out-back',
-                duration: 1500
-            });
-        }
-        myAOS();
-
-        var myAOS = function() {
-            AOS.init({
-                easing: 'ease-out-back',
-                duration: 1500
-            });
-        }
-        myAOS();
-    </script>
 </body></html>
