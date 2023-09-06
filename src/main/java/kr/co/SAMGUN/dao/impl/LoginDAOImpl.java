@@ -32,4 +32,14 @@ public class LoginDAOImpl implements LoginDAO {
 	public int Signup(Map<String, Object> hm) {
 		return sqlSession.insert(namespace+".Signup", hm);
 	}
+	
+	@Override
+	public int SignupCheck(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".SignupCheck", hm);
+	}
+	
+	@Override
+	public int SelectIdCnt(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".SelectIdCnt", hm);
+	}
 }

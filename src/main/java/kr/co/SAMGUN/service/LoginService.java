@@ -15,5 +15,8 @@ import kr.co.SAMGUN.service.impl.NoticeServiceImpl;
 public interface LoginService {
 
 	int Signup(Map<String, Object> hm);
+	
+	List<Map<String, Object>> SignupCheck(Map<String, Object> hm);
 
+	List<Map<String, Object>> checkLoginLogic(Map<String, Object> hm);
 }

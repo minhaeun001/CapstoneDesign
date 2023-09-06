@@ -41,7 +41,34 @@
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/ 
-	
+	function fn_login(){
+		var sUrl = "${pageContext.request.contextPath}/login/checkLoginLogic.ajax"
+		
+		var m_id = $(".m_id").val();
+		var m_pwd = $(".m_pwd").val();
+		
+		var params = {
+				m_id:m_id,
+				m_pwd,m_pwd
+		};
+		
+		$.ajax({
+			url:sUrl,
+			data:params,
+			method:"post",
+			dataType:"json",
+			success: function(response){
+				var msg = response.result.checkLoginResult[0].msg;
+				alert(msg);
+			},
+			error: function(xhr, status, error){
+				
+			},
+			complete: function(){
+				
+			}
+		});
+	}
 	
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
@@ -56,6 +83,26 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/ 
+	$(document).on("click", ".btn_login", function(){
+		if ($(".m_id").val() === "") {
+			alert("아이디를 입력해주세요.");
+			$(".m_id").focus();
+			return ;
+		}
+		if ($(".m_pwd").val() === "") {
+			alert("비밀번호를 입력해주세요.");
+			$(".m_pwd").focus();
+			return ;
+		}
+		fn_login();
+	});
+	
+	$(document).on("keypress",".m_id, .m_pwd", function(){
+		if (event.keyCode == 13){
+			$(".btn_login").click();	
+		}
+	})
+	
 	$(document).on("click", ".remember_check", function(){
 		var checkbox = $(this).val();
 		$("#remember_check").prop("checked", function(i, checked) {
@@ -79,8 +126,8 @@
             <div class="login-wrapper">
                 <h2>로그인</h2>
                 <div class="login-div">
-                    <input type="text" class="login_icon" placeholder="아이디를 입력하세요">
-                    <input type="password" class="pw_icon" placeholder="비밀번호를 입력하세요">
+                    <input type="text" class="login_icon m_id" placeholder="아이디를 입력하세요">
+                    <input type="password" class="pw_icon m_pwd" placeholder="비밀번호를 입력하세요">
                     <div class="remember-check">
                         <input type="checkbox" class="remember_check" id="remember_check">
                         <span class="remember_check"> 아이디 저장 </span>

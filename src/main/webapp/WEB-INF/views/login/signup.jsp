@@ -74,7 +74,7 @@
 		
 		var sUrl = "${pageContext.request.contextPath}/login/member_signup.ajax";
 		
-		var m_id = $(".m_id").val();
+		var m_id = $("#m_szId").val();
 		var m_pwd = $(".m_pwd").val();
 		var m_pwd_chk = $(".m_pwd_chk").val();
 		var m_nm = $(".m_nm").val();
@@ -121,11 +121,69 @@
 		});
 	}
 	
+	//id 중복확인
+	function fn_check(){
+		
+		$("#m_szId").val( $.trim( $("#m_szId").val() ));
+		
+		if ( $("#m_szId").val() == ""){
+			
+			alert("아이디를 입력해주세요.");
+			
+			return;
+			
+		}
+		
+		var sUrl = "${pageContext.request.contextPath}/login/member_signupcheck.ajax";
+		
+		
+		
+		var m_id = $("#m_szId").val();
+
+		//파라미터
+		var params = {
+			m_id:m_id
+		};
+		
+		$.ajax({
+			url:sUrl,
+			data:params,
+			method: "post",
+			dataType: "json",
+			success: function(response){
+				var dblCheckFlag = response.result.SignupCheck[0].dblCheckFlag;
+				
+	            var id = $(".id_input").val();
+	            $(".nickname").html("'"+id+"'");
+
+	            if(dblCheckFlag == "true"){
+	            	$("#chk_img").html("<img src='../../../img/able.png' alt=''>");
+	            	$("#chk_msg").text("사용할수 있는 아이디 입니다.");
+	            	$("#id_check").val("true");//중복체크 성공
+	            } else if (dblCheckFlag == "false"){
+	            	$("#chk_img").html("<img src='../../../img/disable.png' alt=''>");
+	            	$("#chk_msg").text("이미 사용중인 아이디 입니다.");
+	            	$("#id_check").val("false");//중복체크 실패
+				}
+				
+				$(".popup.fail").show();
+				
+			},
+			error: function(xhr, status, error){
+				alert("error");
+			},
+			complete: function(){
+				//콜백함수
+			}
+			
+		});
+	}
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
     function hide_popup(){
-        $(".popup").addClass("hidden");
+        $(".popup").hide();
+        
     }
     	
 	//******************************************************************************************** 
@@ -137,17 +195,31 @@
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/ 
 	$(document).on("click", ".btn_signup", function() {		
-		if ($(".m_id").val() === "") {
+
+		if ($("#m_szId").val() === "") {
 			alert("아이디를 입력해주세요.");
-			$(".m_id").focus();
+			$("#m_szId").focus();
 			return ;
 		}
+		
+		if ($("#id_check").val() === "false") {
+			alert("아이디 중복체크를 해주세요.");
+			$("#m_szId").focus();
+			return ;
+		}
+		
+		
 		if ($(".m_pwd").val() === "") {
 			alert("비밀번호를 입력해주세요.");
 			$(".m_pwd").focus();
 			return ;
 		}
 		if ($(".m_pwd_chk").val() === "") {
+			alert("비밀번호를 확인해주세요.");
+			$(".m_pwd_chk").focus();
+			return ;
+		}
+		if ($(".m_pwd").val() != $(".m_pwd_chk").val()) {
 			alert("비밀번호를 확인해주세요.");
 			$(".m_pwd_chk").focus();
 			return ;
@@ -200,44 +272,54 @@
                 $(".btn_check").removeClass('btn_check_active');
             }
         });
+        
         // '중복확인' 클릭시 작동
         $(".btn_check").on('click', function(){
-            if($(this).hasClass('btn_check_active')){
-                var id = $(".id_input").val();
-            var res = true; //중복여부
-            $(".nickname").html("'"+id+"'");
-            if(res){
-                $(".fail").removeClass('hidden');
-            }else{
-                $(".success").removeClass('hidden');
-            }
-            }
+        	
+        	fn_check();
+        	
         });
 
+        //아이디 수정시 무조건 체크했는지 플래그를 false로 변경
+        $(document).on("change", "#m_szId", function(){
+        	
+        	$("#id_check").val("false");//체크 안한 상태로 만듬
+        	
+        });
+        
         // 팝업에서 다시 중복체크 클릭 시
         $(".re_check").on('click', function(){
-
+        	$("#m_szId").val($("#m_szId2").val());
+        	fn_check();
         });
         
         // 팝업에서 취소버튼 클릭시
         $(".cancel").on('click', function(){
-            hide_popup()
+        	$("#id_check").val("false");
+        	$(".popup").hide();
         });
 
         // 팝업에서 확인버튼 클릭시
         $(".confirm").on('click', function(){
-            hide_popup()
+        	$(".popup").hide();
+        	
         });
 
         // 팝업 내의 '사용하기' 클릭시 작동
         $(".use").on('click', function(){ 
-            hide_popup()
+        	$(".popup").hide();
         })
     });    
 	
+	$(document).on("keypress",".id_input", function(){
+		if (event.keyCode == 13){
+			$(".btn_check").click();	
+		}
+	});
+    
 	$(document).on("change", ".m_email_03", function(){
 		var m_email_03 = $(this).val();
-		$(".m_email_02").val(m_email_03);
+		$(".m_email_02").eq(0).val(m_email_03);
 	});
 </script>
     
@@ -258,19 +340,19 @@
     </div>
     <div class="popup fail hidden">
 	    <div class="check_info">
-	        <img src="../../../img/disable.png" alt="">
+	        
+	        <span id="chk_img"></span>
 	        <div class="text">
 	            <span>
 	                입력하신<span class="nickname"></span>는
 	                <br>
-	                이미 사용중인 아이디입니다.
+	                <span id="chk_msg"></span>
 	            </span>
 	        </div>
-	        <span>다른 아이디를 입력해주세요.</span>
 	        <div class="diff_id">
 	            다른 아이디 입력
 	            <br>
-	            <input type="text" class="diff_id_input" placeholder="6~12자 아이디를 입력해주세요">
+	            <input type="text" class="diff_id_input" id="m_szId2" placeholder="6~12자 아이디를 입력해주세요" >
 	            <button class="re_check">중복확인</button>
 	        </div>
 	        <div class="button_area">
@@ -317,6 +399,7 @@
                                     </th>
                                     <td colspan="3">
                                         <input type="text" class="m_id inTxt rs-w100 id_input" id="m_szId" placeholder="6~12자리" maxlength="20" title="아이디 입력">
+										<input type="hidden" id="id_check" value="false">
 										<button class="tbtns rs-mt5 btn_check btn_blue" title="중복확인">중복확인</button>
                                     </td>
                                 </tr>

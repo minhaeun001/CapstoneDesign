@@ -38,4 +38,21 @@
 	#{m_birth}
 	)
 </insert>
+
+<select id="SignupCheck" parameterType="Map" resultType="Integer">
+	  SELECT COUNT(*) idCnt FROM MEMBER
+	  WHERE 1=1
+	  AND M_ID = #{m_id}
+</select>
+
+<select id="SelectIdCnt" parameterType="Map" resultType="Integer">
+	  SELECT COUNT(*) idCnt FROM MEMBER
+	  WHERE 1=1
+	  AND M_ID = #{m_id}
+	  <if test='IdCheckFlag != null and IdCheckFlag.equals("T")'>
+	    AND M_PWD = #{m_pwd}
+	  </if>
+</select>
+
+
 </mapper>

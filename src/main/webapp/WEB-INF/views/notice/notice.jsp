@@ -124,7 +124,7 @@
 		if (event.keyCode == 13){
 			$(".btn_search").click();	
 		}
-	})
+	});
 
 	function fn_noData(programType){
 		$(".tb_type1:eq(0) tr:gt(0)").remove();

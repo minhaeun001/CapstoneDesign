@@ -1,6 +1,8 @@
 package kr.co.SAMGUN.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +67,47 @@ public class LoginController {
 		
 		result.put("saveCnt",saveCnt);
 		model.addAttribute("result",result);
+		return "jsonView";
+	}
+
+	@RequestMapping("/member_signupcheck.ajax")
+	public String member_signupcheck(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		
+		String m_id = request.getParameter("m_id");
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+		
+		List<Map<String, Object>> SignupCheck = loginService.SignupCheck(hm); //결과적으로 리턴받는 타입 int
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("SignupCheck",SignupCheck);
+		
+		model.addAttribute("result",result);
+		return "jsonView";
+	}
+	
+	@RequestMapping("/checkLoginLogic.ajax")
+	public String checkLoginLogic(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		
+		String m_id = request.getParameter("m_id");
+		String m_pwd = request.getParameter("m_pwd");
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+		hm.put("m_pwd", m_pwd);
+
+		
+		// 결과값을 담을 바구니
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		// 결과값
+		List<Map<String, Object>> checkLoginResult = loginService.checkLoginLogic(hm);
+		
+		result.put("checkLoginResult", checkLoginResult);
+				
+		model.addAttribute("result", result);
+		
 		return "jsonView";
 	}
 }
