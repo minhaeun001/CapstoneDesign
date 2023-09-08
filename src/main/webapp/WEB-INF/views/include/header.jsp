@@ -14,11 +14,20 @@
                </ul>
            </nav>
            <div class="top_right">
-               <a href="../login/login.do" class="logout">LOGIN</a>
-               <span class="login"> | </span>
-               <a href="../login/signup.do" class="login">JOIN</a>
-               <span class="login"> | </span>
-               <a href="../mypage/mypage.do" class="logout">마이페이지</a>
+			<%
+			String m_id = (String) session.getAttribute("m_id");
+			String m_nm = (String) session.getAttribute("m_nm");
+			
+			if (m_id != null && !m_id.equals("")) {
+			%>
+			    <%= m_nm %> (<%= m_id %>)
+			    <a href="../mypage/mypage.do" class="mypage">마이페이지</a>
+			    <a href="/login/logout.do" class="logout">로그아웃</a>
+			<%} else { %>
+			    <a href="../login/login.do" class="logout">LOGIN</a>
+			    <span class="login"> | </span>
+			    <a href="../login/signup.do" class="login">JOIN</a>
+			<%} %>
            </div>
        </div>
 </header>

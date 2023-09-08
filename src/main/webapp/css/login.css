@@ -25,3 +25,6 @@ body{font-size: 14px; font-family: 'Roboto', sans-serif;}
 .pw_icon{background-image: url(../img/login_icon02.png); background-position: 10px center; border: 1px solid#2e3238; background-repeat: no-repeat;}
 
 .btn_find {color: #000;}
+
+.tooltip {position: absolute; display: none; background-color: red; color: white; padding: 5px; border-radius: 5px; font-weight: bold;}
+.tooltip.active {display: block;}

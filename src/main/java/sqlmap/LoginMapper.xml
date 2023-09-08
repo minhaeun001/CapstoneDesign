@@ -30,7 +30,7 @@
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 	#{m_id},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-	'Y',
+	#{use_yn},
 	'N',
 	10,
 	#{m_pwd},
@@ -54,5 +54,10 @@
 	  </if>
 </select>
 
-
+<select id="SelectMember" parameterType="Map" resultType="Map">
+	  SELECT M_NM, M_ID FROM MEMBER
+	  WHERE 1=1
+	  AND M_ID = #{m_id}
+	  AND M_PWD = #{m_pwd}
+</select>
 </mapper>

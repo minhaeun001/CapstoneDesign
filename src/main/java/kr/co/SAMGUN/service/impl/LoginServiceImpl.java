@@ -85,6 +85,9 @@ public class LoginServiceImpl implements LoginService {
 			
 			// 아이디와 패스워드가 존재하는지 체크
 			if(idAndPwdCnt > 0) {
+				Map<String, Object> map = loginDAO.SelectMember(hm);
+				
+				hm.put("m_nm", map.get("M_NM"));
 				// 아이디와 비밀번호가 있다면
 				flag = "T";
 				msg = "환영합니다.";

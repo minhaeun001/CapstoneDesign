@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,16 @@ public class LoginController {
 		return "login/login";
 	}
 	
+	@RequestMapping("/logout.do")
+	public String logout(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		HttpSession session = request.getSession(); 
+	    session.invalidate();
+		logger.info("프로그램:" + "main/intro");
+		return "main/intro";
+	}
+	
 	@RequestMapping("/signup.do")
 	public String signup(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
 		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
@@ -53,6 +64,7 @@ public class LoginController {
 		String m_hp = request.getParameter("m_hp");
 		String m_email = request.getParameter("m_email");
 		String m_birth = request.getParameter("m_birth");
+		String use_yn = request.getParameter("use_yn");
 
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
@@ -61,6 +73,7 @@ public class LoginController {
 		hm.put("m_hp", m_hp);
 		hm.put("m_email", m_email);
 		hm.put("m_birth", m_birth);
+		hm.put("use_yn", use_yn);
 		
 		int saveCnt = loginService.Signup(hm); //결과적으로 리턴받는 타입 int
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -92,6 +105,7 @@ public class LoginController {
 		
 		String m_id = request.getParameter("m_id");
 		String m_pwd = request.getParameter("m_pwd");
+		String m_nm = "";
 
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
@@ -103,7 +117,15 @@ public class LoginController {
 		
 		// 결과값
 		List<Map<String, Object>> checkLoginResult = loginService.checkLoginLogic(hm);
-		
+		if ("T".equals( hm.get("IdCheckFlag")) ) {
+			
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("m_id", m_id);
+			session.setAttribute("m_nm", (String)hm.get("m_nm"));
+			
+		}
+			
 		result.put("checkLoginResult", checkLoginResult);
 				
 		model.addAttribute("result", result);

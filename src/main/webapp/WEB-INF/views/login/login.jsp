@@ -60,6 +60,8 @@
 			success: function(response){
 				var msg = response.result.checkLoginResult[0].msg;
 				alert(msg);
+				
+				location.href="../main/intro.do";
 			},
 			error: function(xhr, status, error){
 				

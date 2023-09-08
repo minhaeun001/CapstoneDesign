@@ -32,38 +32,16 @@
 		
 	});
 	
-	
-	
 	function init(){
 		$(document).on("keyup", ".m_pwd", function(){
-	        var m_pwd = $(".m_pwd").val();
-			if (m_pwd == ""){
-				$(".pwd_message").html("8~14자리 (영문 대소문자, 숫자, 특수문자 조합)").css("color", "#555");
-				return ;
-			} else if (m_pwd.length <=7) {
-				$(".pwd_message").html("비밀번호가 너무 짧습니다.").css("color", "red");
-				return ;
-			} else if (m_pwd.length >=7 && m_pwd.length<=13){
-				$(".pwd_message").html("가능한 비밀번호입니다.").css("color", "green");
-				return ;
-			} else if (m_pwd.length>=14){
-				$(".pwd_message").html("비밀번호가 너무 깁니다.").css("color", "red");
-				return ;
-			}
+			pwd_check();
 		});
 		
 		$(document).on("keyup", ".m_pwd, .m_pwd_chk", function(){
-	        var m_pwd = $(".m_pwd").val();
-	        var m_pwd_chk = $(".m_pwd_chk").val();
-
-	        if (m_pwd_chk === ""){
-	        	$(".pwd_message_chk").html("").css("color", "black");
-	        } else if (m_pwd === m_pwd_chk) {
-	            $(".pwd_message_chk").html("비밀번호 일치").css("color", "green");
-	        } else {
-	            $(".pwd_message_chk").html("비밀번호 불일치").css("color", "red");
-	        }
+			pwd_compare();
 		});
+		
+		make_birth();
 	}
 	
 	//******************************************************************************************** 
@@ -79,6 +57,10 @@
 		var m_pwd_chk = $(".m_pwd_chk").val();
 		var m_nm = $(".m_nm").val();
 		var m_hp = $(".m_hp").val();
+		var use_yn = 'N';
+		if ($("#use_yn").prop("checked")){
+			var use_yn = 'Y';
+		}
 		 
 		var m_email_01 = $(".m_email_01").val();
 		var m_email_02 = $(".m_email_02").val();
@@ -99,7 +81,8 @@
 			m_nm:m_nm,
 			m_hp:m_hp,
 			m_email:m_email,
-			m_birth:m_birth
+			m_birth:m_birth,
+			use_yn:use_yn
 		};
 		
 		$.ajax({
@@ -185,7 +168,133 @@
         $(".popup").hide();
         
     }
-    	
+	
+    function validateUsername(username) {
+        // 길이 제한 검사
+        if (username.length < 6 || username.length > 12) {
+            return false;
+        }
+
+        // 허용 문자 검사 (영문 소문자, 대문자, 숫자, 밑줄)
+        var pattern = /^[a-zA-Z0-9_]+$/;
+        if (!pattern.test(username)) {
+            return false;
+        }
+
+        return true;
+    }
+	
+	function pwd_check(){
+        var m_pwd = $(".m_pwd").val();
+        $("#pwd_tf").val("false");//비밀번호 사용 불가능
+        
+		if (m_pwd == ""){
+			$(".pwd_message").html("8~14자리 (영문 대소문자, 숫자, 특수문자 조합)").css("color", "#555");
+			return ;
+		} else if (m_pwd.length <=7) {
+			if (validatePassword(m_pwd)){
+				$(".pwd_message").html("비밀번호가 너무 짧습니다.").css("color", "red");	
+			} else {
+				$(".pwd_message").html("영문 대소문자, 숫자, 특수문자를 섞어주세요.").css("color", "red");
+			}
+			return ;
+		} else if (m_pwd.length >=7 && m_pwd.length<=13){
+			if (validatePassword(m_pwd)){
+				$(".pwd_message").html("가능한 비밀번호입니다.").css("color", "green");
+				$("#pwd_tf").val("true");//비밀번호 사용 가능
+			} else {
+				$(".pwd_message").html("영문 대소문자, 숫자, 특수문자를 섞어주세요.").css("color", "red");
+				$("#pwd_tf").val("false");//비밀번호 사용 불가능
+			}
+			return ;
+		} else if (m_pwd.length>=14){
+			$(".pwd_message").html("비밀번호가 너무 깁니다.").css("color", "red");
+			return ;
+		}
+	}
+    
+    function validatePassword(password) {
+        // 비밀번호에 대문자, 소문자, 특수문자가 각각 하나 이상 포함되어야 합니다.
+        var uppercaseRegex = /[A-Z]/;
+        var lowercaseRegex = /[a-z]/;
+        var specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/;
+
+        if (
+            uppercaseRegex.test(password) &&
+            lowercaseRegex.test(password) &&
+            specialCharRegex.test(password)
+        ) {
+            return true; // 조건을 충족하는 경우
+        } else {
+            return false; // 조건을 충족하지 않는 경우
+        }
+    }
+    
+    function validatePhoneNumber(phoneNumber) {
+        // 숫자 이외의 문자 제거
+        var cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
+
+        // 정확히 10자리인지 확인 (일반적인 국내 휴대폰 번호 길이)
+        if (cleanedPhoneNumber.length !== 11) {
+            return false;
+        }
+
+        // 숫자만으로 이루어져 있는지 확인
+        if (!/^\d+$/.test(cleanedPhoneNumber)) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    function pwd_compare(){
+        var m_pwd = $(".m_pwd").val();
+        var m_pwd_chk = $(".m_pwd_chk").val();
+        $("#pwd_chk_check").val("false");//비밀번호 사용 불가능
+
+        if (m_pwd_chk === ""){
+        	$(".pwd_message_chk").html("").css("color", "black");
+        } else if (m_pwd === m_pwd_chk) {
+            $(".pwd_message_chk").html("비밀번호 일치").css("color", "green");
+            $("#pwd_chk_check").val("true");//비밀번호 사용 불가능
+        } else {
+            $(".pwd_message_chk").html("비밀번호 불일치").css("color", "red");
+        }
+    }
+    
+    function validateEmail(email) {
+        // 이메일 주소의 유효성을 검사하는 정규 표현식
+        var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+        return emailRegex.test(email);
+    }
+    
+    function make_birth(){
+    	  var birthYearSelect = $("#birthyy");
+     	  var monthSelect = $(".m_birth_02");
+     	  var daySelect = $(".m_birth_03");
+
+   	    // 시작 연도와 끝 연도 설정 (예: 1900부터 현재 연도까지)
+   	    var currentYear = new Date().getFullYear();
+   	    var startYear = 1923;
+
+   	    // option 요소를 동적으로 추가
+   	    for (var year = startYear; year <= currentYear; year++) {
+   	        var option = $("<option>").val(year).text(year);
+   	        birthYearSelect.append(option);
+   	    }
+   	    
+   	    for (var month = 1; month <= 12; month++) {
+   	        var option = $("<option>").val(month).text(month);
+   	        monthSelect.append(option);
+   	    }
+   	   
+   	    for (var day = 1; day <= 31; day++) {
+   	        var option = $("<option>").val(day).text(day);
+   	        daySelect.append(option);
+   	    }
+   	 
+    }
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -194,8 +303,12 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/ 
-	$(document).on("click", ".btn_signup", function() {		
-
+	$(document).on("click", ".btn_signup", function() {
+		var pwd_tf = $("#pwd_tf").val();
+		var pwd_chk_check = $("#pwd_chk_check").val();
+		var email = $(".m_email_01").val() + "@" + $(".m_email_02").val();
+		var m_hp = $(".m_hp").val();
+		
 		if ($("#m_szId").val() === "") {
 			alert("아이디를 입력해주세요.");
 			$("#m_szId").focus();
@@ -229,10 +342,12 @@
 			$(".m_nm").focus();
 			return ;
 		}
-		if ($(".m_hp").val() === "") {
-			alert("전화번호를 입력해주세요.");
-			$(".m_hp").focus();
-			return ;
+		if (validatePhoneNumber(m_hp)) {
+		    // 전화 번호가 유효하다면
+		} else {
+		    alert("전화번호를 확인해주세요.");
+		    $(".m_hp").focus();
+		    return;
 		}
 		if ($(".m_email_01").val() === "") {
 			alert("이메일을 입력해주세요.");
@@ -241,6 +356,13 @@
 		}
 		if ($(".m_email_02").val() === "") {
 			alert("이메일을 입력해주세요.");
+			$(".m_email_02").focus();
+			return ;
+		}
+		if (validateEmail(email)) {
+			
+		} else {
+			alert("유효하지 않은 이메일 주소입니다.");
 			$(".m_email_02").focus();
 			return ;
 		}
@@ -259,6 +381,19 @@
 			$(".m_birth_01").focus();
 			return ;
 		}
+		if ($("#use_yn").prop("checked")) {
+		    // 체크박스가 체크된 경우, 원하는 동작을 수행하거나 넘어갈 수 있습니다.
+		} else {
+		    alert("개인정보 사용에 동의해주세요.");
+		    return;
+		}
+		if (pwd_tf == "true" && pwd_chk_check =="true"){
+		} else {
+			alert("비밀번호를 확인해주세요.")
+			$(".m_pwd").focus();
+			return ;
+		}
+		
 		
 		fn_signup();
 	});
@@ -275,9 +410,12 @@
         
         // '중복확인' 클릭시 작동
         $(".btn_check").on('click', function(){
-        	
-        	fn_check();
-        	
+        	 var username = $("#m_szId").val();
+        	 if (validateUsername(username)) {
+        		 fn_check();
+        	    } else {
+        	        alert("유효하지 않은 아이디입니다.");
+        	    }    	
         });
 
         //아이디 수정시 무조건 체크했는지 플래그를 false로 변경
@@ -290,7 +428,12 @@
         // 팝업에서 다시 중복체크 클릭 시
         $(".re_check").on('click', function(){
         	$("#m_szId").val($("#m_szId2").val());
-        	fn_check();
+        	var username = $("#m_szId").val();
+       	 if (validateUsername(username)) {
+    		 fn_check();
+    	    } else {
+    	        alert("유효하지 않은 아이디입니다.");
+    	    }
         });
         
         // 팝업에서 취소버튼 클릭시
@@ -414,6 +557,7 @@
                                     <td colspan="3">
                                     	<input type="password" class="m_pwd inTxt rs-w100" id="m_szPwd" placeholder="8~14자리" maxlength="14" style="width:180px;ime-mode:disabled;" title="비밀번호">
                                         <span class="cau05 pw_info pwd_message">8~14자리 (영문 대소문자, 숫자, 특수문자 조합)</span>
+                                        <input type="hidden" id="pwd_tf" value="false">
                                     </td>
                                 </tr>
                                 <tr class="repswd">
@@ -427,6 +571,7 @@
                                     <td colspan="3" class="line2">
                                         <input type="password" class="m_pwd_chk inTxt rs-w100" id="m_szPwdChk" placeholder="비밀번호 재입력" maxlength="14" style="width:180px;ime-mode:disabled;" title="비밀번호 확인">
                                         <span class="cau05 pw_info pwd_message_chk"></span>
+                                        <input type="hidden" id="pwd_chk_check" value="false">
                                     </td>
                                 </tr>
                                 <tr class="name">
@@ -492,18 +637,18 @@
                                     <td>
                                         <span class="selectboxWrap" style="width:32%">
                                             <select class="m_birth_01 select selectBg" id="birthyy" title="년도 선택">
-                                                <option value="">년도</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option>
+                                                <option value="">년도</option>
                                             </select>
                                         </span>
                                         <span class="selectboxWrap" style="width:32%">
                                             <select class="m_birth_02 select selectBg" id="birthmm" title="월 선택">
-                                                <option value="">월</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                                <option value="">월</option>
                                             </select>
                                         </span>
                                         <label  class="disn">월</label>
                                         <span class="selectboxWrap" style="width:32%">
                                             <select class="m_birth_03 select selectBg" id="birthdd" title="일 선택">
-                                                <option value="">일</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                                                <option value="">일</option>
                                             </select>
                                         </span>
                                         <label  class="disn">일</label>
@@ -512,6 +657,7 @@
                             </tbody>
                         </table>
                     </div>
+					<p class="identify"><span class="essR">::before "필수"</span> 개인정보 사용에 동의합니다. <input type="checkbox" id="use_yn"></p>
                     <div class="right btn_area">
                         <button class="tb_top right btn_blue btn_signup">가입</button>
                     </div>
