@@ -34,6 +34,7 @@
 
 	
 	function init(){
+	
 		fn_listType();
 	}
 	

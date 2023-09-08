@@ -39,8 +39,9 @@ body {overflow-x: hidden; overflow-y: auto;}
 .top .top_right a.notice {font-size: 19px; font-weight: bold; padding: 0 24px; letter-spacing: 0; vertical-align: 1px;}
 .top .top_right a.loglout:after {content: ''; display: inline-block; background: url(../img/icons.png) 0 0 no-repeat; width: 18px; height: 15px; margin-left: 6px; vertical-align: -2px;}
 .top .top_right a.loglout:hover {text-decoration: underline;}
-.top .top_right a {font-size: 16px; color: #fff; vertical-align: middle;}
-.top_right a.loglout {font-size: 14px; font-weight: 200; color: #d1d1d1;}
+.top .top_right a, .top .top_right span {font-size: 16px; color: #fff; vertical-align: middle;}
+.top .top_right .nm_header {color:#686868;}
+.top_right a.loglout {font-size: 14px; font-weight: 200; color: #d1d1d1; cursor:pointer;}
 
 
 

@@ -91,7 +91,7 @@ public class LoginServiceImpl implements LoginService {
 				// 아이디와 비밀번호가 있다면
 				flag = "T";
 				msg = "환영합니다.";
-				
+				hm.put("flag", flag);
 			} else {
 				msg = "패스워드가 존재하지 않습니다.";
 			}

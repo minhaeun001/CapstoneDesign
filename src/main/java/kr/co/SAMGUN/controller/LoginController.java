@@ -117,7 +117,7 @@ public class LoginController {
 		
 		// 결과값
 		List<Map<String, Object>> checkLoginResult = loginService.checkLoginLogic(hm);
-		if ("T".equals( hm.get("IdCheckFlag")) ) {
+		if ("T".equals( hm.get("flag")) ) {
 			
 			
 			HttpSession session = request.getSession();

@@ -49,7 +49,7 @@
 		
 		var params = {
 				m_id:m_id,
-				m_pwd,m_pwd
+				m_pwd:m_pwd
 		};
 		
 		$.ajax({
@@ -59,9 +59,13 @@
 			dataType:"json",
 			success: function(response){
 				var msg = response.result.checkLoginResult[0].msg;
+				var flag = response.result.checkLoginResult[0].flag;
+				
 				alert(msg);
 				
-				location.href="../main/intro.do";
+				if (flag == "T") {
+					location.href="../main/intro.do";
+				} 
 			},
 			error: function(xhr, status, error){
 				
@@ -103,7 +107,7 @@
 		if (event.keyCode == 13){
 			$(".btn_login").click();	
 		}
-	})
+	});
 	
 	$(document).on("click", ".remember_check", function(){
 		var checkbox = $(this).val();
