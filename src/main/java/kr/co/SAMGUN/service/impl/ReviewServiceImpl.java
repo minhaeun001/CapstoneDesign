@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,18 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 
+	@Override
+	public Map<String, Object> boardPrev(Map<String, Object> hm) {
+		
+		Map<String, Object> prevMap = reviewDAO.boardPrev(hm);
+			return  reviewDAO.boardPrev(hm);	 
+	}
+	
+	@Override
+	public Map<String, Object> boardNext(Map<String, Object> hm) {
+		return reviewDAO.boardNext(hm);
+	}
+	
 	@Override
 	public Map<String, Object> boardDetail(Map<String, Object> hm) {
 		return reviewDAO.boardDetail(hm);
@@ -111,7 +124,15 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	@Override
 	public int LikeCntReview(Map<String, Object> hm) {
-		return reviewDAO.LikeCntReview(hm);
+		int i =0;
+		
+		if (reviewDAO.boardLikeCheck(hm) == 0) {
+			i = reviewDAO.boardLikeInsert(hm);
+			i = reviewDAO.LikeCntReview(hm);
+		}
+		
+		i = reviewDAO.boardLikeSelect(hm);
+		return i;
 	}
 	
 	@Override

@@ -153,7 +153,7 @@
 				tmpStr += "<i class='arrow'><img src='../../img/icon_arrow.svg' alt='자세히 보기'></i></p>";
 				tmpStr += "<h5>" + params.result[i].TITLE + "</h5>"
 				tmpStr += "<p class='cont'>"+params.result[i].CONTENTS+"</p></a>"
-				tmpStr += "<p class='goodArea'>좋아요 <button class='good hideTxt'>좋아요</button> <strong>"+params.result[i].LIKE_CNT+"</strong></p></div>"
+				tmpStr += "<p class='goodArea'>좋아요 <button class='good hideTxt'>좋아요</button> <strong>"+params.result[i].LIKE_CNT2+"</strong></p></div>"
 				tmpStr += "</li>"
 				
 			}

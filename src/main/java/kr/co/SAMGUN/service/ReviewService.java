@@ -16,6 +16,10 @@ public interface ReviewService {
 	Map<String, Object> boardDetail(Map<String, Object> hm);
 
 	Map<String, Object> boardModifyDetail(Map<String, Object> hm);
+	
+	Map<String, Object> boardPrev(Map<String, Object> hm);
+	
+	Map<String, Object> boardNext(Map<String, Object> hm);
 
 	int boardModifySave(Map<String, Object> hm);
 

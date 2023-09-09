@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,6 +112,36 @@ public class ReviewController {
 		return "jsonView";
 	}
 	
+	@RequestMapping("/review_prev.ajax")
+	public String review_prev(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+			
+		String seqno = request.getParameter("seqno");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		
+		Map<String, Object> result = reviewService.boardPrev(hm);
+		
+		model.addAttribute("result", result);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/review_next.ajax")
+	public String review_next(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+			
+		String seqno = request.getParameter("seqno");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		
+		Map<String, Object> result = reviewService.boardNext(hm);
+		
+		model.addAttribute("result", result);
+		
+		return "jsonView";
+	}
+	
 	@RequestMapping("/review_delete.ajax")
 	public String review_delete_ajax(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
@@ -146,18 +177,27 @@ public class ReviewController {
 	
 	@RequestMapping("/review_likecnt.ajax")
 	public String review_likecnt(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
-			
+		HttpSession session = request.getSession();
 		String seqno = request.getParameter("seqno");
+		
+		if (session.getAttribute("m_id") == null) {
+			model.addAttribute("result", null);
+			model.addAttribute("msg", "로그인을 해주세요.");
+			model.addAttribute("flag", "F");
+			return "jsonView";
+		}
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
-		
+		hm.put("m_id", session.getAttribute("m_id"));
+
 		Map<String, Object> result =  new HashMap<String, Object>();
 		int updateCnt = reviewService.LikeCntReview(hm);
 		
 		result.put("updateCnt", updateCnt);
 		
 		model.addAttribute("result", result);
+		model.addAttribute("flag", "T");
 		
 		return "jsonView";
 	}

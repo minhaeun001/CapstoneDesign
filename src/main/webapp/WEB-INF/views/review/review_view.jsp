@@ -16,14 +16,16 @@
     <script src="../../js/script.js"></script>
 	<script>
 
-	/******************************************************************************************** 
-	 1. 전역변수 선언                               						                              														  
-	*********************************************************************************************/ 
+	//******************************************************************************************** 
+	// 1. 전역변수 선언                                      						                              														  
+	//*********************************************************************************************/ 
 	var seqno = "<%=seqno%>";
+	var  tmpSeqnno = seqno;
 	
-	/******************************************************************************************** 
-	 2. 최초 실행 함수                               						                              														  
-	*********************************************************************************************/ 
+	
+	//******************************************************************************************** 
+	// 2. 최초 실행 함수                               						                              														  
+	//*********************************************************************************************/ 
 	$(document).ready(function() {
 		
 		init();
@@ -35,20 +37,20 @@
 	function init(){
 		
 		fn_UpdateViewCnt();
-		fn_SearchDetail();
+		fn_SearchDetail(seqno);
 		
 	}
 	
-	/******************************************************************************************** 
-	 3. ajax 함수                                 						                              														  
-	*********************************************************************************************/ 
+	//******************************************************************************************** 
+	// 3. ajax 함수                                 						                              														  
+	//*********************************************************************************************/ 
 	
 	// 게시글 상세 페이지 호출
-	function fn_SearchDetail() {
+	function fn_SearchDetail(tmpSeqnno) {
 		
 		var sUrl = "${pageContext.request.contextPath}/review/review_view.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -58,8 +60,12 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
-				
-				fn_Bind(response);
+				if(response.result == null ) {
+	        		alert("게시글이 없습니다.");
+	        	} else {
+	        		tmpSeqnno  = response.result.SEQ_NO;
+	        		fn_Bind(response);	
+	        	}
 				
 			},	
 			error : function(xhr, status, error) {
@@ -70,12 +76,12 @@
 		});
 	}
 	
-	function fn_Delete() {
+	function fn_Delete(tmpSeqnno) {
 		
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/review/review_delete.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -97,11 +103,11 @@
 	}
 		
 	//조회수 업데이트
-	function fn_UpdateViewCnt() {
+	function fn_UpdateViewCnt(tmpSeqnno) {
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/review/review_viewcnt.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -122,11 +128,11 @@
 	}
 	
 	//좋아요 업데이트
-	function fn_LikeCnt() {
+	function fn_LikeCnt(tmpSeqnno) {
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/review/review_likecnt.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -136,8 +142,16 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
+				
+				if(response.flag != "T"){
+					alert(response.msg);
+					
+					return ;
+				}
+				
+				$(".review_likeNum").text(response.result.updateCnt);
 				alert('좋아요를 눌렀습니다.');
-				fn_SearchDetail();
+				
 			},	
 			error : function(xhr, status, error) {
 				alert("error");
@@ -146,16 +160,72 @@
 		    }
 		});
 	}
-	/******************************************************************************************** 
-	 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
-	*********************************************************************************************/ 
+	                         
+	
+	function fn_Prev() {
+	    var sUrl = "${pageContext.request.contextPath}/review/review_prev.ajax";
+		
+	    var params = {
+	        seqno: tmpSeqnno
+	    };	    
+	    
+	    $.ajax({
+	        url: sUrl,
+	        data: params,
+	        method: 'post',
+	        dataType: 'json',
+	        success: function (response) {
+	        	if(response.result == null ) {
+	        		alert("다음 게시글이 없습니다.");
+	        	} else {
+	        		tmpSeqnno  = response.result.SEQ_NO;
+	        		fn_Bind(response);	
+	        	}
+	        },
+	        error: function (xhr, status, error) {
+	            alert("error");
+	        },
+	        complete: function () {}
+	    });
+	}
+
+	// 다음글로 넘기기
+	function fn_Next() {
+	    var sUrl = "${pageContext.request.contextPath}/review/review_next.ajax";
+		
+	    var params = {
+	        seqno: tmpSeqnno 
+	    };	    
+	    
+	    $.ajax({
+	        url: sUrl,
+	        data: params,
+	        method: 'post',
+	        dataType: 'json',
+	        success: function (response) {
+	        	if(response.result == null  ){
+	        		alert("이전 게시글이 없습니다.");
+	        	} else {
+	        		tmpSeqnno  = response.result.SEQ_NO;
+	        		fn_Bind(response);	
+	        	}
+	        },
+	        error: function (xhr, status, error) {
+	            alert("error");
+	        },
+	        complete: function () {}
+	    });
+	}
+	//******************************************************************************************** 
+	// 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
+	//*********************************************************************************************/ 
 	function fn_Bind(response) {
 		
 		var title = response.result.TITLE;
 		var regntnm = response.result.REGNT_NM;
 		var regntdtm = response.result.REGNT_DTM;
 		var contents = response.result.CONTENTS;
-		var like = response.result.LIKE_CNT;
+		var like = response.result.LIKE_CNT2;
 		var view_cnt = response.result.VIEW_CNT;
 		
 		$(".review_title").text(title);
@@ -167,26 +237,46 @@
 		
 	}
 	
-	function fn_mod(){
+	function fn_mod(tmpSeqnno){
 		
 		var url = "./review_modify.do";
-		var params = "seqno="+seqno;
+		var params = "seqno="+tmpSeqnno;
 	
 		location.href = url + "?" + params
 		
 	}
+
+	
+	//******************************************************************************************** 
+	// 5. 기타 함수                            						                              														  
+	//*********************************************************************************************/ 
+	
+	
+	//******************************************************************************************** 
+	//6. 이벤트 함수                            						                              														  
+	//*********************************************************************************************/ 
+	
+	// "이전" 버튼 클릭 시 이벤트 처리
+	$(document).on("click", ".nv_next", function() {
+		fn_Prev();
+	});
+
+	// "다음" 버튼 클릭 시 이벤트 처리
+	$(document).on("click", ".nv_prev", function() {
+		fn_Next();
+	});
 	
 	$(document).on("click", ".btn_modify", function(){
-		fn_mod();
+		fn_mod(tmpSeqnno);
 	});
-	/******************************************************************************************** 
-	 5. 기타 함수                            						                              														  
-	*********************************************************************************************/ 
 	
+	$(document).on("click", ".btn_delete", function(){
+		fn_Delete(tmpSeqnno);
+	});
 	
-	/******************************************************************************************** 
-	 6. 이벤트 함수                            						                              														  
-	*********************************************************************************************/ 
+	$(document).on("click", ".btn_like", function(){
+		fn_LikeCnt(tmpSeqnno);
+	});
 	</script>
 </head>
 
@@ -208,7 +298,7 @@
                             <p class="txt_area review_contents">
                             </p>
                             <p class="tac">
-                                <button class="btn_like" OnClick="fn_LikeCnt();">
+                                <button class="btn_like">
                                     <img class="btn_likeIcon" src="../../img/btn_like.png" alt="like">
                                     <span class="btn_likeNum review_likeNum"></span>
                                 </button>
@@ -217,13 +307,13 @@
                         <div class="col02">첨부파일이 없습니다</div>
                     </div>
                     <div class="navigation clear">
-                        <a href="javascript:///" class="fl nv_prev">이전</a>
+                        <a class="fl nv_prev">이전</a>
                         <a href="../review/review.do">LIST</a>
-                        <a href="javascript:///" class="fr nv_next">다음</a>
+                        <a class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
-                        <button class="btn_gray btn_delete" OnClick="fn_Delete();">삭제하기</button>
-                        <button class="btn_green btn_modify" onclick = "fn_mod();">수정하기</button>
+                        <button class="btn_gray btn_delete" >삭제하기</button>
+                        <button class="btn_green btn_modify">수정하기</button>
                     </div> 
                 </div>
             </div>
