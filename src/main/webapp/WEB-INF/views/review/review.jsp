@@ -34,6 +34,11 @@
 
 	
 	function init(){
+		
+		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+			$("#btn_write").hide();
+		}
+		
 	
 		fn_listType();
 	}
@@ -237,6 +242,9 @@
 		fn_listType();
 	});
 
+	$(document).on("click", "#btn_write", function(){
+		location.href = "review_write.do";
+	})
 	
 	//검색버튼 클릭했을때
 	$(document).on("click", ".btn_search", function(){
@@ -270,7 +278,7 @@
                             <!--<span>Total <em>110</em></span>-->
                         </div>
                         <div class="right btn_area">
-                            <button class="btn_blue" onclick = "location.href = 'review_write.do' ">작성하기</button>
+                            <button class="btn_blue" id="btn_write">작성하기</button>
                         </div>
                     </div>
                     <div class="card">

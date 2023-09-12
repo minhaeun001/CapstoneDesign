@@ -182,7 +182,7 @@ public class ReviewController {
 		
 		if (session.getAttribute("m_id") == null) {
 			model.addAttribute("result", null);
-			model.addAttribute("msg", "로그인을 해주세요.");
+			model.addAttribute("msg", "로그인 후 이용해주세요.");
 			model.addAttribute("flag", "F");
 			return "jsonView";
 		}
@@ -205,26 +205,36 @@ public class ReviewController {
 	@RequestMapping("/review_save.ajax")
 	public String review_save(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 		
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		String m_nm = (String) session.getAttribute("m_nm");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if( null == m_id || "".equals(m_id)) {
+			String msg = "로그인 후 이용해주세요.";
+			
+			result.put("msg", msg);
+			model.addAttribute("result", result);
+			return "jsonView";
+		}
+		
 		
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
-		String regntid = request.getParameter("regntid");
 		String attachfile = request.getParameter("attachfile");
-		String regntnm = request.getParameter("regntnm");
-		String modid = request.getParameter("modid");
 		String boardtype = request.getParameter("boardtype");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("title", title);
 		hm.put("contents", contents);
-		hm.put("regntid", regntid);
+		hm.put("regntid", m_id);
 		hm.put("attachfile", attachfile);
-		hm.put("regntnm", regntnm);
-		hm.put("modid", modid);
+		hm.put("regntnm", m_nm);
+		hm.put("modid", m_id);
 		hm.put("boardtype", boardtype);
 		
 		int saveCnt = reviewService.ReviewSave(hm); //결과적으로 리턴받는 타입 int
-		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result.put("saveCnt",saveCnt);
 		model.addAttribute("result",result);
@@ -233,8 +243,9 @@ public class ReviewController {
 	
 	@RequestMapping("/review_modify.ajax")
 	public String review_modifybtn(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
 		
-		String modid = "수정id";
 		String seqno = request.getParameter("seqno");
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
@@ -245,7 +256,7 @@ public class ReviewController {
 //		String boardtype = request.getParameter("boardtype");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
-		hm.put("modid", modid);
+		hm.put("modid", m_id);
 		hm.put("seqno",seqno);
 		hm.put("title", title);
 		hm.put("contents", contents);

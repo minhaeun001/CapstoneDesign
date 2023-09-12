@@ -55,6 +55,22 @@ public class LoginController {
 		return "login/signup";
 	}
 	
+	@RequestMapping("/find_id.do")
+	public String find_id(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "login/find_id");
+		return "login/find_id";
+	}
+	
+	@RequestMapping("/find_pwd.do")
+	public String find_pwd(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "login/find_pwd");
+		return "login/find_pwd";
+	}
+	
 	@RequestMapping("/member_signup.ajax")
 	public String member_signup(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
 		

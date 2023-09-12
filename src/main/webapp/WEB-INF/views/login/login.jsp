@@ -119,6 +119,14 @@
 	        return !checked; // 체크 상태를 반전시킵니다.
 	    });
 	});
+	
+	$(document).on("click", ".btn_find_id", function(){
+		location.href="../login/find_id.do";
+	});
+	
+	$(document).on("click", ".btn_find_pwd", function(){
+		location.href="../login/find_pwd.do";
+	});
 </script>
 </head>
 

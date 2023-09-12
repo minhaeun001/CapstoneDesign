@@ -35,6 +35,10 @@
 	
 	
 	function init(){
+		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+			$("#btn_modify").hide();
+			$("#btn_delete").hide();
+		}
 		
 		fn_UpdateViewCnt();
 		fn_SearchDetail(seqno);
@@ -266,11 +270,11 @@
 		fn_Next();
 	});
 	
-	$(document).on("click", ".btn_modify", function(){
+	$(document).on("click", "#btn_modify", function(){
 		fn_mod(tmpSeqnno);
 	});
 	
-	$(document).on("click", ".btn_delete", function(){
+	$(document).on("click", "#btn_delete", function(){
 		fn_Delete(tmpSeqnno);
 	});
 	
@@ -312,8 +316,8 @@
                         <a class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
-                        <button class="btn_gray btn_delete" >삭제하기</button>
-                        <button class="btn_green btn_modify">수정하기</button>
+                        <button class="btn_gray btn_delete" id="btn_delete" >삭제하기</button>
+                        <button class="btn_green btn_modify" id="btn_modify">수정하기</button>
                     </div> 
                 </div>
             </div>

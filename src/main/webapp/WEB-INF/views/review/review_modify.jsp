@@ -189,9 +189,12 @@
                             <th colspan="2" style="height: 20px;"></th>
                         </tr>
                     </table>
-                    <div class="btn_area mt70">
-                        <button class="btn_blue btn_modify">수정하기</button>
-                    </div>
+ 				<div class="navigation clear">
+							<a href="../review/review.do">LIST</a>
+						</div>
+						<div class="btn_area mt70">
+                        	<button class=btn_modify>등록하기</button>
+                        </div>
                 </div>
             </div>
         </div>
