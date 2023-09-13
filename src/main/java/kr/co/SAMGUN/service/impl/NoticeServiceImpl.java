@@ -44,6 +44,18 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
+	public Map<String, Object> boardPrev(Map<String, Object> hm) {
+		
+		Map<String, Object> prevMap = noticeDAO.boardPrev(hm);
+			return  noticeDAO.boardPrev(hm);	 
+	}
+	
+	@Override
+	public Map<String, Object> boardNext(Map<String, Object> hm) {
+		return noticeDAO.boardNext(hm);
+	}
+	
+	@Override
 	public Map<String, Object> boardModifyDetail(Map<String, Object> hm) {
 		return noticeDAO.boardModifyDetail(hm);
 	}
@@ -135,10 +147,15 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Override
 	public int LikeCntNotice(Map<String, Object> hm) {
+int i =0;
 		
-		// 비즈니스 로직
+		if (noticeDAO.boardLikeCheck(hm) == 0) {
+			i = noticeDAO.boardLikeInsert(hm);
+			i = noticeDAO.LikeCntNotice(hm);
+		}
 		
-		return noticeDAO.LikeCntNotice(hm);
+		i = noticeDAO.boardLikeSelect(hm);
+		return i;
 	}
 	
 	@Override

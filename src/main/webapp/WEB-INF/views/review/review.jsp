@@ -243,7 +243,7 @@
 	});
 
 	$(document).on("click", "#btn_write", function(){
-		location.href = "review_write.do";
+		location.href = "../review/review_write.do";
 	})
 	
 	//검색버튼 클릭했을때

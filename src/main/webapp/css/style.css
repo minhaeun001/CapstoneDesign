@@ -37,11 +37,11 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 .top .top_right {position: absolute; top: 0px; right: 60px; }
 .top .top_right a.notice {font-size: 19px; font-weight: bold; padding: 0 24px; letter-spacing: 0; vertical-align: 1px;}
-.top .top_right a.loglout:after {content: ''; display: inline-block; background: url(../img/icons.png) 0 0 no-repeat; width: 18px; height: 15px; margin-left: 6px; vertical-align: -2px;}
-.top .top_right a.loglout:hover {text-decoration: underline;}
+.top .top_right a.logout:after {content: ''; display: inline-block; background: url(../img/icons.png) 0 0 no-repeat; width: 18px; height: 15px; margin-left: 6px; vertical-align: -2px;}
+.top .top_right a.logout:hover {text-decoration: underline;}
 .top .top_right a, .top .top_right span {font-size: 16px; color: #fff; vertical-align: middle;}
 .top .top_right .nm_header {color:#686868;}
-.top_right a.loglout {font-size: 14px; font-weight: 200; color: #d1d1d1; cursor:pointer;}
+.top_right a.logout {font-size: 14px; font-weight: 200; color: #d1d1d1; cursor:pointer;}
 
 
 
@@ -309,7 +309,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 /*-------------------------------------
 
-    Exhibition 전시관
+
 
 -------------------------------------*/
 .exhibition_main .inner {position: relative; top: 100px; left: 0; width: 1500px; margin: auto; padding-top: 0px;}
@@ -360,9 +360,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 
 /*-------------------------------------
-
-    conTech Insight 뉴스기사
-
+program
 -------------------------------------*/
 /* 구독 해제 버튼  */
 .subscript {margin-top: 30px; padding-bottom: 36px;text-align: center; border-bottom: 1px solid #e2e2e2; text-align: center;}
@@ -461,9 +459,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 
 /*---------------------------------------------------------------------
-
-    Exhibition.html
-
+mypage.html
 ----------------------------------------------------------------------*/
 .r_d {padding-top: 30px;}
 .r_d .exTab_menu ul {margin-bottom: 42px;}
@@ -486,7 +482,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 /*---------------------------------------------------------------------
 
-    Exhibition.html
+    mypage.html
 
 ----------------------------------------------------------------------*/
 .exhibition {padding-top: 30px;}
@@ -609,6 +605,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 .comment_list .cm_list li .btnRight {position: absolute; top: 9px; right: 10px;}
 .comment_list .cm_list li .btnRight button {font-size: 12px; color: #888; font-weight: 400;}
 .comment_list .cm_list li .btnRight button:hover {text-decoration: underline;}
+.reply_write {display: none;}
 
 .exTab_sub .group .right {padding: 20px 20px 20px 20px;} 
 .exTab_sub .group .right .pdf_img img {width: 100%;}
@@ -751,7 +748,6 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 /*---------------------------------------------------------------------
 
-    sub04_guest.html
 
 ----------------------------------------------------------------------*/
 /* cardList */
@@ -795,42 +791,9 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 
 
-/* ConTech Exhibition 왼쪽 하트 감추기 */
+/*  */
 @media all and (max-width:1600px) { .heart {display: none;} }/*.arrowWarp .go_next,.arrowWarp .go_prev {display: none;}*/
-    
-
-
-
-
-
-/*---------------------------------------------------------------------
-
-    sub04_guest.html
-
-----------------------------------------------------------------------*/
-/* cardList */
-
-/*
-.hideTxt { overflow: hidden; color: transparent !important; text-indent: 100%; white-space: nowrap; }
-
-.cardList {position:relative; clear: both;}
-.cardList .cardBox{font-size:0; margin: -30px 0 0 -30px;}
-.cardList .cardBox .item {display:inline-block; width:25%; margin-top: 30px; padding-left: 30px;}
-.cardList .cardBox .item a{ display:block; border:1px solid #d8d8d8;border-radius:10px;background:#fff; position:relative;overflow:hidden; }
-.cardList .cardBox .item .cardArea { padding: 36px 16px 20px 18px; border-radius: 20px; border: solid 0.8px #bfbfbf;}
-.cardList .cardBox .item .cardArea:hover {box-shadow: 4px 5px 16px #e8e8e8}
-.cardList .cardBox .item .cardArea h5 {overflow: hidden; margin: 0; height:56px; margin-bottom:24px; font-size: 20px; font-weight: 500; line-height: 1.56;  word-break:break-all;}
-.cardList .cardBox .item .cardArea a { background: transparent; border:0 none; border-radius: 0;}
-.cardList .cardBox .item .cardArea .cont {cursor: pointer; height: 120px; margin: 20px 0 15px 0; padding:15px 0 0 0; border-top:1px solid #000; font-size: 15px; font-weight: 500; line-height: 1.69; letter-spacing: -0.39px; color: #000; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; word-break:break-all;}
-.cardList .cardBox .item .cardArea .author { float:left; font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: -0.45px; color: #747474;}
-.cardList .cardBox .item .cardArea a.arrow { float: right; }
-.cardList .cardBox .item .cardArea .goodArea { height: 60px; margin-top: 25px; padding: 16px 0 14px; text-align: center; border-radius: 10px; background-color:#e6e6e6;font-size: 12px; font-weight: bold; line-height: 1.2; letter-spacing: -0.36px; color: #878787; box-sizing: border-box}
-.cardList .cardBox .item .cardArea .goodArea .good { display: inline-block; width:30px; height: 30px; margin:0 10px 0 4px; background: url(../img/btn_like.png) 95% 0 no-repeat; vertical-align: middle;}
-.cardList .cardBox .item .cardArea .goodArea strong { display: inline-block; margin-top: -5px; font-size: 16px; color: #101010; vertical-align: middle; }
-*/
-
-
-
+   
 
 
 /*로그인 화면 스타일*/
@@ -884,7 +847,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 .tbtns {display: inline-block; font-size: 14px; text-align: center; padding: 0 8px; height: 32px; line-height: 29px; color: #515e71; background: #e3e7ed; border: 1px solid #bcc1ca; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
 
 
-.cau05 {position: relative; color: #e6000c; margin: 10px 0 15px 0; padding-left: 22px; color: #555;}
+.cau05 {position: relative; color: #e6000c; padding-left: 22px; color: #555;}
 .cau05:before {display: block; position: absolute; top: 3px; left: 0; content: ''; width: 17px; height: 21px; background-size: 16px 16px;}
 
 

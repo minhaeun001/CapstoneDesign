@@ -42,7 +42,41 @@
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/
-	
+		function fn_login(){
+		var sUrl = "${pageContext.request.contextPath}/login/findMemberId.ajax"
+		
+		var m_id = $(".m_id").val();
+		var m_hp = $(".m_hp").val();
+		
+		var params = {
+				m_id:m_id,
+				m_hp:m_hp
+		};
+		
+		$.ajax({
+			url:sUrl,
+			data:params,
+			method:"post",
+			dataType:"json",
+			success: function(response){
+				var msg = response.result.checkLoginResult[0].msg;
+				var flag = response.result.checkLoginResult[0].flag;
+				
+				alert(msg);
+				
+				if (flag == "T") {
+					alert(msg);
+					location.href="../main/intro.do";
+				} 
+			},
+			error: function(xhr, status, error){
+				alert("아이디 찾기 실패");
+			},
+			complete: function(){
+				
+			}
+		});
+	}
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -55,7 +89,25 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/ 
-
+	$(document).on("click", ".btn_find_id", function(){
+		if ($(".m_id").val() === "") {
+			alert("아이디를 입력해주세요.");
+			$(".m_id").focus();
+			return ;
+		}
+		if ($(".m_hp").val() === "") {
+			alert("휴대폰 번호를 입력해주세요.");
+			$(".m_hp").focus();
+			return ;
+		}
+		fn_find_id();
+	});
+	
+	$(document).on("keypress",".m_id, .m_hp", function(){
+		if (event.keyCode == 13){
+			$(".btn_find_id").click();	
+		}
+	});
 </script>
     
 </head>
@@ -119,7 +171,7 @@
                         </table>
                     </div>
                     <div class="right btn_area">
-                        <button class="tb_top right btn_blue btn_signup">아이디 찾기</button>
+                        <button class="tb_top right btn_blue btn_find_id">아이디 찾기</button>
                     </div>
                 </div>            
             </div>

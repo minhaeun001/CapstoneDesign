@@ -10,7 +10,8 @@
 		SELECT
 		ROW_NUMBER() OVER(ORDER BY B.REGNT_DTM DESC) RNUM,
 		(SELECT CATEGORY_NM FROM CATEGORY WHERE CATEGORY_ID=B.CATEGORY) CATEGORY_NM,
-		B.*
+		B.*,
+		(SELECT COUNT(*)FROM BOARD_LIKE WHERE 1=1 AND LIKE_SEQ_NO = B.SEQ_NO) LIKE_CNT2
 		FROM BOARD B
 		WHERE 1=1
 		<if test = 'searchSelector != null'>
@@ -122,29 +123,36 @@
 <!--  상세보기 정보 -->
 <select id="boardDetail" parameterType="Map" resultType="java.util.HashMap">
 	
-	SELECT
-    seq_no,
-    title,
-    category,
-	(SELECT CATEGORY_NM FROM CATEGORY WHERE CATEGORY_ID=B.CATEGORY) CATEGORY_NM,
-    regnt_id,
-    regnt_dtm,
-    regnt_nm,
-    contents,
-    like_cnt,
-    attach_file,
-    grp_seqno,
-    prt_seqno,
-    step,
-    view_cnt,
-    mod_id,
-    mod_dtm,
-    board_type
-FROM
-    board B
-WHERE
-	seq_no = #{seqno}
+	SELECT 
+    A.* ,
+    (SELECT COUNT(*)FROM BOARD_LIKE WHERE 1=1 AND LIKE_SEQ_NO = #{seqno}) LIKE_CNT2
+    FROM BOARD A
+	WHERE seq_no = #{seqno}
 	
+</select>
+
+<!-- 이전 게시글 -->
+<select id="boardPrev" parameterType="Map" resultType="Map">
+  <![CDATA[
+  SELECT * FROM BOARD WHERE seq_no = (
+		 SELECT MAX(SEQ_NO)
+		 FROM BOARD
+		 WHERE SEQ_NO < #{seqno}
+		AND BOARD_TYPE = '20'
+	)	
+  ]]>
+</select>
+
+<!-- 다음 게시글 -->
+<select id="boardNext" parameterType="Map" resultType="java.util.HashMap">
+  <![CDATA[
+  SELECT * FROM BOARD WHERE seq_no = (
+		 SELECT MIN(SEQ_NO)
+		 FROM BOARD
+		 WHERE SEQ_NO > #{seqno}
+		AND BOARD_TYPE = '20'
+	)	
+  ]]>
 </select>
 
 <!--  댓글 달기 할때 특성  GSeqOrder 크기에 + 1을 한다.-->
@@ -176,6 +184,47 @@ WHERE
 	SET VIEW_CNT = VIEW_CNT + 1
 	WHERE seq_no = #{seqno}
 </update>
+
+<select id="boardLikeSelect" parameterType="Map" resultType="int">
+	SELECT 
+	COUNT(*) LIKE_CNT
+	FROM BOARD_LIKE 
+	WHERE 1=1
+	AND LIKE_SEQ_NO = #{seqno}
+</select>
+
+<select id="boardLikeCheck" parameterType="Map" resultType="int">
+	SELECT COUNT(*) LIKE_CNT
+	FROM BOARD_LIKE
+	WHERE 1=1
+	AND LIKE_SEQ_NO = #{seqno}
+	AND M_ID = #{m_id}
+</select>
+
+<insert id="boardLikeInsert" parameterType="Map">
+	insert into BOARD_LIKE
+	(
+	SEQ_NO,
+	M_ID,
+	BOARD_TYPE,
+	LIKE_SEQ_NO,
+	REGNT_ID,
+	REGNT_DTM,
+	MOD_ID,
+	MOD_DTM
+	)
+	values
+	(
+	(SELECT MAX(SEQ_NO)+1 FROM BOARD_LIKE),
+	#{m_id},
+	'20',
+	#{seqno},
+	#{m_id},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{m_id},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL)
+	)
+</insert>
 
 <update  id="LikeCntNotice" parameterType="Map">
 	

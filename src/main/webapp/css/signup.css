@@ -21,7 +21,7 @@
 .button_area > button{width:110px; height: 40px; border-radius: 20px;}
 .button_area > button:first-child{background-color: #ffffff; color:#39d9c8; border: 2px solid #39d9c8;}
 .button_area > button:last-child{background-color: #39d9c8; color:#ffffff;}
-.btn_signup{width:100px; height:20px; margin-top: 20px;}
+.btn_signup{width:100px; height:20px;}
 .pw_info{font-size: 12px; display: inline-block; margin-bottom: 10px;}
 
 
@@ -56,7 +56,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 .tbtns {display: inline-block; font-size: 14px; text-align: center; padding: 0 8px; height: 32px; line-height: 29px; color: #515e71; background: #e3e7ed; border: 1px solid #bcc1ca; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
 
 
-.cau05 {position: relative; color: #e6000c; margin: 10px 0 15px 0; padding-left: 22px; color: #555;}
+.cau05 {position: relative; color: #e6000c; padding-left: 10px; color: #555;}
 .cau05:before {display: block; position: absolute; top: 3px; left: 0; content: ''; width: 17px; height: 21px; background-size: 16px 16px;}
 
 
@@ -143,3 +143,16 @@ label.disn {position: absolute; left: -10000px; top: auto; height: 1px; overflow
 .btns > span{color: white;}
 
 #sign{color: white;}
+
+.fa-check-circle,
+.fa-times-circle {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.fa-check-circle.show,
+.fa-times-circle.show {
+    opacity: 1;
+    transform: translateY(0);
+}

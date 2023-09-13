@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/signup.css">
+    <script src="https://kit.fontawesome.com/cac80fd1df.js" crossorigin="anonymous"></script>
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <script src="../../js/jquery-1.7.2.min.js"></script>
@@ -184,34 +186,54 @@
         return true;
     }
 	
-	function pwd_check(){
+    function pwd_check(){
         var m_pwd = $(".m_pwd").val();
         $("#pwd_tf").val("false");//비밀번호 사용 불가능
         
-		if (m_pwd == ""){
-			$(".pwd_message").html("8~14자리 (영문 대소문자, 숫자, 특수문자 조합)").css("color", "#555");
-			return ;
-		} else if (m_pwd.length <=7) {
-			if (validatePassword(m_pwd)){
-				$(".pwd_message").html("비밀번호가 너무 짧습니다.").css("color", "red");	
-			} else {
-				$(".pwd_message").html("영문 대소문자, 숫자, 특수문자를 섞어주세요.").css("color", "red");
-			}
-			return ;
-		} else if (m_pwd.length >=7 && m_pwd.length<=13){
-			if (validatePassword(m_pwd)){
-				$(".pwd_message").html("가능한 비밀번호입니다.").css("color", "green");
-				$("#pwd_tf").val("true");//비밀번호 사용 가능
-			} else {
-				$(".pwd_message").html("영문 대소문자, 숫자, 특수문자를 섞어주세요.").css("color", "red");
-				$("#pwd_tf").val("false");//비밀번호 사용 불가능
-			}
-			return ;
-		} else if (m_pwd.length>=14){
-			$(".pwd_message").html("비밀번호가 너무 깁니다.").css("color", "red");
-			return ;
-		}
-	}
+        if (m_pwd == ""){
+            $(".pwd_message").html("8~14자리 (영문 대소문자, 숫자, 특수문자 조합)").css("color", "#555");
+            return ;
+        } else if (m_pwd.length <=7) {
+            if (validatePassword(m_pwd)){
+                $(".pwd_message").html("비밀번호가 너무 짧습니다.").css("color", "red");
+            } else {
+                $(".pwd_message").html("영문 대소문자, 숫자, 특수문자를 섞어주세요.").css("color", "red");
+            }
+            return ;
+        } else if (m_pwd.length >=7 && m_pwd.length<=13){
+            if (validatePassword(m_pwd)){
+                $(".pwd_message").html('<i class="fas fa-check-circle"></i>').css("color", "green");
+                $("#pwd_tf").val("true");//비밀번호 사용 가능
+                $(".fa-check-circle").addClass("show"); // 아이콘을 나타나게 함
+            } else {
+                $(".pwd_message").html("영문 대소문자, 숫자, 특수문자를 섞어주세요.").css("color", "red");
+                $("#pwd_tf").val("false");//비밀번호 사용 불가능
+                $(".fa-times-circle").addClass("show"); // 아이콘을 나타나게 함
+            }
+            return ;
+        } else if (m_pwd.length>=14){
+            $(".pwd_message").html("비밀번호가 너무 깁니다.").css("color", "red");
+            return ;
+        }
+    }
+
+    function pwd_compare(){
+        var m_pwd = $(".m_pwd").val();
+        var m_pwd_chk = $(".m_pwd_chk").val();
+        $("#pwd_chk_check").val("false");//비밀번호 사용 불가능
+
+        if (m_pwd_chk === ""){
+            $(".pwd_message_chk").html("");
+        } else if (m_pwd === m_pwd_chk) {
+            $(".pwd_message_chk").html('<i class="fas fa-check-circle"></i>').css("color", "green");
+            $("#pwd_chk_check").val("true");//비밀번호 사용 불가능
+            $(".fa-check-circle").addClass("show"); // 아이콘을 나타나게 함
+        } else {
+            $(".pwd_message_chk").html('<i class="fas fa-times-circle"></i>').css("color", "red");
+            $(".fa-times-circle").addClass("show"); // 아이콘을 나타나게 함
+        }
+    }
+
     
     function validatePassword(password) {
         // 비밀번호에 대문자, 소문자, 특수문자가 각각 하나 이상 포함되어야 합니다.
@@ -246,21 +268,7 @@
 
         return true;
     }
-    
-    function pwd_compare(){
-        var m_pwd = $(".m_pwd").val();
-        var m_pwd_chk = $(".m_pwd_chk").val();
-        $("#pwd_chk_check").val("false");//비밀번호 사용 불가능
-
-        if (m_pwd_chk === ""){
-        	$(".pwd_message_chk").html("").css("color", "black");
-        } else if (m_pwd === m_pwd_chk) {
-            $(".pwd_message_chk").html("비밀번호 일치").css("color", "green");
-            $("#pwd_chk_check").val("true");//비밀번호 사용 불가능
-        } else {
-            $(".pwd_message_chk").html("비밀번호 불일치").css("color", "red");
-        }
-    }
+   
     
     function validateEmail(email) {
         // 이메일 주소의 유효성을 검사하는 정규 표현식
@@ -269,6 +277,48 @@
         return emailRegex.test(email);
     }
     
+    function validateDate(year, month, day) {
+        // 연도, 월, 일을 정수로 변환
+        year = parseInt(year, 10);
+        month = parseInt(month, 10);
+        day = parseInt(day, 10);
+
+        // 연도 범위 확인 (예: 1923년부터 현재 년도까지)
+        var currentYear = new Date().getFullYear();
+        var startYear = 1923;
+        if (year < startYear || year > currentYear) {
+            return false; // 연도가 유효 범위를 벗어남
+        }
+
+        // 월 범위 확인 (1부터 12까지)
+        if (month < 1 || month > 12) {
+            return false; // 월이 유효 범위를 벗어남
+        }
+
+        // 일 범위 확인
+        var daysInMonth;
+        if (month === 2) {
+            // 2월은 윤년 여부에 따라 다르게 처리
+            if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+                daysInMonth = 29; // 윤년
+            } else {
+                daysInMonth = 28; // 평년
+            }
+        } else if ([4, 6, 9, 11].includes(month)) {
+            // 4, 6, 9, 11월은 30일까지
+            daysInMonth = 30;
+        } else {
+            // 나머지 월은 31일까지
+            daysInMonth = 31;
+        }
+
+        if (day < 1 || day > daysInMonth) {
+            return false; // 일이 유효 범위를 벗어남
+        }
+
+        return true; // 모든 유효성 검사를 통과함
+    }
+
     function make_birth(){
     	  var birthYearSelect = $("#birthyy");
      	  var monthSelect = $(".m_birth_02");
@@ -366,21 +416,35 @@
 			$(".m_email_02").focus();
 			return ;
 		}
-		if ($(".m_birth_01").val() === "") {
+		
+		var year = $(".m_birth_01").val();
+		var month = $(".m_birth_02").val();
+		var day = $(".m_birth_03").val();
+		
+		if (year === "") {
 			alert("생년을 입력해주세요.");
 			$(".m_birth_01").focus();
 			return ;
 		}
-		if ($(".m_birth_01").val() === "") {
+		if (month === "") {
 			alert("생월을 입력해주세요.");
-			$(".m_birth_01").focus();
+			$(".m_birth_02").focus();
 			return ;
 		}
-		if ($(".m_birth_01").val  () === "") {
+		if (day === "") {
 			alert("생일을 입력해주세요.");
 			$(".m_birth_01").focus();
 			return ;
 		}
+		
+	    if (validateDate(year, month, day)) {
+	        // 날짜가 유효한 경우
+	        // 원하는 동작 수행
+	    } else {
+	        alert("유효하지 않은 날짜입니다.");
+	        return;
+	        // 유효하지 않은 날짜에 대한 처리
+	    }
 		if ($("#use_yn").prop("checked")) {
 		    // 체크박스가 체크된 경우, 원하는 동작을 수행하거나 넘어갈 수 있습니다.
 		} else {

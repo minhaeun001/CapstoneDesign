@@ -96,7 +96,7 @@
 			dataType : 'json', // controller로부터 넘겨받을 데이터의 형식
 			success : function(response) {
 				alert('삭제되었습니다.');
-				location.href = './review.do';				
+				location.href = '../review/review.do';				
 			},	
 			error : function(xhr, status, error) {
 				alert("error");
@@ -220,6 +220,37 @@
 	        complete: function () {}
 	    });
 	}
+	
+	function fn_CommentsSave(){
+	    var sUrl = "${pageContext.request.contextPath}/review/review_comments_save.ajax";
+	    
+	    var params = {
+	        seqno: tmpSeqnno
+	    };	    
+	    
+	    params.regntid = "";
+	    params.regntnm = "";
+	    params.modid = "";
+	    
+	    $.ajax({
+	        url: sUrl,
+	        data: params,
+	        method: 'post',
+	        dataType: 'json',
+	        success: function (response) {
+	        	if(response.result == null  ){
+	        		alert("이전 게시글이 없습니다.");
+	        	} else {
+	        		tmpSeqnno  = response.result.SEQ_NO;
+	        		fn_Bind(response);	
+	        	}
+	        },
+	        error: function (xhr, status, error) {
+	            alert("error");
+	        },
+	        complete: function () {}
+	    });
+	}
 	//******************************************************************************************** 
 	// 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -243,7 +274,7 @@
 	
 	function fn_mod(tmpSeqnno){
 		
-		var url = "./review_modify.do";
+		var url = "../review/review_modify.do";
 		var params = "seqno="+tmpSeqnno;
 	
 		location.href = url + "?" + params
@@ -275,12 +306,27 @@
 	});
 	
 	$(document).on("click", "#btn_delete", function(){
-		fn_Delete(tmpSeqnno);
+	    if (confirm("게시글을 삭제하시겠습니까?")) {
+	    	fn_Delete(tmpSeqnno);
+	    } else {
+	        // 사용자가 취소를 선택한 경우
+	        // 아무 작업도 수행하지 않음
+	    }
 	});
 	
 	$(document).on("click", ".btn_like", function(){
 		fn_LikeCnt(tmpSeqnno);
 	});
+	
+	$(document).on("click", ".btn_reply", function () {
+	    $(this).siblings(".reply_write").slideToggle();
+	});
+	
+	$(document).on("click", "#btn_comments", function(){
+		fn_CommentsSave(tmpSeqnno);
+	});
+	
+	
 	</script>
 </head>
 
@@ -319,6 +365,53 @@
                         <button class="btn_gray btn_delete" id="btn_delete" >삭제하기</button>
                         <button class="btn_green btn_modify" id="btn_modify">수정하기</button>
                     </div> 
+                </div>
+                <div class="comments clear">
+                    <div class="cm_write clear">
+                        <textarea name="" id="comments" cols="160" rows="10"></textarea>
+                        <button class="btn_comments" id="btn_comments">댓글 달기</button>
+                    </div>
+                    <ul class="cm_list">
+                        <li>
+                            <p><em>박윤선</em><span>2023.05.13</span></p>
+                            <div class="cm_txt">답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.</div>
+                            <button class="btn_reply" id="btn_reply">댓글</button>
+                            <div class="reply_write clear">
+                                <textarea name="" id="" cols="100" rows="2" placeholder="댓글을 입력해주세요."></textarea>
+                                <div class="rp_btn">
+                                    <button>댓글 수정</button>
+                                    <button>댓글 삭제</button>
+                                </div>
+                            </div>
+                            <div class="btnRight">
+                            </div>
+                        </li>
+                        <li>
+                            <p><em>박윤선</em><span>2023.05.13</span></p>
+                            <div class="cm_txt">게시판에 동일 내용 문의로 답변 갈음함</div>
+                            <button class="btn_reply">댓글</button>
+                            <div class="btnRight">
+                                    <button>댓글 수정</button>
+                                    <button>댓글 삭제</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="reply_view">
+                                <p><em>박정윤</em><span>2023.05.13</span></p>
+                                <div class="re_reply"><em>민하은</em>
+                                    <p>답글에 대한 댓글.</p>
+                                </div>
+                                <button class="btn_reply">댓글</button>
+                                <div class="reply_write clear">
+                                    <textarea name="" id="" cols="120" rows="2" placeholder="대댓글을 입력해주세요."></textarea>
+                                    <div class="rp_btn">
+                                        <button>대댓글 수정</button>
+                                        <button>대댓글 삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

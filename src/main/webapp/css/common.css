@@ -5,7 +5,7 @@
 /* 기본 스타일 */
 * {box-sizing: border-box;}
 body, button,select,input,textarea {font-family:'scdream', sans-serif !important; font-weight: 400; font-size: 16px;}
-body {margin: 0; padding: 0; font-size: 17px; color: #101010; line-height: 26px; letter-spacing: -0.025em;}
+body {margin: 0; padding: 0; font-size: 17px; color: #101010; line-height: 23px; letter-spacing: -0.025em;}
 div,ul,ol,li,p,h1,h2,h3,h4,small,th,td {margin: 0; padding: 0;}
 ul li {list-style: none;}
 a {display: inline-block; color: #101010; text-decoration: none; transition: all .4s;}

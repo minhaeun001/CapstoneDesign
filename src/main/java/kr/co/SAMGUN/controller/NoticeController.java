@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,6 +116,36 @@ public class NoticeController {
 		return "jsonView";
 	}
 	
+	@RequestMapping("/notice_prev.ajax")
+	public String notice_prev(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+			
+		String seqno = request.getParameter("seqno");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		
+		Map<String, Object> result = noticeService.boardPrev(hm);
+		
+		model.addAttribute("result", result);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/notice_next.ajax")
+	public String notice_next(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+			
+		String seqno = request.getParameter("seqno");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		
+		Map<String, Object> result = noticeService.boardNext(hm);
+		
+		model.addAttribute("result", result);
+		
+		return "jsonView";
+	}
+	
 	@RequestMapping("/notice_delete.ajax")
 	public String notice_delete_ajax(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
@@ -149,50 +180,61 @@ public class NoticeController {
 	
 	@RequestMapping("/notice_likecnt.ajax")
 	public String notice_likecnt(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
-			
+		HttpSession session = request.getSession();
 		String seqno = request.getParameter("seqno");
+		
+		if (session.getAttribute("m_id") == null) {
+			model.addAttribute("result", null);
+			model.addAttribute("msg", "로그인 후 이용해주세요.");
+			model.addAttribute("flag", "F");
+			return "jsonView";
+		}
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
-		
+		hm.put("m_id", session.getAttribute("m_id"));
+
 		Map<String, Object> result =  new HashMap<String, Object>();
 		int updateCnt = noticeService.LikeCntNotice(hm);
 		
 		result.put("updateCnt", updateCnt);
 		
 		model.addAttribute("result", result);
+		model.addAttribute("flag", "T");
 		
 		return "jsonView";
 	}
 	
 	@RequestMapping("/notice_save.ajax")
 	public String notice_save(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String seqno = request.getParameter("seqno");
 		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+
 		
 		String title =request.getParameter("title");
 		title = XSSCleanUtil.defaultXSS3(title);
 		String contents = request.getParameter("contents");
 		contents = XSSCleanUtil.defaultXSS3(contents);
-		String regntid = request.getParameter("regntid");
 		String attachfile = request.getParameter("attachfile");
-		String regntnm = request.getParameter("regntnm");
 		String modid = request.getParameter("modid");
 		String boardtype = request.getParameter("boardtype");
 		String category = request.getParameter("category");
 		
-		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("regntid", session.getAttribute("m_id"));
+		hm.put("regntnm", session.getAttribute("m_nm"));
 		hm.put("title", title);
 		hm.put("contents", contents);
-		hm.put("regntid", regntid);
 		hm.put("attachfile", attachfile);
-		hm.put("regntnm", regntnm);
 		hm.put("modid", modid);
 		hm.put("boardtype", boardtype);
 		hm.put("category", category);
 		
 		int saveCnt = noticeService.NoticeSave(hm); //결과적으로 리턴받는 타입 int
-		Map<String, Object> result = new HashMap<String, Object>();
 		
+		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("saveCnt",saveCnt);
 		model.addAttribute("result",result);
 		return "jsonView";
@@ -200,8 +242,10 @@ public class NoticeController {
 	
 	@RequestMapping("/notice_modify.ajax")
 	public String notice_modifybtn(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
 		
-		String modid = "수정id";
+		Map<String, Object> hm = new HashMap<String, Object>();
+		
 		String seqno = request.getParameter("seqno");
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
@@ -212,8 +256,7 @@ public class NoticeController {
 //		String modid = request.getParameter("modid");
 //		String boardtype = request.getParameter("boardtype");
 		
-		Map<String, Object> hm = new HashMap<String, Object>();
-		hm.put("modid", modid);
+		hm.put("modid", session.getAttribute("m_id"));
 		hm.put("seqno",seqno);
 		hm.put("title", title);
 		hm.put("contents", contents);

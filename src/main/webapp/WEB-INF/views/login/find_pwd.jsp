@@ -128,7 +128,7 @@
                         </table>
                     </div>
                     <div class="right btn_area">
-                        <button class="tb_top right btn_blue btn_signup">비밀번호 찾기</button>
+                        <button class="tb_top right btn_blue btn_pwd">비밀번호 찾기</button>
                     </div>
                 </div>            
             </div>

@@ -14,6 +14,10 @@ public interface NoticeDAO {
 	public Map<String, Object> boardDetail(Map<String, Object> hm);
 
 	public Map<String, Object> boardModifyDetail(Map<String, Object> hm);
+	
+	public Map<String, Object> boardPrev(Map<String, Object> hm);
+	
+	public Map<String, Object> boardNext(Map<String, Object> hm);
 
 	public int boardModifySave(Map<String, Object> hm);
 
@@ -32,6 +36,12 @@ public interface NoticeDAO {
 	public int DeleteNotice(Map<String, Object> hm);
 
 	public int ViewCntNotice(Map<String, Object> hm);
+	
+	public int boardLikeSelect(Map<String, Object> hm);
+	
+	public int boardLikeCheck(Map<String, Object> hm);
+	
+	public int boardLikeInsert(Map<String, Object> hm);
 	
 	public int LikeCntNotice(Map<String, Object> hm);
 	

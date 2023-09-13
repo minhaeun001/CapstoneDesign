@@ -34,6 +34,9 @@
 
 	//최초 실행시 함수 
 	function init(){
+		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+			$("#btn_write").hide();
+		}
 		
 		//공지사항 리스트 호출
 		fn_listType();
@@ -158,7 +161,7 @@
 				tmpStr += "<a href='../notice/notice_view.do?seqno="+params.result[i].SEQ_NO+"' id='sTitle'>"+params.result[i].TITLE+"</a>";
 				tmpStr += "	</td>";
 				tmpStr += "	<td id='sView'>"+params.result[i].VIEW_CNT+"</td>";
-				tmpStr += "	<td id='sRegdate'>"+params.result[i].LIKE_CNT+"</td>";
+				tmpStr += "	<td id='sRegdate'>"+params.result[i].LIKE_CNT2+"</td>";
 				tmpStr += "	<td id='sView'>"+0+"</td>";
 				tmpStr += "	<td id='sRegdate'>"+params.result[i].REGNT_DTM+"</td>";
 				tmpStr += "</tr>";
@@ -249,6 +252,9 @@
 		fn_listType();
 	});
 
+	$(document).on("click", "#btn_write", function(){
+		location.href = "../notice/notice_write.do";
+	})
 	
 	//검색버튼 클릭했을때
 	$(document).on("click", ".btn_search", function(){
@@ -282,7 +288,7 @@
                             <button class="btn_search"><span class="hide">search</span></button>
                         </div>
                         <div class="right btn_area">
-                            <button class="btn_blue" onclick = "location.href = 'notice_write.do' ">작성하기</button>
+                            <button class="btn_blue" id="btn_write">작성하기</button>
                         </div>
                     </div>
                     <table class="tb_type1 notice">

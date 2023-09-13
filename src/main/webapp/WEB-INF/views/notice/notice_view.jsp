@@ -20,6 +20,7 @@
 	 1. 전역변수 선언                               						                              														  
 	*********************************************************************************************/ 
 	var seqno = "<%=seqno%>";
+	var  tmpSeqnno = seqno;
 	
 	/******************************************************************************************** 
 	 2. 최초 실행 함수                               						                              														  
@@ -33,9 +34,13 @@
 	
 	
 	function init(){
+		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+			$("#btn_modify").hide();
+			$("#btn_delete").hide();
+		}
 		
 		fn_UpdateViewCnt();
-		fn_SearchDetail();
+		fn_SearchDetail(seqno);
 		
 	}
 	
@@ -44,11 +49,11 @@
 	*********************************************************************************************/ 
 	
 	// 게시글 상세 페이지 호출
-	function fn_SearchDetail() {
+	function fn_SearchDetail(tmpSeqnno) {
 		
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_view.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -71,12 +76,12 @@
 	}
 	
 	
-	function fn_Delete() {
+	function fn_Delete(tmpSeqnno) {
 		
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_delete.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -86,7 +91,8 @@
 			method : 'post', // controller로 넘겨줄 방식
 			dataType : 'json', // controller로부터 넘겨받을 데이터의 형식
 			success : function(response) {
-				location.href = './notice.do';				
+				alert('삭제되었습니다.');
+				location.href = '../notice/notice.do';				
 			},	
 			error : function(xhr, status, error) {
 				alert("error");
@@ -97,11 +103,11 @@
 	}
 	
 	//조회수 업데이트
-	function fn_UpdateViewCnt() {
+	function fn_UpdateViewCnt(tmpSeqnno) {
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_viewcnt.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -122,11 +128,11 @@
 	}
 	
 	//좋아요 업데이트
-	function fn_LikeCnt() {
+	function fn_LikeCnt(tmpSeqnno) {
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_likecnt.ajax" ;
 		var params = {
-				seqno:"<%=seqno%>"
+				seqno:tmpSeqnno
 		};
 		
 		
@@ -136,8 +142,14 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
+				if(response.flag != "T"){
+					alert(response.msg);
+					
+					return ;
+				}
+				
+				$(".notice_likeNum").text(response.result.updateCnt);
 				alert('좋아요를 눌렀습니다.');
-				fn_SearchDetail();
 			},	
 			error : function(xhr, status, error) {
 				alert("error");
@@ -145,6 +157,61 @@
 			complete : function() {
 		    }
 		});
+	}
+	
+	function fn_Prev() {
+	    var sUrl = "${pageContext.request.contextPath}/notice/notice_prev.ajax";
+		
+	    var params = {
+	        seqno: tmpSeqnno
+	    };	    
+	    
+	    $.ajax({
+	        url: sUrl,
+	        data: params,
+	        method: 'post',
+	        dataType: 'json',
+	        success: function (response) {
+	        	if(response.result == null ) {
+	        		alert("다음 게시글이 없습니다.");
+	        	} else {
+	        		tmpSeqnno  = response.result.SEQ_NO;
+	        		fn_Bind(response);	
+	        	}
+	        },
+	        error: function (xhr, status, error) {
+	            alert("error");
+	        },
+	        complete: function () {}
+	    });
+	}
+
+	// 다음글로 넘기기
+	function fn_Next() {
+	    var sUrl = "${pageContext.request.contextPath}/notice/notice_next.ajax";
+		
+	    var params = {
+	        seqno: tmpSeqnno 
+	    };	    
+	    
+	    $.ajax({
+	        url: sUrl,
+	        data: params,
+	        method: 'post',
+	        dataType: 'json',
+	        success: function (response) {
+	        	if(response.result == null  ){
+	        		alert("이전 게시글이 없습니다.");
+	        	} else {
+	        		tmpSeqnno  = response.result.SEQ_NO;
+	        		fn_Bind(response);	
+	        	}
+	        },
+	        error: function (xhr, status, error) {
+	            alert("error");
+	        },
+	        complete: function () {}
+	    });
 	}
 	/******************************************************************************************** 
 	 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
@@ -156,7 +223,7 @@
 		var regntdtm = response.result.REGNT_DTM;
 		var contents = response.result.CONTENTS;
 		var category_nm = response.result.CATEGORY_NM;
-		var like = response.result.LIKE_CNT;
+		var like = response.result.LIKE_CNT2;
 		var view_cnt = response.result.VIEW_CNT;
 		
 		$(".notice_title").text(title);
@@ -169,27 +236,15 @@
 		
 	}
 	
-	function fn_mod(){
+	function fn_mod(tmpSeqnno){
 		
-		var url = "./notice_modify.do";
-		var params = "seqno="+seqno;
+		var url = "../notice/notice_modify.do";
+		var params = "seqno="+tmpSeqnno;
 	
 		location.href = url + "?" + params
 		
 	}
-	
-	$(document).on("click", ".btn_modify", function(){
-		fn_mod();
-	});
-	
-	$(document).on("click", ".btn_delete", function() {
-	    if (confirm("게시글을 삭제하시겠습니까?")) {
-	    	fn_Delete();
-	    } else {
-	        // 사용자가 취소를 선택한 경우
-	        // 아무 작업도 수행하지 않음
-	    }
-	});
+
 	/******************************************************************************************** 
 	 5. 기타 함수                            						                              														  
 	*********************************************************************************************/ 
@@ -197,7 +252,33 @@
 	
 	/******************************************************************************************** 
 	 6. 이벤트 함수                            						                              														  
-	*********************************************************************************************/ 
+	*********************************************************************************************/
+	// "이전" 버튼 클릭 시 이벤트 처리
+	$(document).on("click", ".nv_next", function() {
+		fn_Prev();
+	});
+
+	// "다음" 버튼 클릭 시 이벤트 처리
+	$(document).on("click", ".nv_prev", function() {
+		fn_Next();
+	});
+	
+	$(document).on("click", "#btn_modify", function(){
+		fn_mod(tmpSeqnno);
+	});
+	
+	$(document).on("click", "#btn_delete", function() {
+	    if (confirm("게시글을 삭제하시겠습니까?")) {
+	    	fn_Delete(tmpSeqnno);
+	    } else {
+	        // 사용자가 취소를 선택한 경우
+	        // 아무 작업도 수행하지 않음
+	    }
+	});
+	
+	$(document).on("click", ".btn_like", function(){
+		fn_LikeCnt(tmpSeqnno);
+	});
 	</script>
 </head>
 
@@ -220,7 +301,7 @@
                             <p class="txt_area notice_contents">
                             </p>
                             <p class="tac">
-                                <button class="btn_like" OnClick="fn_LikeCnt();">
+                                <button class="btn_like">
                                     <img class="btn_likeIcon" src="../../img/btn_like.png" alt="like">
                                     <span class="btn_likeNum notice_likeNum"></span>
                                 </button>
@@ -234,58 +315,11 @@
                         <a href="javascript:///" class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
-                        <button class="btn_gray btn_delete"">삭제하기</button>
-                        <button class="btn_green btn_modify" onclick = "fn_mod();">수정하기</button>
+                        <button class="btn_gray btn_delete" id="btn_delete">삭제하기</button>
+                        <button class="btn_green btn_modify" id="btn_modify">수정하기</button>
                     </div> 
                 </div>
 
-                <div class="comments clear">
-                    <div class="cm_write clear">
-                        <textarea name="" id="" cols="160" rows="10"></textarea>
-                        <button class="btn_comments">댓글 달기</button>
-                    </div>
-                    <ul class="cm_list">
-                        <li>
-                            <p><em>박윤선</em><span>2023.05.13</span></p>
-                            <div class="cm_txt">답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.</div>
-                            <button class="btn_reply">댓글</button>
-                            <div class="reply_write clear">
-                                <textarea name="" id="" cols="100" rows="2" placeholder="댓글을 입력해주세요."></textarea>
-                                <div class="rp_btn">
-                                    <button>댓글 수정</button>
-                                    <button>댓글 삭제</button>
-                                </div>
-                            </div>
-                            <div class="btnRight">
-                            </div>
-                        </li>
-                        <li>
-                            <p><em>박윤선</em><span>2023.05.13</span></p>
-                            <div class="cm_txt">게시판에 동일 내용 문의로 답변 갈음함</div>
-                            <button class="btn_reply">댓글</button>
-                            <div class="btnRight">
-                                    <button>댓글 수정</button>
-                                    <button>댓글 삭제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="reply_view">
-                                <p><em>박정윤</em><span>2023.05.13</span></p>
-                                <div class="re_reply"><em>민하은</em>
-                                    <p>답글에 대한 댓글.</p>
-                                </div>
-                                <button class="btn_reply">댓글</button>
-                                <div class="reply_write clear">
-                                    <textarea name="" id="" cols="120" rows="2" placeholder="대댓글을 입력해주세요."></textarea>
-                                    <div class="rp_btn">
-                                        <button>대댓글 수정</button>
-                                        <button>대댓글 삭제</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

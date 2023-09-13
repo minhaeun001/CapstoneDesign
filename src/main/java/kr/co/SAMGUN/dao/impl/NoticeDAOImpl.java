@@ -40,6 +40,16 @@ public class NoticeDAOImpl implements NoticeDAO{
 	}
 	
 	@Override
+	public Map<String, Object> boardPrev(Map<String, Object> hm) {
+			return  sqlSession.selectOne(namespace+".boardPrev", hm);
+	}
+
+	@Override
+	public Map<String, Object> boardNext(Map<String, Object> hm) {
+			return  sqlSession.selectOne(namespace+".boardNext", hm);
+	}
+	
+	@Override
 	public Map<String, Object> boardDetail(Map<String, Object> hm) {
 			return  sqlSession.selectOne(namespace+".boardDetail", hm);
 	}
@@ -99,6 +109,21 @@ public class NoticeDAOImpl implements NoticeDAO{
 		return sqlSession.delete(namespace+".ViewCntNotice", hm);
 	}
 
+	@Override
+	public int boardLikeSelect(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".boardLikeSelect", hm);
+	}
+	
+	@Override
+	public int boardLikeCheck(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".boardLikeCheck", hm);
+	}
+	
+	@Override
+	public int boardLikeInsert(Map<String, Object> hm) {
+		return sqlSession.insert(namespace+".boardLikeInsert", hm);
+	}
+	
 	@Override
 	public int LikeCntNotice(Map<String, Object> hm) {
 		return sqlSession.delete(namespace+".LikeCntNotice", hm);
