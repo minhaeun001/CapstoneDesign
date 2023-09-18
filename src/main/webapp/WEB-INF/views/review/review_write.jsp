@@ -46,7 +46,8 @@
 		params.attachfile = "첨부파일";
 		params.regntnm = "등록자 이름";
 		params.modid = "수정자 아이디";
-		params.boardtype = BOARD_TYPE;
+		params.boardType = BOARD_TYPE;
+		params.boardSubType = "R";
 		
 		// jquery가 만든 함수~
 		// 파라미터는 json 타입으로 넘겨줘~

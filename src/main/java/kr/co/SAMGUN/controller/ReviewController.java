@@ -70,6 +70,7 @@ public class ReviewController {
 		String searchSelector = request.getParameter("searchSelector");
 		String searchText = request.getParameter("searchText");
 		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		String pageNo = request.getParameter("pageNo");
 		String pageSize = request.getParameter("pageSize");
 		
@@ -77,6 +78,7 @@ public class ReviewController {
 		hm.put("searchSelector", searchSelector);
 		hm.put("searchText", searchText);
 		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		hm.put("pageNo", pageNo);
 		hm.put("pageSize",pageSize);
 		
@@ -97,13 +99,18 @@ public class ReviewController {
 		
 		return "jsonView";
 	}
+	
 	@RequestMapping("/review_view.ajax")
 	public String reiview_view_ajax(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
 		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		
 		Map<String, Object> result = reviewService.boardDetail(hm);
 		
@@ -116,9 +123,13 @@ public class ReviewController {
 	public String review_prev(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
 		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		
 		Map<String, Object> result = reviewService.boardPrev(hm);
 		
@@ -131,9 +142,13 @@ public class ReviewController {
 	public String review_next(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
 		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		
 		Map<String, Object> result = reviewService.boardNext(hm);
 		
@@ -146,10 +161,13 @@ public class ReviewController {
 	public String review_delete_ajax(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
 		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
-		
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);		
 		
 		// 자료타입            변수명        결과
 		// 자료타입 == 결과의 타입은 같아야한다.
@@ -164,9 +182,13 @@ public class ReviewController {
 	public String review_viewcnt(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 			
 		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		
 		int result = reviewService.ViewCntReview(hm);
 		
@@ -179,6 +201,8 @@ public class ReviewController {
 	public String review_likecnt(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 		HttpSession session = request.getSession();
 		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 		
 		if (session.getAttribute("m_id") == null) {
 			model.addAttribute("result", null);
@@ -189,6 +213,8 @@ public class ReviewController {
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		hm.put("m_id", session.getAttribute("m_id"));
 
 		Map<String, Object> result =  new HashMap<String, Object>();
@@ -223,7 +249,9 @@ public class ReviewController {
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
 		String attachfile = request.getParameter("attachfile");
-		String boardtype = request.getParameter("boardtype");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
+		
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("title", title);
@@ -232,7 +260,8 @@ public class ReviewController {
 		hm.put("attachfile", attachfile);
 		hm.put("regntnm", m_nm);
 		hm.put("modid", m_id);
-		hm.put("boardtype", boardtype);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		
 		int saveCnt = reviewService.ReviewSave(hm); //결과적으로 리턴받는 타입 int
 		
@@ -249,6 +278,8 @@ public class ReviewController {
 		String seqno = request.getParameter("seqno");
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
 //		String regntid = request.getParameter("regntid");
 //		String attachfile = request.getParameter("attachfile");
 //		String regntnm = request.getParameter("regntnm");
@@ -260,17 +291,84 @@ public class ReviewController {
 		hm.put("seqno",seqno);
 		hm.put("title", title);
 		hm.put("contents", contents);
-//		hm.put("regntid", regntid);
-//		hm.put("attachfile", attachfile);
-//		hm.put("regntnm", regntnm);
-//		hm.put("modid", modid);
-//		hm.put("boardtype", boardtype);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
 		
 		int modCnt = reviewService.ReviewMod(hm); //결과적으로 리턴받는 타입 int
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result.put("modCnt",modCnt);
 		model.addAttribute("result",result);
+		return "jsonView";
+	}
+	
+	@RequestMapping("/review_comments_save.ajax")
+	public String review_comments_save(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		String m_nm = (String) session.getAttribute("m_nm");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if( null == m_id || "".equals(m_id)) {
+			String msg = "로그인 후 이용해주세요.";
+			
+			result.put("msg", msg);
+			model.addAttribute("result", result);
+			model.addAttribute("flag", "F");
+			return "jsonView";
+		}
+		
+		
+		String contents =request.getParameter("contents");
+		String boardType = request.getParameter("boardType");
+		String prt_seqno = request.getParameter("prt_seqno");
+		String boardSubType = request.getParameter("boardSubType");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("prt_seqno",prt_seqno);
+		hm.put("contents", contents);
+		hm.put("m_id", m_id);
+		hm.put("regntnm", m_nm);
+		hm.put("modid", m_id);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
+	
+		
+		int saveCnt = reviewService.ReviewCommentSave(hm); //결과적으로 리턴받는 타입 int
+		
+		result.put("saveCnt",saveCnt);
+		model.addAttribute("result",result);
+		model.addAttribute("flag", "T");
+
+		return "jsonView";
+	}
+	
+	@RequestMapping("/comments_listType.ajax")
+	public String comments_listType(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		
+		String prt_seqno = request.getParameter("prt_seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("prt_seqno", prt_seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
+		
+		 
+//		
+//		//디비에서 가져온 리스트를 할당함
+		List<Map<String, Object>> rstList = reviewService.CommentsList(hm);
+//
+//		//클라이언트에 보낼 데이터를 모델에 담는다.
+//		model.addAttribute("result", rstList);
+//		model.addAttribute("totalcnt", totalcnt);
+		
+		model.addAttribute("result", rstList);
+		
 		return "jsonView";
 	}
 }

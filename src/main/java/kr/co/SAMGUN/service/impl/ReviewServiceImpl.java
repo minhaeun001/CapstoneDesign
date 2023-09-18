@@ -35,11 +35,6 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> listBestReviewType(Map<String, Object> hm) {
-		return reviewDAO.listBestReviewType(hm);
-	}
-	
-	@Override
 	public int boardDetailCount(Map<String, Object> hm) {
 		return reviewDAO.boardDetailCount(hm);
 	}
@@ -158,5 +153,15 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public int ReviewSave(Map<String, Object> hm) {
 		return reviewDAO.ReviewSave(hm);
+	}
+	
+	@Override
+	public int ReviewCommentSave(Map<String, Object> hm) {
+		return reviewDAO.ReviewCommentSave(hm);
+	}
+
+	@Override
+	public List<Map<String, Object>> CommentsList(Map<String, Object> hm) {
+		return reviewDAO.CommentsList(hm);
 	}
 }

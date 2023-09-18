@@ -264,7 +264,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 .comments .cm_tit span {color: #6176b4;}
 .comments .cm_write {margin-top: 20px; padding: 20px 30px; background-color: #ededed;}
 .comments .cm_write textarea {float: left; height: 80px; width: 90%;background-color: #fff; padding: 14px 20px; border-radius: 4px; border: none;}
-.comments .cm_write .btn_comments {float: right; width: 106px; height: 80px; background-color: #6d6f82; font-size: 14px; color: #fff; margin-left: 14px; font-weight: 400; border-radius: 4px;}
+.comments .cm_write .btn_comments {float: right; width: 106px; height: 80px; background-color: #6d6f82; font-size: 14px; color: #fff; margin-left: 14px; font-weight: 400; border-radius: 4px; cursor:pointer;}
 .comments .cm_list {position: relative; font-size: 15px; font-weight: 500; border-bottom: 1px solid #d2d2d2;}
 .comments .cm_list li  {padding: 14px 20px; border-bottom: 1px solid #d2d2d2;}
 .comments .cm_list li p em {margin-right: 10px; font-weight: 500;}

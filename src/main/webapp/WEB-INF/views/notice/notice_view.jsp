@@ -39,7 +39,7 @@
 			$("#btn_delete").hide();
 		}
 		
-		fn_UpdateViewCnt();
+		fn_UpdateViewCnt(seqno);
 		fn_SearchDetail(seqno);
 		
 	}

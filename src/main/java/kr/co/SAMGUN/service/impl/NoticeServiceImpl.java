@@ -147,7 +147,7 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Override
 	public int LikeCntNotice(Map<String, Object> hm) {
-int i =0;
+		int i =0;
 		
 		if (noticeDAO.boardLikeCheck(hm) == 0) {
 			i = noticeDAO.boardLikeInsert(hm);

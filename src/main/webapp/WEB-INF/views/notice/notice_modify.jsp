@@ -113,14 +113,12 @@
 		
 		var title = response.result.TITLE;
 		var contents = response.result.CONTENTS;
+		var category = response.result.CATEGORY;
 		
 		$(".notice_title").val(title);
 		$(".notice_contents").val(contents);
-		$("input[name='category']:checked").val(category);
+		$("input[name='category'][value='" + category + "']").prop("checked", true);
 	}
-	
-	
-	
 	
 	
 	/******************************************************************************************** 

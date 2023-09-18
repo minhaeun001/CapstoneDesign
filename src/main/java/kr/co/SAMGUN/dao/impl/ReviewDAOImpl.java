@@ -40,11 +40,6 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> listBestReviewType(Map<String, Object> hm) {
-		return  sqlSession.selectList(namespace+".listBestReviewType", hm);
-	}
-	
-	@Override
 	public int boardDetailCount(Map<String, Object> hm) {
 		return sqlSession.update(namespace+".boardDetailCount", hm);
 	}
@@ -127,5 +122,15 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Override
 	public int ReviewSave(Map<String, Object> hm) {
 		return sqlSession.insert(namespace+".ReviewSave", hm);
+	}
+	
+	@Override
+	public int ReviewCommentSave(Map<String, Object> hm) {
+		return sqlSession.insert(namespace+".ReviewCommentSave", hm);
+	} 
+	
+	@Override
+	public List<Map<String, Object>> CommentsList(Map<String, Object> hm) {
+		return  sqlSession.selectList(namespace+".CommentsList", hm);
 	}
 }

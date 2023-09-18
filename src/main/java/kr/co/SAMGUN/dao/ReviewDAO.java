@@ -9,8 +9,6 @@ public interface ReviewDAO {
 
 	public List<Map<String, Object>> listReviewType(Map<String, Object> hm);
 	
-	public List<Map<String, Object>> listBestReviewType(Map<String, Object> hm);
-	
 	public int boardDetailCount(Map<String, Object> hm);
 
 	public Map<String, Object> boardDetail(Map<String, Object> hm);
@@ -44,4 +42,8 @@ public interface ReviewDAO {
 	public int ReviewMod(Map<String, Object> hm);
 	
 	public int ReviewSave(Map<String, Object> hm);
+	
+	public int ReviewCommentSave(Map<String, Object> hm);
+	
+	public List<Map<String, Object>> CommentsList(Map<String, Object> hm);
 }

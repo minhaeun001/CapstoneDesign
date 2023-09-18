@@ -129,7 +129,7 @@
 		}
 	})
 	
-	function fn_noData(programType){
+	function fn_noData(){
 		var str = "";
 		var tmpStr = "";
 		tmpStr += "<ul class='cardBox'>"

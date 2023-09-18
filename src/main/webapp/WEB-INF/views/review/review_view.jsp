@@ -22,7 +22,8 @@
 	var seqno = "<%=seqno%>";
 	var  tmpSeqnno = seqno;
 	
-	
+	const BOARD_TYPE = "30";
+	var boardSubType = "R"; // R: Review 본문, C: Review Comments
 	//******************************************************************************************** 
 	// 2. 최초 실행 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -40,9 +41,8 @@
 			$("#btn_delete").hide();
 		}
 		
-		fn_UpdateViewCnt();
-		fn_SearchDetail(seqno);
-		
+		fn_UpdateViewCnt(seqno);
+		fn_SearchDetail(seqno);		
 	}
 	
 	//******************************************************************************************** 
@@ -54,7 +54,9 @@
 		
 		var sUrl = "${pageContext.request.contextPath}/review/review_view.ajax" ;
 		var params = {
-				seqno:tmpSeqnno
+				seqno:tmpSeqnno,
+				boardType:BOARD_TYPE,
+				boardSubType:boardSubType
 		};
 		
 		
@@ -68,7 +70,7 @@
 	        		alert("게시글이 없습니다.");
 	        	} else {
 	        		tmpSeqnno  = response.result.SEQ_NO;
-	        		fn_Bind(response);	
+	        		fn_Bind(response);
 	        	}
 				
 			},	
@@ -85,7 +87,9 @@
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/review/review_delete.ajax" ;
 		var params = {
-				seqno:tmpSeqnno
+				seqno:tmpSeqnno,
+				boardType:BOARD_TYPE,
+				boardSubType:boardSubType
 		};
 		
 		
@@ -111,7 +115,9 @@
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/review/review_viewcnt.ajax" ;
 		var params = {
-				seqno:tmpSeqnno
+				seqno:tmpSeqnno,
+				boardType:BOARD_TYPE,
+				boardSubType:boardSubType
 		};
 		
 		
@@ -136,7 +142,9 @@
 		//Url - 컨트롤러에 던져줄 것
 		var sUrl = "${pageContext.request.contextPath}/review/review_likecnt.ajax" ;
 		var params = {
-				seqno:tmpSeqnno
+				seqno:tmpSeqnno,
+				boardType:BOARD_TYPE,
+				boardSubType:boardSubType
 		};
 		
 		
@@ -170,7 +178,9 @@
 	    var sUrl = "${pageContext.request.contextPath}/review/review_prev.ajax";
 		
 	    var params = {
-	        seqno: tmpSeqnno
+	        seqno: tmpSeqnno,
+	        boardType:BOARD_TYPE,
+	        boardSubType:boardSubType
 	    };	    
 	    
 	    $.ajax({
@@ -198,7 +208,9 @@
 	    var sUrl = "${pageContext.request.contextPath}/review/review_next.ajax";
 		
 	    var params = {
-	        seqno: tmpSeqnno 
+	        seqno: tmpSeqnno,
+	        boardType:BOARD_TYPE,
+	        boardSubType:boardSubType
 	    };	    
 	    
 	    $.ajax({
@@ -221,16 +233,20 @@
 	    });
 	}
 	
-	function fn_CommentsSave(){
+	//댓글 저장
+	function fn_CommentsSave(tmpSeqnno){
 	    var sUrl = "${pageContext.request.contextPath}/review/review_comments_save.ajax";
 	    
-	    var params = {
-	        seqno: tmpSeqnno
-	    };	    
-	    
-	    params.regntid = "";
-	    params.regntnm = "";
-	    params.modid = "";
+		var params = {};
+		
+		
+		params.prt_seqno = tmpSeqnno;
+		params.contents = $("#comments").val();
+		params.regntid = "";
+		params.regntnm = "";
+		params.modid = "";
+		params.boardType = BOARD_TYPE;
+		params.boardSubType = boardSubType;
 	    
 	    $.ajax({
 	        url: sUrl,
@@ -238,18 +254,66 @@
 	        method: 'post',
 	        dataType: 'json',
 	        success: function (response) {
-	        	if(response.result == null  ){
-	        		alert("이전 게시글이 없습니다.");
-	        	} else {
-	        		tmpSeqnno  = response.result.SEQ_NO;
-	        		fn_Bind(response);	
-	        	}
+				if(response.flag != "T"){
+					alert(response.result.msg);
+					
+					return ;
+				}
+				
+				alert("저장되었습니다.");
+				fn_comments_bind(params) ;
 	        },
 	        error: function (xhr, status, error) {
 	            alert("error");
 	        },
 	        complete: function () {}
 	    });
+	}
+	
+ 	//댓글 데이터 호출
+	function fn_comments_listType(tmpSeqnno){
+		//댓글 리스트 호출
+		var boardSubType = "C";
+		
+		var sUrl = "${pageContext.request.contextPath}/review/comments_listType.ajax";	
+		
+		// 파라미터
+		var params = {
+			prt_seqno:tmpSeqnno,
+ 			boardType:BOARD_TYPE,
+ 			boardSubType:boardSubType
+		}
+		
+		
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				
+				//데이터가 있는지 확인한다.
+				if (response.result.length < 1 ) {
+					fn_noData();
+					
+					return ;
+				}
+				
+				//response 의 결과값을 바인딩 전용 함수로 넘기기 위해  response값을 params 에 재 할당
+				//params.totalcnt	= response.result[0].totalcnt ; //총갯수  - 페이징 처리에 필요하여 params.totalcnt	 대입
+				params.result = response.result ; //결과값을  params에 담는다
+				
+				//결과값 바인드 함수 호출
+				fn_comments_bind(params) ;
+
+			},	
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+				//실패나 성공시 항상 실행 콜백함수
+		    }
+		});
 	}
 	//******************************************************************************************** 
 	// 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
@@ -270,6 +334,7 @@
 		$(".review_likeNum").text(like);
 		$(".view_cnt").text(view_cnt);
 		
+		fn_comments_listType(tmpSeqnno);
 	}
 	
 	function fn_mod(tmpSeqnno){
@@ -280,8 +345,45 @@
 		location.href = url + "?" + params
 		
 	}
-
 	
+	function fn_noData(){
+		var str = "";
+		var tmpStr = "";
+		tmpStr += "<li>"
+		tmpStr += "<div>댓글이 없습니다.</div>";
+		tmpStr += "</li>"
+	
+		$(".cm_list").html(tmpStr);
+		$(".cm_list").show();
+	}
+	
+	//댓글 바인딩
+	//프로그램 타입에 따른 바인딩 함수
+	function fn_comments_bind(params){
+		
+		$(".cm_list:eq(0) li").remove();
+		
+		var tmpStr = "";
+		
+		if(params.result && params.result.length > 0) {
+			for (var i=0, j=params.result.length ; i < j ; i++ ) {
+				
+				tmpStr += "<li><p><em>"+ params.result[i].REGNT_NM +"</em>";
+				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span></p>";
+				tmpStr += "<div class='cm_txt'>"+ params.result[i].CONTENTS +"</div>";
+				tmpStr += "<button class='btn_reply' id='btn_reply'>댓글</button>";
+				tmpStr += "<div class='reply_write clear'>";
+				tmpStr += "<textarea class='comments_reply' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
+				tmpStr += "<div class='rp_btn'><button>댓글 수정</button><button>댓글 삭제</button></div></div>";
+				tmpStr += "<div class='btnRight'></div></li>"	
+			}
+			
+		} else {
+		}			
+		
+		$(".cm_list").append(tmpStr);
+
+	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -323,6 +425,11 @@
 	});
 	
 	$(document).on("click", "#btn_comments", function(){
+		if ($("#comments").val() === "") {
+			alert("내용을 입력해주세요.");
+			$("#comments").focus();
+			return ;
+		}
 		fn_CommentsSave(tmpSeqnno);
 	});
 	
@@ -368,7 +475,7 @@
                 </div>
                 <div class="comments clear">
                     <div class="cm_write clear">
-                        <textarea name="" id="comments" cols="160" rows="10"></textarea>
+                        <textarea id="comments" cols="160" rows="10"></textarea>
                         <button class="btn_comments" id="btn_comments">댓글 달기</button>
                     </div>
                     <ul class="cm_list">

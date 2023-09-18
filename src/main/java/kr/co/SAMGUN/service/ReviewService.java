@@ -6,10 +6,8 @@ import java.util.Map;
 public interface ReviewService {
 
 	int selectTotalCnt(Map<String, Object> hm);
-
-	List<Map<String, Object>> listReviewType(Map<String, Object> hm);
 	
-	List<Map<String, Object>> listBestReviewType(Map<String, Object> hm);
+	List<Map<String, Object>> listReviewType(Map<String, Object> hm);
 
 	int boardDetailCount(Map<String, Object> hm);
 	
@@ -38,4 +36,8 @@ public interface ReviewService {
 	int ReviewMod(Map<String, Object> hm);
 	
 	int ReviewSave(Map<String, Object> hm);
+	
+	int ReviewCommentSave(Map<String, Object> hm);
+
+	List<Map<String, Object>> CommentsList(Map<String, Object> hm);
 }

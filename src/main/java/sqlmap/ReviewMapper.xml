@@ -75,7 +75,10 @@
     A.* ,
     (SELECT COUNT(*)FROM BOARD_LIKE WHERE 1=1 AND LIKE_SEQ_NO = #{seqno}) LIKE_CNT2
     FROM BOARD A
-	WHERE seq_no = #{seqno}
+	WHERE 1=1
+	AND SEQ_NO = #{seqno}
+	AND BOARD_TYPE = #{boardType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
 	
 </select>
 
@@ -86,7 +89,8 @@
 		 SELECT MAX(SEQ_NO)
 		 FROM BOARD
 		 WHERE SEQ_NO < #{seqno}
-		AND BOARD_TYPE = '30'
+		 AND BOARD_TYPE = #{boardType}
+		 AND BOARD_SUB_TYPE = #{boardSubType}
 	)	
   ]]>
 </select>
@@ -97,8 +101,10 @@
   SELECT * FROM BOARD WHERE seq_no = (
 		 SELECT MIN(SEQ_NO)
 		 FROM BOARD
-		 WHERE SEQ_NO > #{seqno}
-		AND BOARD_TYPE = '30'
+		 WHERE 1=1
+		 AND SEQ_NO > #{seqno}
+		 AND BOARD_TYPE = #{boardType}
+		 AND BOARD_SUB_TYPE = #{boardSubType}
 	)	
   ]]>
 </select>
@@ -108,6 +114,8 @@
 	UPDATE BOARD
 	SET LIKE_CNT = LIKE_CNT + 1
 	WHERE seq_no = #{seqno}
+	AND BOARD_TYPE = #{boardType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
 </update>
 
 <select id="boardLikeSelect" parameterType="Map" resultType="int">
@@ -116,6 +124,7 @@
 	FROM BOARD_LIKE 
 	WHERE 1=1
 	AND LIKE_SEQ_NO = #{seqno}
+	AND BOARD_TYPE = #{boardType}
 </select>
 
 <select id="boardLikeCheck" parameterType="Map" resultType="int">
@@ -124,6 +133,7 @@
 	WHERE 1=1
 	AND LIKE_SEQ_NO = #{seqno}
 	AND M_ID = #{m_id}
+	AND BOARD_TYPE = #{boardType}
 </select>
 
 <insert id="boardLikeInsert" parameterType="Map">
@@ -142,7 +152,7 @@
 	(
 	(SELECT MAX(SEQ_NO)+1 FROM BOARD_LIKE),
 	#{m_id},
-	'30',
+	#{boardType},
 	#{seqno},
 	#{m_id},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
@@ -155,12 +165,18 @@
 	
 	UPDATE BOARD
 	SET VIEW_CNT = VIEW_CNT + 1
-	WHERE seq_no = #{seqno}
+	WHERE 1=1
+	AND seq_no = #{seqno}
+	AND BOARD_TYPE = #{boardType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
 </update>
 
 <delete id="DeleteReview" parameterType="Map">
 	DELETE FROM BOARD
-	WHERE SEQ_NO = #{seqno}
+	WHERE 1=1
+	AND SEQ_NO = #{seqno}
+	AND BOARD_TYPE = #{boardType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
 </delete>
 
 <update  id="ReviewMod" parameterType="Map">
@@ -170,7 +186,10 @@ UPDATE BOARD SET
 ,   CONTENTS = #{contents}
 ,   MOD_ID = #{modid}
 ,   MOD_DTM = (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL)
-WHERE seq_no = #{seqno}
+WHERE 1=1
+AND seq_no = #{seqno}
+AND BOARD_TYPE = #{boardType}
+AND BOARD_SUB_TYPE = #{boardSubType}
 
 </update>
 
@@ -192,7 +211,8 @@ WHERE seq_no = #{seqno}
 	VIEW_CNT,
 	MOD_ID,
 	MOD_DTM,
-	BOARD_TYPE
+	BOARD_TYPE,
+	BOARD_SUB_TYPE
 	)
 	values
 	(
@@ -211,7 +231,55 @@ WHERE seq_no = #{seqno}
 	0,
 	#{modid},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-	#{boardtype}
+	#{boardType},
+	#{boardSubType}
 	)
 </insert>
+
+<insert id="ReviewCommentSave" parameterType="Map">
+	insert into BOARD
+	(
+	SEQ_NO,
+	REGNT_ID,
+	REGNT_DTM,
+	REGNT_NM,
+	CONTENTS,
+	GRP_SEQNO,
+	PRT_SEQNO,
+	STEP,
+	MOD_ID,
+	MOD_DTM,
+	BOARD_TYPE,
+	BOARD_SUB_TYPE
+	)
+	VALUES
+	(
+	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
+	#{regntid},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{regntnm},
+	#{contents},
+	(SELECT MAX(GRP_SEQNO)+1 FROM BOARD),
+	#{prt_seqno},
+	0,
+	#{modid},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{boardType},
+	'C'
+	)
+</insert>
+
+
+<select  id="CommentsList" parameterType="Map" resultType="java.util.HashMap">
+
+SELECT
+    ROW_NUMBER() OVER(ORDER BY B.REGNT_DTM DESC) RNUM,
+    B.*
+	FROM BOARD B
+	WHERE 1=1
+    AND BOARD_TYPE = #{boardType}
+    AND PRT_SEQNO = #{prt_seqno}
+	AND BOARD_SUB_TYPE = #{boardSubType}
+</select>
+
 </mapper>
