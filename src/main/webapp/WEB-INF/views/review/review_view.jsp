@@ -261,7 +261,7 @@
 				}
 				
 				alert("저장되었습니다.");
-				fn_comments_bind(params) ;
+				fn_comments_listType(tmpSeqnno) ;
 	        },
 	        error: function (xhr, status, error) {
 	            alert("error");
@@ -303,6 +303,7 @@
 				//params.totalcnt	= response.result[0].totalcnt ; //총갯수  - 페이징 처리에 필요하여 params.totalcnt	 대입
 				params.result = response.result ; //결과값을  params에 담는다
 				
+				$("#comments").val("");
 				//결과값 바인드 함수 호출
 				fn_comments_bind(params) ;
 
@@ -335,6 +336,7 @@
 		$(".view_cnt").text(view_cnt);
 		
 		fn_comments_listType(tmpSeqnno);
+		
 	}
 	
 	function fn_mod(tmpSeqnno){
@@ -343,7 +345,6 @@
 		var params = "seqno="+tmpSeqnno;
 	
 		location.href = url + "?" + params
-		
 	}
 	
 	function fn_noData(){
@@ -361,7 +362,7 @@
 	//프로그램 타입에 따른 바인딩 함수
 	function fn_comments_bind(params){
 		
-		$(".cm_list:eq(0) li").remove();
+		$(".cm_list li").remove();
 		
 		var tmpStr = "";
 		
