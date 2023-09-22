@@ -282,4 +282,20 @@ SELECT
 	AND BOARD_SUB_TYPE = #{boardSubType}
 </select>
 
+<update  id="CommentsModifyDetail" parameterType="Map">
+	UPDATE BOARD
+	SET CONTENTS = #{contents}
+	WHERE seq_no = #{seqno}
+	AND BOARD_TYPE = #{boardType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
+</update>
+
+<delete id="CommentsDelete" parameterType="Map">
+	DELETE FROM BOARD
+	WHERE 1=1
+	AND SEQ_NO = #{seqno}
+	AND BOARD_TYPE = #{boardType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
+</delete>
+
 </mapper>

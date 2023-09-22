@@ -2,6 +2,9 @@
 <%
 	String seqno = request.getParameter("seqno");
 %>
+<%
+
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,10 +42,11 @@
 		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
 			$("#btn_modify").hide();
 			$("#btn_delete").hide();
+			$(".rp_btn_cm").hide();
 		}
 		
 		fn_UpdateViewCnt(seqno);
-		fn_SearchDetail(seqno);		
+		fn_SearchDetail(seqno);
 	}
 	
 	//******************************************************************************************** 
@@ -316,13 +320,76 @@
 		    }
 		});
 	}
+ 	
+	function fn_CommentMod(seqno, contents){
+		var boardSubType = "C";
+		
+		var sUrl = "${pageContext.request.contextPath}/review/review_comments_mod.ajax";
+		
+		// 파라미터
+		var params = {
+			seqno:seqno,
+			boardType:BOARD_TYPE,
+			boardSubType:boardSubType,
+			contents:contents
+		}
+		
+		
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				alert("수정 되었습니다.");
+				fn_comments_listType(tmpSeqnno);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+				//실패나 성공시 항상 실행 콜백함수
+		    }
+		});
+	}
+	
+	function fn_CommentDel(seqno){
+		var boardSubType = "C";
+		
+		var sUrl = "${pageContext.request.contextPath}/review/review_comments_delete.ajax";
+		
+		// 파라미터
+		var params = {
+			seqno:seqno,
+			boardType:BOARD_TYPE,
+			boardSubType:boardSubType
+		}
+		
+		
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				alert("삭제 되었습니다.");
+				fn_comments_listType(tmpSeqnno);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+				//실패나 성공시 항상 실행 콜백함수
+		    }
+		});
+	}
 	//******************************************************************************************** 
 	// 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
 	function fn_Bind(response) {
 		
 		var title = response.result.TITLE;
-		var regntnm = response.result.REGNT_NM;
+		var regntnm = response.result.REGNT_ID;
 		var regntdtm = response.result.REGNT_DTM;
 		var contents = response.result.CONTENTS;
 		var like = response.result.LIKE_CNT2;
@@ -370,13 +437,16 @@
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 				
 				tmpStr += "<li><p><em>"+ params.result[i].REGNT_NM +"</em>";
-				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span></p>";
-				tmpStr += "<div class='cm_txt'>"+ params.result[i].CONTENTS +"</div>";
-				tmpStr += "<button class='btn_reply' id='btn_reply'>댓글</button>";
+				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
+				tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
+				tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+				tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+				tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+				tmpStr += "<button class='btn_reply'>댓글</button>";
 				tmpStr += "<div class='reply_write clear'>";
 				tmpStr += "<textarea class='comments_reply' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
-				tmpStr += "<div class='rp_btn'><button>댓글 수정</button><button>댓글 삭제</button></div></div>";
-				tmpStr += "<div class='btnRight'></div></li>"	
+				tmpStr += "<div class='rp_btn'><button>댓글 등록</button></div>";
+				tmpStr += "</li>"
 			}
 			
 		} else {
@@ -384,6 +454,10 @@
 		
 		$(".cm_list").append(tmpStr);
 
+	}
+	
+	function fn_Comment_mod_Bind(response){
+		$(".txtarea_mod").val(contents);
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -434,7 +508,58 @@
 		fn_CommentsSave(tmpSeqnno);
 	});
 	
+	$(document).on("click", ".btn_comment_mod", function () {
+	    var $li = $(this).closest("li");
+	    
+	    var C = "<i class='fa-duotone fa-c' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #071731;'></i>";
+	    
+	    // cm_txt를 숨기고 wrap_txt_mod를 보이게 합니다.
+	    $li.find(".cm_txt").hide();
+	    $li.find(".btn_comment_del").hide();
+	    $li.find(".wrap_txt_mod").show();
+	    
+	    // "M" 버튼을 "C" 버튼으로 변경합니다.
+	    $(this).html(C).removeClass("btn_comment_mod").addClass("btn_comment_cancel");
+	});
+
+	// "C" 버튼 클릭 시 wrap_txt_mod를 숨기고 cm_txt를 보이게 합니다.
+	$(document).on("click", ".btn_comment_cancel", function () {
+	    var $li = $(this).closest("li");
+	    
+	    var M = "<i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i>"
+	    
+	    // wrap_txt_mod를 숨기고 cm_txt를 보이게 합니다.
+	    $li.find(".wrap_txt_mod").hide();
+	    $li.find(".btn_comment_del").show();
+	    $li.find(".cm_txt").show();
+	    
+	    // "C" 버튼을 다시 "M" 버튼으로 변경합니다.
+	    $(this).html(M).removeClass("btn_comment_cancel").addClass("btn_comment_mod");
+	});
+
 	
+	$(document).on("click", "[id^=mod_]", function(){
+		var seqno = $(this).attr("id").replace(/mod_/gi,"");
+		var contents = $(this).prev().val();
+		
+		var contents_area = $("#rpl_" + seqno).val();
+		
+		if (contents.trim() === "") {
+	        alert("내용을 입력해주세요.");
+	        $(contents_area).focus();
+	        return;
+	    }
+		fn_CommentMod(seqno, contents);
+	});
+	
+	$(document).on("click", "[id^=del_]", function(){
+		var seqno = $(this).attr("id").replace(/del_/gi,"");
+		
+	    if (confirm("댓글을 삭제하시겠습니까?")) {
+	        // 사용자가 "예"를 선택한 경우
+	        fn_CommentDel(seqno);
+	    }
+	});
 	</script>
 </head>
 
@@ -465,9 +590,9 @@
                         <div class="col02">첨부파일이 없습니다</div>
                     </div>
                     <div class="navigation clear">
-                        <a class="fl nv_prev">이전</a>
+                        <a href="javascript:///" class="fl nv_prev">이전</a>
                         <a href="../review/review.do">LIST</a>
-                        <a class="fr nv_next">다음</a>
+                        <a href="javascript:///" class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
                         <button class="btn_gray btn_delete" id="btn_delete" >삭제하기</button>
@@ -475,50 +600,14 @@
                     </div> 
                 </div>
                 <div class="comments clear">
+                <%if (m_id != null && !m_id.equals("")) {
+				%>
                     <div class="cm_write clear">
                         <textarea id="comments" cols="160" rows="10"></textarea>
                         <button class="btn_comments" id="btn_comments">댓글 달기</button>
                     </div>
+                <%} %>
                     <ul class="cm_list">
-                        <li>
-                            <p><em>박윤선</em><span>2023.05.13</span></p>
-                            <div class="cm_txt">답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.답변을이곳에 적을 겁니다.</div>
-                            <button class="btn_reply" id="btn_reply">댓글</button>
-                            <div class="reply_write clear">
-                                <textarea name="" id="" cols="100" rows="2" placeholder="댓글을 입력해주세요."></textarea>
-                                <div class="rp_btn">
-                                    <button>댓글 수정</button>
-                                    <button>댓글 삭제</button>
-                                </div>
-                            </div>
-                            <div class="btnRight">
-                            </div>
-                        </li>
-                        <li>
-                            <p><em>박윤선</em><span>2023.05.13</span></p>
-                            <div class="cm_txt">게시판에 동일 내용 문의로 답변 갈음함</div>
-                            <button class="btn_reply">댓글</button>
-                            <div class="btnRight">
-                                    <button>댓글 수정</button>
-                                    <button>댓글 삭제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="reply_view">
-                                <p><em>박정윤</em><span>2023.05.13</span></p>
-                                <div class="re_reply"><em>민하은</em>
-                                    <p>답글에 대한 댓글.</p>
-                                </div>
-                                <button class="btn_reply">댓글</button>
-                                <div class="reply_write clear">
-                                    <textarea name="" id="" cols="120" rows="2" placeholder="대댓글을 입력해주세요."></textarea>
-                                    <div class="rp_btn">
-                                        <button>대댓글 수정</button>
-                                        <button>대댓글 삭제</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>

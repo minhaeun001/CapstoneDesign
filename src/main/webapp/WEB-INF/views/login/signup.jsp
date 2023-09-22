@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/signup.css">
-    <script src="https://kit.fontawesome.com/cac80fd1df.js" crossorigin="anonymous"></script>
+    
     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../../js/jquery-1.7.2.min.js"></script>
     <script src="../../js/script.js"></script>
 

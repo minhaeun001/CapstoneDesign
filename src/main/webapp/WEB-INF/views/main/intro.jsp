@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <script src="../../js/jquery-1.7.2.min.js"></script>
     <script src="../../js/script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="../../js/aos.css" rel="stylesheet">
     <script src="../../js/aos.js"></script>

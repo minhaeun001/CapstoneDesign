@@ -21,8 +21,6 @@ public interface ReviewService {
 
 	int boardModifySave(Map<String, Object> hm);
 
-	int boardDelete(Map<String, Object> hm);
-
 	int reviewBoardWrite(Map<String, String> hm);
 
 	Map<String, Object> boardFileSelect(Map<String, Object> hm);
@@ -40,4 +38,8 @@ public interface ReviewService {
 	int ReviewCommentSave(Map<String, Object> hm);
 
 	List<Map<String, Object>> CommentsList(Map<String, Object> hm);
+	
+	int CommentsModifyDetail(Map<String, Object> hm);
+	
+	int CommentsDelete(Map<String, Object> hm);
 }

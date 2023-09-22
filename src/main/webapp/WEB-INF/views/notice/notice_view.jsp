@@ -219,7 +219,7 @@
 	function fn_Bind(response) {
 		
 		var title = response.result.TITLE;
-		var regntnm = response.result.REGNT_NM;
+		var regntnm = response.result.REGNT_ID;
 		var regntdtm = response.result.REGNT_DTM;
 		var contents = response.result.CONTENTS;
 		var category_nm = response.result.CATEGORY_NM;

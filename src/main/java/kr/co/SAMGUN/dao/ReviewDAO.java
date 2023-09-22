@@ -21,8 +21,6 @@ public interface ReviewDAO {
 
 	public int boardModifySave(Map<String, Object> hm);
 
-	public int boardDelete(Map<String, Object> hm);
-
 	public int reviewBoardWrite(Map<String, String> hm);
 
 	public Map<String, Object> boardFileSelect(Map<String, Object> hm);
@@ -46,4 +44,8 @@ public interface ReviewDAO {
 	public int ReviewCommentSave(Map<String, Object> hm);
 	
 	public List<Map<String, Object>> CommentsList(Map<String, Object> hm);
+	
+	public int CommentsModifyDetail(Map<String, Object> hm);
+	
+	public int CommentsDelete(Map<String, Object> hm);
 }

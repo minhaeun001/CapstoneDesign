@@ -153,7 +153,7 @@
 				tmpStr += "<li class='item'><div class='cardArea'>";
 				tmpStr += "	<a href='../review/review_view.do?" + "seqno="+params.result[i].SEQ_NO+"'>";
 				tmpStr += "<p class='tp_txt'><span class='group starting_date'>"+"41일차 수강생"+"</span>";
-				tmpStr += "<span class='author 	review_nm'>"+params.result[i].REGNT_NM+"</span>";
+				tmpStr += "<span class='author 	review_nm'>"+params.result[i].REGNT_ID+"</span>";
 				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
 				tmpStr += "<i class='arrow'><img src='../../img/icon_arrow.svg' alt='자세히 보기'></i></p>";
 				tmpStr += "<h5>" + params.result[i].TITLE + "</h5>"
@@ -278,7 +278,7 @@
                             <!--<span>Total <em>110</em></span>-->
                         </div>
                         <div class="right btn_area">
-                            <button class="btn_blue" id="btn_write">작성하기</button>
+                            <button class="btn_blue" id="btn_write">작성하기 <i class="fa-solid fa-feather" style="color: #ffffff;"></i></button>
                         </div>
                     </div>
                     <div class="card">

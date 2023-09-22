@@ -288,7 +288,7 @@
                             <button class="btn_search"><span class="hide">search</span></button>
                         </div>
                         <div class="right btn_area">
-                            <button class="btn_blue" id="btn_write">작성하기</button>
+                            <button class="btn_blue" id="btn_write">작성하기 <i class="fa-solid fa-feather" style="color: #ffffff;"></i></button>
                         </div>
                     </div>
                     <table class="tb_type1 notice">

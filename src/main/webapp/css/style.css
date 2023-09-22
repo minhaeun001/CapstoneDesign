@@ -15,7 +15,7 @@
 
 -------------------------------------*/
 body {overflow-x: hidden; overflow-y: auto;}
-.top {z-index: 1000; position: fixed; top: 0; left: 0; width: 100%; line-height: 84px; min-width: 1480px;background: #000; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.3);}
+.top {z-index: 1000; position: fixed; top: 0; left: 0; width: 100%; line-height: 84px; min-width: 100%; background: #000; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.3);}
 .top .logo {background-color:#000; position: absolute; top: -6px; left: 60px; text-align: center; }
 .top .gnb {display: inline-block; z-index: 300;}
 .top .gnb li {display: inline-block; margin-right: 60px;}
@@ -233,6 +233,7 @@ body {overflow-x: hidden; overflow-y: auto;}
 .main .inner .baord .view .col02 {padding: 10px 60px; font-size: 16px;  border-top: 1px solid #000; border-bottom: 1px solid #000;}
 .main .inner .baord .navigation {margin-top: 26px; text-align: center; font-size: 24px; font-weight: 700;}
 
+
 .main .inner .baord .navigation .nv_prev:before {
     content: '';
     display: inline-block;
@@ -270,18 +271,18 @@ body {overflow-x: hidden; overflow-y: auto;}
 .comments .cm_list li p em {margin-right: 10px; font-weight: 500;}
 .comments .cm_list li p span {color: #888; font-weight: 500; font-size: 14px;}
 .comments .cm_list li .cm_txt {margin-top: 2px; margin-bottom: 2px; font-weight: 400; line-height: 22px;}
-.comments .cm_list li button {padding: 0;}
+.comments .cm_list li button {padding: 0; width:30px;}
 .comments .cm_list li button {display: inline-block; background-color: transparent; font-size: 14px;}
-.comments .cm_list li .btn_reply {font-size: 13px; color: #888;}
+.comments .cm_list li .btn_reply {font-size: 13px; color: #888; display: block; margin-top: 10px;}
 .comments .cm_list li .btn_reply:hover {text-decoration: underline;}
 .comments .cm_list li .reply_write {margin-top: 10px;}
-.comments .cm_list li .reply_write textarea {float: left; width: 900px; padding: 10px 14px; border: 1px solid #d2d2d2;}
+.comments .cm_list li .reply_write textarea {float: left; width: 90%; padding: 10px 14px; border: 1px solid #d2d2d2;}
 .comments .cm_list li .reply_write textarea::-webkit-input-placeholder {font-size: 15px;}
 .comments .cm_list li .reply_write textarea:-ms-input-placeholder {color: #888888;}
 .comments .cm_list li .reply_write textarea::placeholder {color: #888888;}
 .comments .cm_list li .reply_write .rp_btn {float: left;display: inline-block; width: 60px;}
 .comments .cm_list li .reply_write .rp_btn button {width: 100%; height: 30px; margin-left: 10px;margin-bottom: 8px; background-color: #888; color: #fff;border-radius: 4px; font-size: 12px;}
-.comments .cm_list li .btnRight {position: absolute; top: 13px; right: 20px;}
+.comments .cm_list li .btnRight {display: inline-block; width:100px;}
 .comments .cm_list li .btnRight button {margin-left: 10px; font-size: 14px; color: #888; font-weight: 400;}
 .comments .cm_list li .btnRight button:hover {text-decoration: underline;}
 .comments .cm_list li .reply_view  {margin-left: 60px;}
@@ -606,6 +607,10 @@ mypage.html
 .comment_list .cm_list li .btnRight button {font-size: 12px; color: #888; font-weight: 400;}
 .comment_list .cm_list li .btnRight button:hover {text-decoration: underline;}
 .reply_write {display: none;}
+.txtarea_mod {border:1px solid #bababa;}
+.wrap_txt_mod {width: 100%; display:none;}
+.wrap_txt_mod > button {padding-left:10px !important;}
+
 
 .exTab_sub .group .right {padding: 20px 20px 20px 20px;} 
 .exTab_sub .group .right .pdf_img img {width: 100%;}
@@ -839,9 +844,6 @@ p {display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline
 option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px 1px;}
 .check > a{color: white;}
 
-
-.col1{background-color: skyblue;}
-
 .id{border-top: 2px solid black;}
 .id a .tbns {padding: 5px 8px; height: auto; line-height: 20px;}
 .tbtns {display: inline-block; font-size: 14px; text-align: center; padding: 0 8px; height: 32px; line-height: 29px; color: #515e71; background: #e3e7ed; border: 1px solid #bcc1ca; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
@@ -930,3 +932,9 @@ label.disn {position: absolute; left: -10000px; top: auto; height: 1px; overflow
 .btns > span{color: white;}
 
 #sign{color: white;}
+
+
+/*미디어 쿼리*/
+
+/* PC , 테블릿 가로 (해상도 1024px ~ 1200px)*/
+@media (min-width: 1024px) and (max-width: 1200px) {div{width: 1200px;} .top .logo{width: 10%;} .top .gnb li{margin-right: 30px;}.top .top_right{width: 10%;}}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<link rel="icon" href="../../img/favicon.ico" type="image/x-icon">
+	<script src="https://kit.fontawesome.com/cac80fd1df.js" crossorigin="anonymous"></script>
     <script>
 
 	//******************************************************************************************** 

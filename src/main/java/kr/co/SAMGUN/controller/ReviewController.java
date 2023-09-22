@@ -371,4 +371,53 @@ public class ReviewController {
 		
 		return "jsonView";
 	}
+	
+	@RequestMapping("/review_comments_mod.ajax")
+	public String review_comments_mod(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		HttpSession session = request.getSession();
+		
+		
+		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
+		String contents = request.getParameter("contents");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
+		hm.put("contents", contents);
+		hm.put("modid", session.getAttribute("m_id"));
+		
+		int modCnt = reviewService.CommentsModifyDetail(hm); //결과적으로 리턴받는 타입 int
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("modCnt",modCnt);
+		model.addAttribute("result",result);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/review_comments_delete.ajax")
+	public String review_comments_delete(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+			
+		String seqno = request.getParameter("seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);		
+		
+		// 자료타입            변수명        결과
+		// 자료타입 == 결과의 타입은 같아야한다.
+		int result = reviewService.CommentsDelete(hm);
+		
+		model.addAttribute("result", result);
+
+		return "jsonView";
+	}
+	
 }

@@ -67,46 +67,6 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDAO.boardModifySave(hm);
 	}
 
-	public int boardDelete(Map<String, Object> hm) {
-		
-		//삭제할 파일 정보 먼저 불러오기 
-		Map<String, Object> resultMap = reviewDAO.boardFileSelect(hm);
-		
-		//DB에서 먼저 게시글 삭제 
-		reviewDAO.boardDelete(hm);
-		
-		//DB게시글 삭제 후 파일 정보 삭제
-		String tmp_path_name = resultMap.get("FILE_PATH") + File.separator + resultMap.get("TARGET_FILE_NAME1");
-		File file1 = new File(tmp_path_name);
-		
-		if(file1.exists()) {
-			file1.delete();
-		}
-		
-		tmp_path_name = resultMap.get("FILE_PATH") + File.separator + resultMap.get("TARGET_FILE_NAME2");
-		File file2 = new File(tmp_path_name);
-		
-		if(file2.exists()) {
-			file2.delete();
-		}
-		
-		tmp_path_name = resultMap.get("FILE_PATH") + File.separator + resultMap.get("TARGET_FILE_NAME3");
-		File file3 = new File(tmp_path_name);
-		
-		if(file3.exists()) {
-			file3.delete();
-		}
-		
-		tmp_path_name = resultMap.get("FILE_PATH") + File.separator + resultMap.get("TARGET_FILE_NAME4");
-		File file4= new File(tmp_path_name);
-		
-		if(file4.exists()) {
-			file4.delete();
-		}
-		
-		return 1;
-	}
-
 	@Override
 	public int reviewBoardWrite(Map<String, String> hm) {
 		return reviewDAO.reviewBoardWrite(hm);
@@ -164,4 +124,15 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Map<String, Object>> CommentsList(Map<String, Object> hm) {
 		return reviewDAO.CommentsList(hm);
 	}
+	
+	@Override
+	public int CommentsModifyDetail(Map<String, Object> hm) {
+		return reviewDAO.CommentsModifyDetail(hm);
+	}
+	
+	@Override
+	public int CommentsDelete(Map<String, Object> hm) {
+		return reviewDAO.CommentsDelete(hm);
+	}
+
 }
