@@ -34,8 +34,9 @@
 
 	
 	function init(){
+		var m_id = "<%=(String) session.getAttribute("m_id")%>";
 		
-		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+		if( "null"  == m_id  || "" == m_id) {
 			$("#btn_write").hide();
 		}
 		

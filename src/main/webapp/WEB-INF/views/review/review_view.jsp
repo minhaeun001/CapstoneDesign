@@ -39,10 +39,11 @@
 	
 	
 	function init(){
-		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+		var m_id = "<%=(String) session.getAttribute("m_id")%>";
+		
+		if( "null"  == m_id  || "" == m_id) {
 			$("#btn_modify").hide();
 			$("#btn_delete").hide();
-			$(".rp_btn_cm").hide();
 		}
 		
 		fn_UpdateViewCnt(seqno);
@@ -383,6 +384,87 @@
 		    }
 		});
 	}
+	
+	function fn_Comment_reply(seqno, contents, grp_seqno){
+		
+		var boardSubType = "C";
+		
+	    var sUrl = "${pageContext.request.contextPath}/review/review_reply_save.ajax";
+	    
+		var params = {
+			prt_seqno:seqno,
+			grp_seqno:grp_seqno,
+			contents:contents,
+			boardType:BOARD_TYPE,
+			boardSubType:boardSubType
+		};
+	    
+	    $.ajax({
+	        url: sUrl,
+	        data: params,
+	        method: 'post',
+	        dataType: 'json',
+	        success: function (response) {
+				if(response.flag != "T"){
+					alert(response.result.msg);
+					
+					return ;
+				}
+				
+				alert("저장되었습니다.");
+				fn_reply_listType(seqno, grp_seqno);
+	        },
+	        error: function (xhr, status, error) {
+	            alert("error");
+	        },
+	        complete: function () {}
+	    });
+	}
+	
+	function fn_reply_listType(seqno, grp_seqno){
+		//댓글 리스트 호출
+		var boardSubType = "C";
+		
+		var sUrl = "${pageContext.request.contextPath}/review/reply_listType.ajax";	
+		
+		// 파라미터
+		var params = {
+			prt_seqno:seqno,
+			grp_seqno:grp_seqno,
+ 			boardType:BOARD_TYPE,
+ 			boardSubType:boardSubType
+		}
+		
+		
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				
+				//데이터가 있는지 확인한다.
+				if (response.result.length < 1 ) {
+					return ;
+				}
+				
+				//response 의 결과값을 바인딩 전용 함수로 넘기기 위해  response값을 params 에 재 할당
+				//params.totalcnt	= response.result[0].totalcnt ; //총갯수  - 페이징 처리에 필요하여 params.totalcnt	 대입
+				params.result = response.result ; //결과값을  params에 담는다
+				
+				$("#comments_reply_"+seqno).val("");
+				//결과값 바인드 함수 호출
+				fn_reply_bind(params) ;
+
+			},	
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+				//실패나 성공시 항상 실행 콜백함수
+		    }
+		});
+	}
 	//******************************************************************************************** 
 	// 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -403,7 +485,7 @@
 		$(".view_cnt").text(view_cnt);
 		
 		fn_comments_listType(tmpSeqnno);
-		
+		fn_reply_listType();
 	}
 	
 	function fn_mod(tmpSeqnno){
@@ -436,7 +518,7 @@
 		if(params.result && params.result.length > 0) {
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 				
-				tmpStr += "<li><p><em>"+ params.result[i].REGNT_NM +"</em>";
+				tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_NM +"</em>";
 				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
 				tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
 				tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
@@ -444,8 +526,8 @@
 				tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
 				tmpStr += "<button class='btn_reply'>댓글</button>";
 				tmpStr += "<div class='reply_write clear'>";
-				tmpStr += "<textarea class='comments_reply' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
-				tmpStr += "<div class='rp_btn'><button>댓글 등록</button></div>";
+				tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
+				tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
 				tmpStr += "</li>"
 			}
 			
@@ -453,6 +535,34 @@
 		}			
 		
 		$(".cm_list").append(tmpStr);
+
+		var m_id = "<%=(String) session.getAttribute("m_id")%>";
+		
+		if( "null"  == m_id  || "" == m_id) {
+			$(".rp_btn_cm").hide();
+		}
+	}
+	
+	function fn_reply_bind(params){
+		
+		var grp_seqno = params.grp_seqno;
+		var tmpStr = "";
+		
+		if(params.result && params.result.length > 0) {
+			for (var i=0, j=params.result.length ; i < j ; i++ ) {
+				
+				tmpStr += "<li><div class='reply_view'>";
+				tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
+				tmpStr += "<span class='rp_btn_cm'><button class='btn_reply_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
+				tmpStr += "<button class='btn_reply_del' id='rp_del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+				tmpStr += "<p>"+params.result[i].CONTENTS+"</p>";
+				tmpStr += "</div></div></li>"
+			}
+			
+		} else {
+		}			
+		
+		$("#comment_grp_"+grp_seqno).append(tmpStr);
 
 	}
 	
@@ -559,6 +669,15 @@
 	        // 사용자가 "예"를 선택한 경우
 	        fn_CommentDel(seqno);
 	    }
+	});
+	
+	$(document).on("click", "[id^=rp_]", function(){
+		var seqno = $(this).attr("id").replace(/rp_/gi,"");
+		var contents = $("#comments_reply_"+seqno).val();
+
+		var grp_seqno = $(this).parent().parent().parent().attr("id").replace(/comment_grp_/gi,"");
+		
+		fn_Comment_reply(seqno, contents, grp_seqno);
 	});
 	</script>
 </head>

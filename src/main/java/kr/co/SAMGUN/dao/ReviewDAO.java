@@ -48,4 +48,8 @@ public interface ReviewDAO {
 	public int CommentsModifyDetail(Map<String, Object> hm);
 	
 	public int CommentsDelete(Map<String, Object> hm);
+	
+	public int ReviewReplySave(Map<String, Object> hm);
+	
+	public List<Map<String, Object>> ReplyList(Map<String, Object> hm);
 }

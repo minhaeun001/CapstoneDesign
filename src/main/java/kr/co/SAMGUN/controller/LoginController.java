@@ -122,6 +122,7 @@ public class LoginController {
 		String m_id = request.getParameter("m_id");
 		String m_pwd = request.getParameter("m_pwd");
 		String m_nm = "";
+		String m_grade = "";
 
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
@@ -139,6 +140,7 @@ public class LoginController {
 			HttpSession session = request.getSession();
 			session.setAttribute("m_id", m_id);
 			session.setAttribute("m_nm", (String)hm.get("m_nm"));
+			session.setAttribute("m_grade", (String)hm.get("m_grade"));
 			
 		}
 			

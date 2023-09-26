@@ -420,4 +420,76 @@ public class ReviewController {
 		return "jsonView";
 	}
 	
+	@RequestMapping("/review_reply_save.ajax")
+	public String review_reply_save(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		String m_nm = (String) session.getAttribute("m_nm");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if( null == m_id || "".equals(m_id)) {
+			String msg = "로그인 후 이용해주세요.";
+			
+			result.put("msg", msg);
+			model.addAttribute("result", result);
+			model.addAttribute("flag", "F");
+			return "jsonView";
+		}
+		
+		
+		String contents =request.getParameter("contents");
+		String boardType = request.getParameter("boardType");
+		String prt_seqno = request.getParameter("prt_seqno");
+		String boardSubType = request.getParameter("boardSubType");
+		String grp_seqno = request.getParameter("grp_seqno");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("prt_seqno",prt_seqno);
+		hm.put("contents", contents);
+		hm.put("m_id", m_id);
+		hm.put("regntnm", m_nm);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
+		hm.put("grp_seqno", grp_seqno);
+	
+		
+		int saveCnt = reviewService.ReviewReplySave(hm); //결과적으로 리턴받는 타입 int
+		
+		result.put("saveCnt",saveCnt);
+		model.addAttribute("result",result);
+		model.addAttribute("flag", "T");
+
+		return "jsonView";
+	}
+	
+	@RequestMapping("/reply_listType.ajax")
+	public String reply_listType(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		
+		String prt_seqno = request.getParameter("prt_seqno");
+		String grp_seqno = request.getParameter("grp_seqno");
+		String boardType = request.getParameter("boardType");
+		String boardSubType = request.getParameter("boardSubType");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("prt_seqno", prt_seqno);
+		hm.put("grp_seqno", grp_seqno);
+		hm.put("boardType", boardType);
+		hm.put("boardSubType", boardSubType);
+		
+		 
+//		
+//		//디비에서 가져온 리스트를 할당함
+		List<Map<String, Object>> rstList = reviewService.ReplyList(hm);
+//
+//		//클라이언트에 보낼 데이터를 모델에 담는다.
+//		model.addAttribute("result", rstList);
+//		model.addAttribute("totalcnt", totalcnt);
+		
+		model.addAttribute("result", rstList);
+		
+		return "jsonView";
+	}
 }

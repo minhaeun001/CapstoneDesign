@@ -34,7 +34,7 @@
 
 	//최초 실행시 함수 
 	function init(){
-		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>") {
+		if( "null"  == "<%=(String) session.getAttribute("m_id")%>"  || "" == "<%=(String) session.getAttribute("m_id")%>" || "<%=(String) session.getAttribute("m_grade")%>" == '0') {
 			$("#btn_write").hide();
 		}
 		

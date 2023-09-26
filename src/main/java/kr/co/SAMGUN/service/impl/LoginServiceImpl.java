@@ -88,6 +88,7 @@ public class LoginServiceImpl implements LoginService {
 				Map<String, Object> map = loginDAO.SelectMember(hm);
 				
 				hm.put("m_nm", map.get("M_NM"));
+				hm.put("m_grade", map.get("M_GRADE"));
 				// 아이디와 비밀번호가 있다면
 				flag = "T";
 				msg = "환영합니다.";

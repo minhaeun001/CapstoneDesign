@@ -298,4 +298,51 @@ SELECT
 	AND BOARD_SUB_TYPE = #{boardSubType}
 </delete>
 
+<insert id="ReviewReplySave" parameterType="Map">
+	insert into BOARD
+	(
+	SEQ_NO,
+	REGNT_ID,
+	REGNT_DTM,
+	REGNT_NM,
+	CONTENTS,
+	GRP_SEQNO,
+	PRT_SEQNO,
+	STEP,
+	MOD_ID,
+	MOD_DTM,
+	BOARD_TYPE,
+	BOARD_SUB_TYPE
+	)
+	VALUES
+	(
+	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
+	#{m_id},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{m_nm},
+	#{contents},
+	#{grp_seqno},
+	#{prt_seqno},
+	0,
+	#{m_id},
+	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+	#{boardType},
+	'C'
+	)
+</insert>
+
+
+<select  id="ReplyList" parameterType="Map" resultType="java.util.HashMap">
+
+SELECT
+    ROW_NUMBER() OVER(ORDER BY B.REGNT_DTM ASC) RNUM,
+    B.*
+	FROM BOARD B
+	WHERE 1=1
+    AND BOARD_TYPE = #{boardType}
+    AND PRT_SEQNO = #{prt_seqno}
+    AND GRP_SEQNO = #{grp_seqno}
+	AND BOARD_SUB_TYPE = #{boardSubType}
+</select>
+
 </mapper>

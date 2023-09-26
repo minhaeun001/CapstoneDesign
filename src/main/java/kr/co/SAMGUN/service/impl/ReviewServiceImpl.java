@@ -134,5 +134,15 @@ public class ReviewServiceImpl implements ReviewService {
 	public int CommentsDelete(Map<String, Object> hm) {
 		return reviewDAO.CommentsDelete(hm);
 	}
+	
+	@Override
+	public int ReviewReplySave(Map<String, Object> hm) {
+		return reviewDAO.ReviewReplySave(hm);
+	}
+	
+	@Override
+	public List<Map<String, Object>> ReplyList(Map<String, Object> hm) {
+		return reviewDAO.ReplyList(hm);
+	}
 
 }

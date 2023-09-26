@@ -138,4 +138,14 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public int CommentsDelete(Map<String, Object> hm) {
 		return sqlSession.delete(namespace+".CommentsDelete", hm);
 	}
+	
+	@Override
+	public int ReviewReplySave(Map<String, Object> hm) {
+		return sqlSession.insert(namespace+".ReviewReplySave", hm);
+	} 
+	
+	@Override
+	public List<Map<String, Object>> ReplyList(Map<String, Object> hm) {
+		return  sqlSession.selectList(namespace+".ReplyList", hm);
+	}
 }

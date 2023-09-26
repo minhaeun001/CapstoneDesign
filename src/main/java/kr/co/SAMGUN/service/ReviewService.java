@@ -42,4 +42,8 @@ public interface ReviewService {
 	int CommentsModifyDetail(Map<String, Object> hm);
 	
 	int CommentsDelete(Map<String, Object> hm);
+	
+	int ReviewReplySave(Map<String, Object> hm);
+	
+	List<Map<String, Object>> ReplyList(Map<String, Object> hm);
 }
