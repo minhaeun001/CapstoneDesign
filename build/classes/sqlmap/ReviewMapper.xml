@@ -255,7 +255,7 @@ AND BOARD_SUB_TYPE = #{boardSubType}
 	VALUES
 	(
 	(SELECT MAX(SEQ_NO)+1 FROM BOARD),
-	#{regntid},
+	#{m_id},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 	#{regntnm},
 	#{contents},
@@ -273,13 +273,13 @@ AND BOARD_SUB_TYPE = #{boardSubType}
 <select  id="CommentsList" parameterType="Map" resultType="java.util.HashMap">
 
 SELECT
-    ROW_NUMBER() OVER(ORDER BY B.REGNT_DTM DESC) RNUM,
     B.*
 	FROM BOARD B
 	WHERE 1=1
     AND BOARD_TYPE = #{boardType}
     AND PRT_SEQNO = #{prt_seqno}
 	AND BOARD_SUB_TYPE = #{boardSubType}
+	ORDER BY GRP_SEQNO DESC, regnt_dtm asc
 </select>
 
 <update  id="CommentsModifyDetail" parameterType="Map">
@@ -323,26 +323,12 @@ SELECT
 	#{contents},
 	#{grp_seqno},
 	#{prt_seqno},
-	0,
+	'1',
 	#{m_id},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 	#{boardType},
 	'C'
 	)
 </insert>
-
-
-<select  id="ReplyList" parameterType="Map" resultType="java.util.HashMap">
-
-SELECT
-    ROW_NUMBER() OVER(ORDER BY B.REGNT_DTM ASC) RNUM,
-    B.*
-	FROM BOARD B
-	WHERE 1=1
-    AND BOARD_TYPE = #{boardType}
-    AND PRT_SEQNO = #{prt_seqno}
-    AND GRP_SEQNO = #{grp_seqno}
-	AND BOARD_SUB_TYPE = #{boardSubType}
-</select>
 
 </mapper>

@@ -286,7 +286,8 @@
 		var params = {
 			prt_seqno:tmpSeqnno,
  			boardType:BOARD_TYPE,
- 			boardSubType:boardSubType
+ 			boardSubType:boardSubType,
+ 			step:"1"
 		}
 		
 		
@@ -307,6 +308,7 @@
 				//response 의 결과값을 바인딩 전용 함수로 넘기기 위해  response값을 params 에 재 할당
 				//params.totalcnt	= response.result[0].totalcnt ; //총갯수  - 페이징 처리에 필요하여 params.totalcnt	 대입
 				params.result = response.result ; //결과값을  params에 담는다
+				
 				
 				$("#comments").val("");
 				//결과값 바인드 함수 호출
@@ -385,14 +387,14 @@
 		});
 	}
 	
-	function fn_Comment_reply(seqno, contents, grp_seqno){
+	function fn_Comment_reply(tmpSeqnno, contents, grp_seqno){
 		
 		var boardSubType = "C";
 		
 	    var sUrl = "${pageContext.request.contextPath}/review/review_reply_save.ajax";
 	    
 		var params = {
-			prt_seqno:seqno,
+			prt_seqno:tmpSeqnno,
 			grp_seqno:grp_seqno,
 			contents:contents,
 			boardType:BOARD_TYPE,
@@ -412,7 +414,8 @@
 				}
 				
 				alert("저장되었습니다.");
-				fn_reply_listType(seqno, grp_seqno);
+				
+				fn_comments_listType(tmpsSeqno);
 	        },
 	        error: function (xhr, status, error) {
 	            alert("error");
@@ -420,51 +423,7 @@
 	        complete: function () {}
 	    });
 	}
-	
-	function fn_reply_listType(seqno, grp_seqno){
-		//댓글 리스트 호출
-		var boardSubType = "C";
-		
-		var sUrl = "${pageContext.request.contextPath}/review/reply_listType.ajax";	
-		
-		// 파라미터
-		var params = {
-			prt_seqno:seqno,
-			grp_seqno:grp_seqno,
- 			boardType:BOARD_TYPE,
- 			boardSubType:boardSubType
-		}
-		
-		
-		$.ajax({
-			url : sUrl,
-			data : params,
-			method : 'post',
-			dataType : 'json',
-			success : function(response) {
-				
-				//데이터가 있는지 확인한다.
-				if (response.result.length < 1 ) {
-					return ;
-				}
-				
-				//response 의 결과값을 바인딩 전용 함수로 넘기기 위해  response값을 params 에 재 할당
-				//params.totalcnt	= response.result[0].totalcnt ; //총갯수  - 페이징 처리에 필요하여 params.totalcnt	 대입
-				params.result = response.result ; //결과값을  params에 담는다
-				
-				$("#comments_reply_"+seqno).val("");
-				//결과값 바인드 함수 호출
-				fn_reply_bind(params) ;
-
-			},	
-			error : function(xhr, status, error) {
-				alert("error");
-			},
-			complete : function() {
-				//실패나 성공시 항상 실행 콜백함수
-		    }
-		});
-	}
+	 
 	//******************************************************************************************** 
 	// 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -476,6 +435,8 @@
 		var contents = response.result.CONTENTS;
 		var like = response.result.LIKE_CNT2;
 		var view_cnt = response.result.VIEW_CNT;
+
+		var seq_no = response.result.GRP_SEQNO;
 		
 		$(".review_title").text(title);
 		$(".review_nm").text(regntnm);
@@ -485,7 +446,7 @@
 		$(".view_cnt").text(view_cnt);
 		
 		fn_comments_listType(tmpSeqnno);
-		fn_reply_listType();
+
 	}
 	
 	function fn_mod(tmpSeqnno){
@@ -518,17 +479,27 @@
 		if(params.result && params.result.length > 0) {
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 				
-				tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_NM +"</em>";
-				tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
-				tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
-				tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
-				tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
-				tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
-				tmpStr += "<button class='btn_reply'>댓글</button>";
-				tmpStr += "<div class='reply_write clear'>";
-				tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
-				tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
-				tmpStr += "</li>"
+				if(params.result[i].STEP == 0){
+					tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_ID +"</em>";
+					tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
+					tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
+					tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+					tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+					tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+					tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
+					tmpStr += "<div class='reply_write clear'>";
+					tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
+					tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
+					tmpStr += "</li>"
+				} else {
+					tmpStr += "<li><div class='reply_view'>";
+					tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
+					tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
+					tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+					tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+					tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+					tmpStr += "</div></div></li>"
+				}
 			}
 			
 		} else {
@@ -541,29 +512,6 @@
 		if( "null"  == m_id  || "" == m_id) {
 			$(".rp_btn_cm").hide();
 		}
-	}
-	
-	function fn_reply_bind(params){
-		
-		var grp_seqno = params.grp_seqno;
-		var tmpStr = "";
-		
-		if(params.result && params.result.length > 0) {
-			for (var i=0, j=params.result.length ; i < j ; i++ ) {
-				
-				tmpStr += "<li><div class='reply_view'>";
-				tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
-				tmpStr += "<span class='rp_btn_cm'><button class='btn_reply_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
-				tmpStr += "<button class='btn_reply_del' id='rp_del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
-				tmpStr += "<p>"+params.result[i].CONTENTS+"</p>";
-				tmpStr += "</div></div></li>"
-			}
-			
-		} else {
-		}			
-		
-		$("#comment_grp_"+grp_seqno).append(tmpStr);
-
 	}
 	
 	function fn_Comment_mod_Bind(response){
@@ -677,7 +625,7 @@
 
 		var grp_seqno = $(this).parent().parent().parent().attr("id").replace(/comment_grp_/gi,"");
 		
-		fn_Comment_reply(seqno, contents, grp_seqno);
+		fn_Comment_reply(tmpSeqnno, contents, grp_seqno);
 	});
 	</script>
 </head>
