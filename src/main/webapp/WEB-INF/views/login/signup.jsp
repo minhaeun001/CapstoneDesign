@@ -93,8 +93,17 @@
 			method: "post",
 			dataType: "json",
 			success: function(response){
-				alert("회원가입 되었습니다.");
+				var msg = response.result.CheckNumber[0].msg;
+				var flag = response.result.CheckNumber[0].flag;
+				
+				alert(msg);
+				if(flag === "T"){	
+					return;
+				}
+				
 				location.href="../main/intro.do";
+			
+				
 			},
 			error: function(xhr, status, error){
 				alert("error");

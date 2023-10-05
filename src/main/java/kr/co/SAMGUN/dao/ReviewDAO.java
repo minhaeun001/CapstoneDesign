@@ -50,6 +50,4 @@ public interface ReviewDAO {
 	public int CommentsDelete(Map<String, Object> hm);
 	
 	public int ReviewReplySave(Map<String, Object> hm);
-	
-	public List<Map<String, Object>> ReplyList(Map<String, Object> hm);
 }

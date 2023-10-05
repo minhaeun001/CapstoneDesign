@@ -23,6 +23,8 @@
 	// 1. 전역변수 선언                                      						                              														  
 	//*********************************************************************************************/ 
 	var seqno = "<%=seqno%>";
+	var m_id = "<%=(String) session.getAttribute("m_id")%>";
+	
 	var  tmpSeqnno = seqno;
 	
 	const BOARD_TYPE = "30";
@@ -39,12 +41,11 @@
 	
 	
 	function init(){
-		var m_id = "<%=(String) session.getAttribute("m_id")%>";
-		
-		if( "null"  == m_id  || "" == m_id) {
-			$("#btn_modify").hide();
-			$("#btn_delete").hide();
-		}
+
+// 		if( "null"  == m_id  || "" == m_id) {
+// 			$("#btn_modify").hide();
+// 			$("#btn_delete").hide();
+// 		}
 		
 		fn_UpdateViewCnt(seqno);
 		fn_SearchDetail(seqno);
@@ -77,7 +78,9 @@
 	        		tmpSeqnno  = response.result.SEQ_NO;
 	        		fn_Bind(response);
 	        	}
-				
+				if(response.result.REGNT_ID !== m_id){
+					$(".myAuth").hide();
+				}
 			},	
 			error : function(xhr, status, error) {
 				alert("error");
@@ -104,8 +107,11 @@
 			method : 'post', // controller로 넘겨줄 방식
 			dataType : 'json', // controller로부터 넘겨받을 데이터의 형식
 			success : function(response) {
-				alert('삭제되었습니다.');
-				location.href = '../review/review.do';				
+				
+				alert(response.result.msg);
+				if("T" == response.result.flag){
+					location.href = '../review/review.do';	
+				}
 			},	
 			error : function(xhr, status, error) {
 				alert("error");
@@ -413,9 +419,9 @@
 					return ;
 				}
 				
-				alert("저장되었습니다.");
+				alert("등록되었습니다.");
 				
-				fn_comments_listType(tmpsSeqno);
+				fn_comments_listType(tmpSeqnno);
 	        },
 	        error: function (xhr, status, error) {
 	            alert("error");
@@ -480,25 +486,45 @@
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 				
 				if(params.result[i].STEP == 0){
-					tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_ID +"</em>";
-					tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
-					tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
-					tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
-					tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
-					tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
-					tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
-					tmpStr += "<div class='reply_write clear'>";
-					tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
-					tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
-					tmpStr += "</li>"
+					if(params.result[i].REGNT_ID == m_id){
+						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_ID +"</em>";
+						tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
+						tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
+						tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
+						tmpStr += "<div class='reply_write clear'>";
+						tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
+						tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
+						tmpStr += "</li>"
+					} else {
+						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_ID +"</em>";
+						tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
+						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
+						tmpStr += "<div class='reply_write clear'>";
+						tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
+						tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
+						tmpStr += "</li>"
+					}
+					
 				} else {
-					tmpStr += "<li><div class='reply_view'>";
-					tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
-					tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
-					tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
-					tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
-					tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
-					tmpStr += "</div></div></li>"
+					if(params.result[i].REGNT_ID == m_id){
+						tmpStr += "<li><div class='reply_view'>";
+						tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
+						tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
+						tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "</div></div></li>"
+					} else {
+						tmpStr += "<li><div class='reply_view'>";
+						tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "</div></div></li>"
+					}
 				}
 			}
 			
@@ -506,8 +532,6 @@
 		}			
 		
 		$(".cm_list").append(tmpStr);
-
-		var m_id = "<%=(String) session.getAttribute("m_id")%>";
 		
 		if( "null"  == m_id  || "" == m_id) {
 			$(".rp_btn_cm").hide();
@@ -662,8 +686,8 @@
                         <a href="javascript:///" class="fr nv_next">다음</a>
                     </div>
                     <div class="btn_area mt70">
-                        <button class="btn_gray btn_delete" id="btn_delete" >삭제하기</button>
-                        <button class="btn_green btn_modify" id="btn_modify">수정하기</button>
+                        <button class="btn_gray btn_delete myAuth" id="btn_delete" >삭제하기</button>
+                        <button class="btn_green btn_modify myAuth" id="btn_modify">수정하기</button>
                     </div> 
                 </div>
                 <div class="comments clear">

@@ -91,11 +91,18 @@ public class LoginController {
 		hm.put("m_birth", m_birth);
 		hm.put("use_yn", use_yn);
 		
-		int saveCnt = loginService.Signup(hm); //결과적으로 리턴받는 타입 int
+		List<Map<String, Object>> CheckNumber = loginService.CheckNumber(hm); //결과적으로 리턴받는 타입 int
 		Map<String, Object> result = new HashMap<String, Object>();
+		if ("T".equals( hm.get("flag")) ) {
+			// 휴대폰 번호가 존재할 경우
+		} else {
+			int saveCnt = loginService.Signup(hm); //결과적으로 리턴받는 타입 int
+			result.put("saveCnt",saveCnt);
+		}
 		
-		result.put("saveCnt",saveCnt);
+		result.put("CheckNumber", CheckNumber);	
 		model.addAttribute("result",result);
+		
 		return "jsonView";
 	}
 

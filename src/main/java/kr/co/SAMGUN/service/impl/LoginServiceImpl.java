@@ -51,6 +51,37 @@ public class LoginServiceImpl implements LoginService {
 	}
 	
 	@Override
+	public List<Map<String, Object>> CheckNumber(Map<String, Object> hm) {
+	
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+			
+		String CheckFlag = "F";
+		String flag = "F";
+		String msg = "회원가입 되었습니다.";
+		
+		hm.put("CheckFlag", CheckFlag);
+		
+		// 휴대폰 번호 존재여부 체크
+		int hpCheck = loginDAO.CheckNumber(hm);
+		
+		if(hpCheck > 0) {
+			//m_hp가 존재한다면	
+			CheckFlag = "T";
+			flag = "T";
+			msg = "등록된 휴대폰 번호가 존재합니다.";
+			hm.put("CheckFlag", CheckFlag);
+			hm.put("flag", flag);
+			hm.put("msg", msg);
+		}
+		
+		resultMap.put("flag", flag);
+		resultMap.put("msg", msg);
+		result.add(resultMap);
+		return result;
+	}
+	
+	@Override
 	public List<Map<String, Object>> checkLoginLogic(Map<String, Object> hm) {
 		
 		// 결과값을 담을 리스트

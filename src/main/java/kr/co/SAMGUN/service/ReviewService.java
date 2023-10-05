@@ -45,5 +45,4 @@ public interface ReviewService {
 	
 	int ReviewReplySave(Map<String, Object> hm);
 	
-	List<Map<String, Object>> ReplyList(Map<String, Object> hm);
 }

@@ -139,10 +139,5 @@ public class ReviewServiceImpl implements ReviewService {
 	public int ReviewReplySave(Map<String, Object> hm) {
 		return reviewDAO.ReviewReplySave(hm);
 	}
-	
-	@Override
-	public List<Map<String, Object>> ReplyList(Map<String, Object> hm) {
-		return reviewDAO.ReplyList(hm);
-	}
 
 }

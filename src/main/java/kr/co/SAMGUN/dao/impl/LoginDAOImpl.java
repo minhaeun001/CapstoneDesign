@@ -39,6 +39,11 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 	
 	@Override
+	public int CheckNumber(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".CheckNumber", hm);
+	}
+	
+	@Override
 	public int SelectIdCnt(Map<String, Object> hm) {
 		return sqlSession.selectOne(namespace+".SelectIdCnt", hm);
 	}

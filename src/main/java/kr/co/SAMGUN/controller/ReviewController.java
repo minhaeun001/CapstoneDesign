@@ -167,14 +167,33 @@ public class ReviewController {
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seqno", seqno);
 		hm.put("boardType", boardType);
-		hm.put("boardSubType", boardSubType);		
+		hm.put("boardSubType", boardSubType);
 		
-		// 자료타입            변수명        결과
-		// 자료타입 == 결과의 타입은 같아야한다.
-		int result = reviewService.DeleteReview(hm);
+		String regnt_id = (String) reviewService.boardDetail(hm).get("REGNT_ID");
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if((null != regnt_id) && (!"".equals(regnt_id)) && (regnt_id.equals(m_id))) {
+			String msg = "삭제되었습니다.";
+			String flag = "T";
+			
+			int deleteCnt = reviewService.DeleteReview(hm);
+			
+			result.put("msg", msg);
+			result.put("flag", flag);
+			result.put("deleteCnt", deleteCnt);			
+		} else {
+			String msg = "작성자가 아닙니다.";
+			String flag = "F";
+			
+			result.put("msg", msg);
+			result.put("flag", flag);
+		}
 		
 		model.addAttribute("result", result);
-
+		
 		return "jsonView";
 	}
 	
@@ -461,35 +480,6 @@ public class ReviewController {
 		model.addAttribute("result",result);
 		model.addAttribute("flag", "T");
 
-		return "jsonView";
-	}
-	
-	@RequestMapping("/reply_listType.ajax")
-	public String reply_listType(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
-		
-		
-		String prt_seqno = request.getParameter("prt_seqno");
-		String grp_seqno = request.getParameter("grp_seqno");
-		String boardType = request.getParameter("boardType");
-		String boardSubType = request.getParameter("boardSubType");
-		
-		Map<String, Object> hm = new HashMap<String, Object>();
-		hm.put("prt_seqno", prt_seqno);
-		hm.put("grp_seqno", grp_seqno);
-		hm.put("boardType", boardType);
-		hm.put("boardSubType", boardSubType);
-		
-		 
-//		
-//		//디비에서 가져온 리스트를 할당함
-		List<Map<String, Object>> rstList = reviewService.ReplyList(hm);
-//
-//		//클라이언트에 보낼 데이터를 모델에 담는다.
-//		model.addAttribute("result", rstList);
-//		model.addAttribute("totalcnt", totalcnt);
-		
-		model.addAttribute("result", rstList);
-		
 		return "jsonView";
 	}
 }
