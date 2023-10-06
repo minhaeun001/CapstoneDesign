@@ -91,16 +91,24 @@ public class LoginController {
 		hm.put("m_birth", m_birth);
 		hm.put("use_yn", use_yn);
 		
-		List<Map<String, Object>> CheckNumber = loginService.CheckNumber(hm); //결과적으로 리턴받는 타입 int
+		int CheckCnt = loginService.CheckNumber(hm); //결과적으로 리턴받는 타입 int
 		Map<String, Object> result = new HashMap<String, Object>();
-		if ("T".equals( hm.get("flag")) ) {
-			// 휴대폰 번호가 존재할 경우
+		// 휴대폰 번호가 존재할 경우
+		if (CheckCnt > 0) {
+			result.put("flag", "F");
+			result.put("msg", "이미 등록된 번호입니다.");
 		} else {
 			int saveCnt = loginService.Signup(hm); //결과적으로 리턴받는 타입 int
-			result.put("saveCnt",saveCnt);
+			if(saveCnt > 0) {
+				result.put("flag", "T");
+				result.put("msg", "회원가입 되었습니다. 로그인을 해주세요.");
+			} else {
+				result.put("flag", "F");
+				result.put("msg", "오류가 발생하였습니다. 다시 진행해주세요.");
+			}
+
 		}
 		
-		result.put("CheckNumber", CheckNumber);	
 		model.addAttribute("result",result);
 		
 		return "jsonView";

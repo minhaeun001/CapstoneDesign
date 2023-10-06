@@ -93,17 +93,13 @@
 			method: "post",
 			dataType: "json",
 			success: function(response){
-				var msg = response.result.CheckNumber[0].msg;
-				var flag = response.result.CheckNumber[0].flag;
+				var msg = response.result.msg;
+				var flag = response.result.flag;
 				
 				alert(msg);
-				if(flag === "T"){	
-					return;
+				if(flag === "T"){
+					location.href="../main/intro.do";
 				}
-				
-				location.href="../main/intro.do";
-			
-				
 			},
 			error: function(xhr, status, error){
 				alert("error");
@@ -730,7 +726,7 @@
                             </tbody>
                         </table>
                     </div>
-					<p class="identify"><span class="essR">::before "필수"</span> 개인정보 사용에 동의합니다. <input type="checkbox" id="use_yn"></p>
+					<p class="identify"><label><span class="essR">::before "필수"</span> 개인정보 사용에 동의합니다. <input type="checkbox" id="use_yn"></label></p>
                     <div class="right btn_area">
                         <button class="tb_top right btn_blue btn_signup">가입</button>
                     </div>
