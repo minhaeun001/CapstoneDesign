@@ -251,7 +251,24 @@
 	VIEW_CNT,
 	MOD_ID,
 	MOD_DTM,
-	BOARD_TYPE
+	BOARD_TYPE,
+	ORIGIN_FILE_NAME1,
+	TARGET_FILE_NAME1,
+	FILE_EXT1,
+	FILE_SIZE1,
+	ORIGIN_FILE_NAME2,
+	TARGET_FILE_NAME2,
+	FILE_EXT2,
+	FILE_SIZE2,
+	ORIGIN_FILE_NAME3,
+	TARGET_FILE_NAME3,
+	FILE_EXT3,
+	FILE_SIZE3,
+	ORIGIN_FILE_NAME4,
+	TARGET_FILE_NAME4,
+	FILE_EXT4,
+	FILE_SIZE4,
+	FILE_PATH
 	)
 	values
 	(
@@ -263,14 +280,31 @@
 	#{regntnm},
 	#{contents},
 	0,
-	#{attachfile},
+	0,
 	0,
 	0,
 	0,
 	0,
 	#{modid},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-	#{boardtype}
+	#{boardtype},
+	#{originFileName1},
+	#{targetFileName1},
+	#{fileExt1},
+	#{fileSize1},
+	#{originFileName2},
+	#{targetFileName2},
+	#{fileExt2},
+	#{fileSize2},
+	#{originFileName3},
+	#{targetFileName3},
+	#{fileExt3},
+	#{fileSize3},
+	#{originFileName4},
+	#{targetFileName4},
+	#{fileExt4},
+	#{fileSize4},
+	#{filePath}
 	)
 </insert>
 

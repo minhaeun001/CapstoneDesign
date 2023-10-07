@@ -39,24 +39,26 @@
 	function fn_save(){
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_save.ajax"
 
-// 		var params = {title:"제목", contents:"내용"};
-		var params = {};
-		params.title = $(".title").val();
-		params.contents = $(".contents").val();
-		params.regntid = "아이디";
-		params.attachfile = "첨부파일";
-		params.regntnm = "등록자 이름";
-		params.modid = "수정자 아이디";
-		params.boardtype = BOARD_TYPE;
-		params.category = $("input[name='category']:checked").val();
-		// jquery가 만든 함수~
-		// 파라미터는 json 타입으로 넘겨줘~
+		var data = new FormData();
+		data.append( "files", $("#file1")[0].files[0] );
+		data.append( "files", $("#file2")[0].files[0] );
+		data.append( "title", $(".title").val());
+		data.append( "contents", $(".contents").val());
+		data.append( "regntid", "아이디");
+		data.append( "regntnm", "등록자 이름");
+		data.append( "modid", "수정자 아이디");
+		data.append( "boardtype", BOARD_TYPE);
+		data.append( "category", $("input[name='category']:checked").val());
+		
 		$.ajax({
-			
+			type: 'POST',
+			enctype: 'multipart/form-data',
 			url: sUrl,
-			data: params,
-			method:"post",
-			datatype:"json",
+			data: data,
+			processData: false,
+			contentType: false,
+			cache: false,
+			timeout: 60000,
 			success: function(response) {
 				
 				alert("저장되었습니다.");
@@ -64,7 +66,7 @@
 				
 			},
 			error : function(xhr, error, status) {
-				alert("저장 실패");
+				alert("저장에 실패했습니다. 다시 시도해주세요.");
 			},
 			complete : function() {}
 			
@@ -118,6 +120,7 @@
 					<p>MAKEGYM 운영팀에서 알려 드립니다.</p>
                 </div>
                 <div class="baord bd_write">
+                <form method="POST" enctype="multipart/form-data" id="fileUploadForm" name="fileUploadForm">
                     <table class="tb_type2">
                         <colgroup>
                             <col style="width: 18%">
@@ -156,12 +159,17 @@
                         </tr>
                         <tr>
                             <th>FILE</th>
-                            <td><input type="file" style="width: 100%"></td>
+                            <td><input type="file" name="files" id="file1" style="width: 100%"></td>
+                        </tr>
+                         <tr>
+                            <th>FILE</th>
+                            <td><input type="file" name="files" id="file2" style="width: 100%"></td>
                         </tr>
                         <tr>
                             <th colspan="2" style="height: 20px;"></th>
                         </tr>
                     </table>
+               </form>
                     <div class="btn_area mt70">
 <!--                         <button class="btn_gray">Delete</button> -->
 <!--                         <button class="btn_green">Modify</button> -->

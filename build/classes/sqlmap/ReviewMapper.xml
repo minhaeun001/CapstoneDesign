@@ -224,7 +224,7 @@ AND BOARD_SUB_TYPE = #{boardSubType}
 	#{regntnm},
 	#{contents},
 	0,
-	#{attachfile},
+	0,
 	0,
 	0,
 	0,

@@ -1,19 +1,26 @@
 package kr.co.SAMGUN.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import kr.co.SAMGUN.service.NoticeService;
 import kr.co.SAMGUN.util.*;
 
@@ -205,20 +212,90 @@ public class NoticeController {
 		return "jsonView";
 	}
 	
+	//파일 업로드하기
+	
+	String ROOT_FILE_PATH = "C:" + File.separator +"workspace" + File.separator +"upload"; 
+	String FILE_PATH = "upload";
+	
 	@RequestMapping("/notice_save.ajax")
-	public String notice_save(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+	public String notice_save(MultipartHttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
 		HttpSession session = request.getSession();
-		String seqno = request.getParameter("seqno");
-		
+        
 		Map<String, Object> hm = new HashMap<String, Object>();
-		hm.put("seqno", seqno);
-
+		
+		//1. 파일을 저장할 폴더가 있는지 확인하고, 없으면 만든다.
+		String filePath = ROOT_FILE_PATH  + File.separator + RequestUtil.today() ;
+		
+		File file = new File(filePath);
+        if(file.exists() == false){
+        	file.mkdirs();
+        }
+		
+        //2. 클라이언트에서 가져온 파일 정보를 가지고 서버 폴더에 복사한다.
+        
+       String originFileName = "";
+       String fileSize = "";
+       String fileExt = "";
+       String targetFileName = "";
+       
+       //이름 변수 초기화
+       int i = 1;
+       List<MultipartFile> fileList = request.getFiles("files");
+       
+       for (MultipartFile mf : fileList) {
+    	   
+    	   originFileName = "";
+	       fileSize = ""; 
+	       fileExt = "";
+           targetFileName = "";
+    	   
+           if(StringUtils.isNotEmpty(mf.getOriginalFilename()) && !"".equals(mf.getOriginalFilename()) ) {
+	    	   
+	    	   originFileName = mf.getOriginalFilename();
+	    	   fileSize = String.valueOf(mf.getSize()); 
+		       fileExt = originFileName.substring(originFileName.lastIndexOf(".")+1);
+		       targetFileName = UUID.randomUUID().toString();
+	           
+	         //filePath 폴더에 targetFileName 명으로 저장하기
+	           file = new File(filePath + File.separator + targetFileName);
+	           
+	           try {
+	        	   mf.transferTo(file);
+               } catch (IllegalStateException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               } catch (IOException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }   
+               
+	           
+	        }
+	       
+	       hm.put("originFileName"+String.valueOf(i), originFileName);
+           hm.put("fileSize"+String.valueOf(i), fileSize);
+           hm.put("fileExt"+String.valueOf(i), fileExt);
+           hm.put("targetFileName"+String.valueOf(i), targetFileName);
+             
+           
+           i++;
+        
+       }
+       
+       int dotIndex = filePath.lastIndexOf(File.separator);
+       if (dotIndex > 0) {
+    	   filePath = filePath.substring(dotIndex+1);
+       }
+       
+       hm.put("filePath", filePath);
+       
+       logger.info("hm : " +  hm.toString());
+     
 		
 		String title =request.getParameter("title");
 		title = XSSCleanUtil.defaultXSS3(title);
 		String contents = request.getParameter("contents");
 		contents = XSSCleanUtil.defaultXSS3(contents);
-		String attachfile = request.getParameter("attachfile");
 		String modid = request.getParameter("modid");
 		String boardtype = request.getParameter("boardtype");
 		String category = request.getParameter("category");
@@ -227,7 +304,6 @@ public class NoticeController {
 		hm.put("regntnm", session.getAttribute("m_nm"));
 		hm.put("title", title);
 		hm.put("contents", contents);
-		hm.put("attachfile", attachfile);
 		hm.put("modid", modid);
 		hm.put("boardtype", boardtype);
 		hm.put("category", category);

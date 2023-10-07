@@ -267,7 +267,6 @@ public class ReviewController {
 		
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
-		String attachfile = request.getParameter("attachfile");
 		String boardType = request.getParameter("boardType");
 		String boardSubType = request.getParameter("boardSubType");
 		
@@ -276,7 +275,6 @@ public class ReviewController {
 		hm.put("title", title);
 		hm.put("contents", contents);
 		hm.put("regntid", m_id);
-		hm.put("attachfile", attachfile);
 		hm.put("regntnm", m_nm);
 		hm.put("modid", m_id);
 		hm.put("boardType", boardType);

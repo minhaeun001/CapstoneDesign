@@ -43,7 +43,6 @@
 		params.title = $(".title").val();
 		params.contents = $(".contents").val();
 		params.regntid = "아이디";
-		params.attachfile = "첨부파일";
 		params.regntnm = "등록자 이름";
 		params.modid = "수정자 아이디";
 		params.boardType = BOARD_TYPE;
@@ -135,13 +134,6 @@
                         <tr>
                             <th>CONTENTS&nbsp;&nbsp;<span class="require">*</span></th>
                             <td><textarea name="" id="" class="contents"></textarea></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="height: 20px;"></th>
-                        </tr>
-                        <tr>
-                            <th>FILE</th>
-                            <td><input type="file" style="width: 100%"></td>
                         </tr>
                         <tr>
                             <th colspan="2" style="height: 20px;"></th>

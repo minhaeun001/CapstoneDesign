@@ -225,6 +225,15 @@
 		var category_nm = response.result.CATEGORY_NM;
 		var like = response.result.LIKE_CNT2;
 		var view_cnt = response.result.VIEW_CNT;
+		var origin_file_name1 = response.result.ORIGIN_FILE_NAME1;
+		var target_file_name1 = response.result.TARGET_FILE_NAME1;
+		var file_size1 = response.result.FILE_SIZE1;
+		var file_ext1 = response.result.FILE_EXT1;
+		var origin_file_name2 = response.result.ORIGIN_FILE_NAME2;
+		var target_file_name2 = response.result.TARGET_FILE_NAME2;
+		var file_size2 = response.result.FILE_SIZE2;
+		var file_ext2 = response.result.FILE_EXT2;
+		var file_path = response.result.FILE_PATH;
 		
 		$(".notice_title").text(title);
 		$(".notice_nm").text(regntnm);
@@ -233,6 +242,25 @@
 		$(".notice_category").text(category_nm);
 		$(".notice_likeNum").text(like);
 		$(".view_cnt").text(view_cnt);
+
+		var img_path = "<img src='../../img/ico_fileDown_black.png'>";
+
+		if (origin_file_name1 !== null && origin_file_name1 !== undefined && origin_file_name1 !== ""){
+			origin_file_name1 = "<a href='/upload/"+file_path+"/"+target_file_name1+"' download='"+origin_file_name1+"' target='_self'>"+origin_file_name1+"</a>";
+		
+			$("#origin_file_name1").html(img_path);
+			$("#origin_file_name1").append(origin_file_name1);
+		} else {
+			$("#origin_file_name1").text("첨부파일이 없습니다.");
+		}
+		if (origin_file_name2 !== null && origin_file_name2 !== undefined && origin_file_name2 !== ""){
+			origin_file_name2 = "<a href='/upload/"+file_path+"/"+target_file_name2+"' download='"+origin_file_name2+"' target='_self'>"+origin_file_name2+"</a>";
+
+			$("#origin_file_name2").html(img_path);
+			$("#origin_file_name2").append(origin_file_name2);
+		} else {
+			$("#origin_file_name2").hide();
+		}
 		
 	}
 	
@@ -307,7 +335,10 @@
                                 </button>
                             </p>
                         </div>
-                        <div class="col02">첨부파일이 없습니다</div>
+                        <div class="col02">
+	                        <label class="attach_area"><span id="origin_file_name1">첨부파일이 없습니다.</span></label>
+	                        <label class="attach_area"><span id="origin_file_name2"></span></label>
+                        </div>
                     </div>
                     <div class="navigation clear">
                         <a href="javascript:///" class="fl nv_prev">이전</a>
