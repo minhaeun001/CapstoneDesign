@@ -25,6 +25,30 @@ public class MypageController {
 		return "mypage/mypage";
 	}
 	
+	@RequestMapping("/admin.do")
+	public String admin(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "mypage/admin");
+		return "mypage/admin";
+	}
+	
+	@RequestMapping("/training.do")
+	public String training(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "mypage/training");
+		return "mypage/training";
+	}
+	
+	@RequestMapping("/mypage_change.do")
+	public String mypage_change(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "mypage/mypage_change");
+		return "mypage/mypage_change";
+	}
+	
 	@RequestMapping("/with_draw.do")
 	public String with_draw(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
 		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
