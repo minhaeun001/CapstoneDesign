@@ -292,7 +292,7 @@ public class NoticeController {
        if (dotIndex > 0) {
     	   filePath = filePath.substring(dotIndex+1);
        }
-       
+       //
        hm.put("filePath", filePath);
        
        logger.info("hm : " +  hm.toString());
