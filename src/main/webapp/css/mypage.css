@@ -1,0 +1,40 @@
+.admin_wrapper, .mypage_wrapper {width: 1700px; height: 900px; margin: auto; box-sizing: border-box; background-color: gray; line-height: 200%; padding-top: 5px;}
+.admin_inner, .mypage_inner{width: 1200px; margin: 0 auto; border: 0px solid #000;}
+.admin_left, .mypage_left {float: left; width: 300px; height: 700px; color: #fff; text-align: left; background-color: black; padding:10px; font-weight: 500; color: white; font-size: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
+
+.admin_left_top, .mypage_left_top {font-size: 30px;color: white; margin-left: 10px; margin-top: 30px; font-weight: 700;}
+.admin_left_middle1, .mypage_left_middle1{margin-top: 50px;}
+.mypage_left_middle1{border-bottom: 1px solid white;}
+.mypage_left_middle2{border-bottom: 1px solid white; margin-top: 20px;}
+.mypage_left_bottom{margin-left: 10px; list-style: none; padding-top: 10px; margin-top: 20px;}
+
+.middle1_list{margin-left: 10px; margin-bottom: 30px; list-style: none;}
+.middle1_list_top, .middle2_list_top{font-weight: 500!important; font-size: 21px; margin-bottom: 10px;}
+.middle2_list{margin-top: 10px; margin-left: 10px; margin-bottom: 50px; list-style: none;}
+.admin_left li, .mypage_left li{color: white!important; font-weight: 200;}
+
+.tb_type1 td {font-size: 15px; font-weight: 500; text-align: center!important; padding: 15px;}
+
+
+.admin_h2, .mypage_h2{color: black!important; margin-top: 20px;}
+
+.admin_main, .mypage_main{padding-top: 100px!important; padding-bottom: 50px;}
+
+.admin_right, .mypage_right {float: right; width: 1000px; height: 700px; background-color: white; padding-top: 20px; float: right; color: black; padding: 20;}
+.admin_tbody, .mypage_tbody {display: table-row-group; vertical-align: middle; border-color: inherit; color: black;}
+.mypage_tbody th {text-align: center;}
+
+td:nth-child(1){padding-left: 15px!important;}
+
+.btnArea{width:980px; text-align: right; border-radius: 0; background-color: white; margin-top: 20px;}
+
+.ban{width: 100px; height: 40px; margin-right: 20px; background-color: black; color: white; }
+
+select {-webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0px; }
+select:not(:-internal-list-box) {overflow: visible !important;}
+select {border-radius: 10px; writing-mode: horizontal-tb !important; text-rendering: auto; color: fieldtext; letter-spacing: normal; word-spacing: normal; line-height: normal; text-transform: none; text-indent: 0px; text-shadow: none; display: inline-block; text-align: start; appearance: auto; box-sizing: border-box; align-items: center; -webkit-rtl-ordering: logical; background-color: field; cursor: default; margin: 0em; border-width: 1px; border-style: solid; border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133)); border-image: initial; border-radius: 0px;}
+.selectboxWrap {position: relative; display: inline-block; width: 100%; vertical-align: middle; text-align: left;}
+.selectboxWrap .select {width: 100%; padding: 3px 15px 4px 8px; height: 32px; border: 1px solid #bbbbbb; font-size: 14px; color: #555; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; appearance: none; -webkit-appearance: none; -moz-appearance: none;}
+.selectboxWrap .select option {color: #555; height: 27px; line-height: 27px; font-size: 14px;}
+.selectBg{border-radius: 0; height: 30px;}
+.selectboxWrap {vertical-align: top;}
