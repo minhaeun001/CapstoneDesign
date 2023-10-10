@@ -280,6 +280,7 @@ public class ReviewController {
 		hm.put("boardType", boardType);
 		hm.put("boardSubType", boardSubType);
 		
+		
 		int saveCnt = reviewService.ReviewSave(hm); //결과적으로 리턴받는 타입 int
 		
 		result.put("saveCnt",saveCnt);

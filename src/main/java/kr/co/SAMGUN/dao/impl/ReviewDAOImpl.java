@@ -136,7 +136,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 	
 	@Override
 	public int CommentsDelete(Map<String, Object> hm) {
-		return sqlSession.delete(namespace+".CommentsDelete", hm);
+		return sqlSession.update(namespace+".CommentsDelete", hm);
 	}
 	
 	@Override

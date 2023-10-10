@@ -250,7 +250,8 @@ AND BOARD_SUB_TYPE = #{boardSubType}
 	MOD_ID,
 	MOD_DTM,
 	BOARD_TYPE,
-	BOARD_SUB_TYPE
+	BOARD_SUB_TYPE,
+	DISABLED
 	)
 	VALUES
 	(
@@ -265,7 +266,8 @@ AND BOARD_SUB_TYPE = #{boardSubType}
 	#{modid},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 	#{boardType},
-	'C'
+	'C',
+	'1'
 	)
 </insert>
 
@@ -285,18 +287,20 @@ SELECT
 <update  id="CommentsModifyDetail" parameterType="Map">
 	UPDATE BOARD
 	SET CONTENTS = #{contents}
-	WHERE seq_no = #{seqno}
+	WHERE 1=1
+	AND seq_no = #{seqno}
 	AND BOARD_TYPE = #{boardType}
 	AND BOARD_SUB_TYPE = #{boardSubType}
 </update>
 
-<delete id="CommentsDelete" parameterType="Map">
-	DELETE FROM BOARD
+<update id="CommentsDelete" parameterType="Map">
+	UPDATE BOARD
+	SET DISABLED = '0'
 	WHERE 1=1
 	AND SEQ_NO = #{seqno}
 	AND BOARD_TYPE = #{boardType}
-	AND BOARD_SUB_TYPE = #{boardSubType}
-</delete>
+	AND BOARD_SUB_TYPE IS #{boardSubType}
+</update>
 
 <insert id="ReviewReplySave" parameterType="Map">
 	insert into BOARD
