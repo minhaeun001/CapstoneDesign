@@ -42,7 +42,7 @@ public class ProgramController {
 	public String get_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
-		
+
 		
 		return "jsonView";
 	}
