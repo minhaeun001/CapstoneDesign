@@ -156,3 +156,7 @@ label.disn {position: absolute; left: -10000px; top: auto; height: 1px; overflow
     opacity: 1;
     transform: translateY(0);
 }
+
+/*회원 탈퇴*/
+.withdraw{height: 400px!important;}
+.btn_withdraw{background-color: red!important;}
