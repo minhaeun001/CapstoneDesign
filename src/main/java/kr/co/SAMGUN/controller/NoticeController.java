@@ -241,11 +241,17 @@ public class NoticeController {
        //이름 변수 초기화
        int i = 1;
        List<MultipartFile> fileList = request.getFiles("files");
-       
+       if(fileList.size() > 2) {
+	    	Map<String, Object> result = new HashMap<String, Object>();
+	   		result.put("flag","F");
+	   		result.put("msg", "첨부파일은 2개 까지만 가능합니다.");
+	   		model.addAttribute("result",result);
+	   		return "jsonView";
+       }
        for (MultipartFile mf : fileList) {
     	   
     	   originFileName = "";
-	       fileSize = ""; 
+	       fileSize = "";
 	       fileExt = "";
            targetFileName = "";
     	   
@@ -317,37 +323,162 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("/notice_modify.ajax")
-	public String notice_modifybtn(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+	public String notice_modifybtn(MultipartHttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		// 1. session id를 이용해서 관리자인지 확인함
 		HttpSession session = request.getSession();
 		
+		String m_id = (String) session.getAttribute("m_id");
+		String m_grade = (String) session.getAttribute("m_grade");
+		
+		if(Integer.parseInt(m_grade)<10) {
+			return "jsonView";
+		}
+		
 		Map<String, Object> hm = new HashMap<String, Object>();
+		
+		//1. 파일을 저장할 폴더가 있는지 확인하고, 없으면 만든다.
+		String filePath = ROOT_FILE_PATH  + File.separator + RequestUtil.today() ;
+		
+		File file = new File(filePath);
+        if(file.exists() == false){
+        	file.mkdirs();
+        }
+		
+        //2. 클라이언트에서 가져온 파일 정보를 가지고 서버 폴더에 복사한다.
+        
+       String originFileName = "";
+       String fileSize = "";
+       String fileExt = "";
+       String targetFileName = "";
+       
+       //이름 변수 초기화
+       int i = 1;
+       List<MultipartFile> fileList = request.getFiles("files");
+       if(fileList.size() > 2) {
+	    	Map<String, Object> result = new HashMap<String, Object>();
+	   		result.put("flag","F");
+	   		result.put("msg", "첨부파일은 2개 까지만 가능합니다.");
+	   		model.addAttribute("result",result);
+	   		return "jsonView";
+       }
+       
+       
+       
+       for (MultipartFile mf : fileList) {
+    	   
+    	   originFileName = "";
+	       fileSize = ""; 
+	       fileExt = "";
+           targetFileName = "";
+    	   
+           if(StringUtils.isNotEmpty(mf.getOriginalFilename()) && !"".equals(mf.getOriginalFilename()) ) {
+	    	   
+	    	   originFileName = mf.getOriginalFilename();
+	    	   fileSize = String.valueOf(mf.getSize()); 
+		       fileExt = originFileName.substring(originFileName.lastIndexOf(".")+1);
+		       targetFileName = UUID.randomUUID().toString();
+	           
+	         //filePath 폴더에 targetFileName 명으로 저장하기
+	           file = new File(filePath + File.separator + targetFileName);
+	           
+	           try {
+	        	   mf.transferTo(file);
+               } catch (IllegalStateException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               } catch (IOException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }   
+               
+	           
+	        }
+	       
+	       hm.put("originFileName"+String.valueOf(i), originFileName);
+           hm.put("fileSize"+String.valueOf(i), fileSize);
+           hm.put("fileExt"+String.valueOf(i), fileExt);
+           hm.put("targetFileName"+String.valueOf(i), targetFileName);
+             
+           
+           i++;
+        
+       }
+       
+       int dotIndex = filePath.lastIndexOf(File.separator);
+       if (dotIndex > 0) {
+    	   filePath = filePath.substring(dotIndex+1);
+       }
+       
+       hm.put("filePath", filePath);
+       
+       logger.info("hm : " +  hm.toString());
 		
 		String seqno = request.getParameter("seqno");
 		String title =request.getParameter("title");
 		String contents = request.getParameter("contents");
 		String category = request.getParameter("category");
-//		String regntid = request.getParameter("regntid");
-//		String attachfile = request.getParameter("attachfile");
-//		String regntnm = request.getParameter("regntnm");
-//		String modid = request.getParameter("modid");
-//		String boardtype = request.getParameter("boardtype");
+
 		
 		hm.put("modid", session.getAttribute("m_id"));
 		hm.put("seqno",seqno);
 		hm.put("title", title);
 		hm.put("contents", contents);
 		hm.put("category", category);
-//		hm.put("regntid", regntid);
-//		hm.put("attachfile", attachfile);
-//		hm.put("regntnm", regntnm);
-//		hm.put("modid", modid);
-//		hm.put("boardtype", boardtype);
 		
 		int modCnt = noticeService.NoticeMod(hm); //결과적으로 리턴받는 타입 int
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result.put("modCnt",modCnt);
 		model.addAttribute("result",result);
+		return "jsonView";
+	}
+	
+	@RequestMapping("/notice_del_file.ajax")
+	public String notice_del_file(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		// 1. session id를 이용해서 관리자인지 확인함
+		HttpSession session = request.getSession();
+		
+		String m_id = (String) session.getAttribute("m_id");
+		String m_grade = (String) session.getAttribute("m_grade");
+		
+		if(Integer.parseInt(m_grade)<10) {
+			return "jsonView";
+		}
+		
+		// 2. 관리자일 경우만 아래 BL을 진행한다.
+		String seqno = request.getParameter("seqno");
+		String data_id = request.getParameter("data_id");
+		String data_num = request.getParameter("data_num");
+		String data_filepath = request.getParameter("data_filepath");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seqno", seqno);
+		hm.put("data_id", data_id);
+		hm.put("m_id", m_id);
+		hm.put("data_num", data_num);
+		hm.put("data_filepath", data_filepath);
+		
+		// 자료타입            변수명        결과
+		// 자료타입 == 결과의 타입은 같아야한다.
+		int rtn_i = noticeService.DeleteFile(hm);
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		if (rtn_i> 0) {
+			String filePath = ROOT_FILE_PATH  + File.separator + data_filepath + File.separator + data_id ;
+			
+			File file = new File(filePath);
+	        if(file.exists()){
+	        	file.delete();
+	        }
+			
+	   		result.put("flag","T");
+	   		result.put("msg", "성공");
+		} else {
+			result.put("flag","F");
+	   		result.put("msg", "실패");
+		}
+		model.addAttribute("result", result);
+
 		return "jsonView";
 	}
 }

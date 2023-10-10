@@ -678,7 +678,6 @@
                                 </button>
                             </p>
                         </div>
-                        <div class="col02">첨부파일이 없습니다</div>
                     </div>
                     <div class="navigation clear">
                         <a href="javascript:///" class="fl nv_prev">이전</a>

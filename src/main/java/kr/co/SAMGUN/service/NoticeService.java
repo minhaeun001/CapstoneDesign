@@ -41,4 +41,6 @@ public interface NoticeService {
 	int NoticeSave(Map<String, Object> hm);
 	
 	int NoticeMod(Map<String, Object> hm);
+	
+	int DeleteFile(Map<String, Object> hm);
 }

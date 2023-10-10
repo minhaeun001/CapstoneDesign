@@ -167,4 +167,9 @@ public class NoticeServiceImpl implements NoticeService {
 	public int NoticeMod(Map<String, Object> hm) {
 		return noticeDAO.NoticeMod(hm);
 	}
+	
+	@Override
+	public int DeleteFile(Map<String, Object> hm) {
+		return noticeDAO.DeleteFile(hm);
+	}
 }

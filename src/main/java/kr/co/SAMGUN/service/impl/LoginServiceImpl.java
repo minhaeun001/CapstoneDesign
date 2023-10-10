@@ -103,13 +103,13 @@ public class LoginServiceImpl implements LoginService {
 				msg = "환영합니다.";
 				hm.put("flag", flag);
 			} else {
-				msg = "패스워드가 존재하지 않습니다.";
+				msg = "로그인 정보를 확인해주세요.";
 			}
 			
 			
 		} else {
 			//id 존재하지 않는다면
-			msg = "아이디가 존재하지 않습니다.";
+			msg = "로그인 정보를 확인해주세요.";
 		}
 		
 		

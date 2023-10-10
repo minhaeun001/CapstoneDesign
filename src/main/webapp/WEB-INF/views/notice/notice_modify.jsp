@@ -70,27 +70,42 @@
 
 		var sUrl = "${pageContext.request.contextPath}/notice/notice_modify.ajax" ;
 
+		var data = new FormData();
+
 		
-// 		var params = {title:"제목", contents:"내용"};
-		var params = {};		
-		params.title = $(".title").val();
-		params.contents = $(".contents").val();
-		params.seqno = seqno;
-		params.category = $("input[name='category']:checked").val();
-// 		params.regntid = "아이디";
-// 		params.attachfile = "첨부파일";
-// 		params.regntnm = "등록자 이름";
-// 		params.modid = "수정자 아이디";
-// 		params.boardtype = "30";
+		data.append( "title", $(".title").val());
+		data.append( "contents", $(".contents").val());
+		data.append( "category", $("input[name='category']:checked").val());
+		data.append("seqno", seqno);
+
 		
-		// jquery가 만든 함수~
-		// 파라미터는 json 타입으로 넘겨줘~
+		if($("#origin_file_name1").is(":visible") && !$("#origin_file_name2").is(":visible")){
+			data.append("data_num","1");
+		} else if ($("#origin_file_name1").is(":visible") && $("#origin_file_name2").is(":visible")){
+			data.append("data_num","3");
+		} else if (!$("#origin_file_name1").is(":visible") && !$("#origin_file_name2").is(":visible")) {
+			data.append("data_num","0");
+		}
+		if($("#origin_file_name2").is(":visible")){
+			data.append("data_num","2");
+		}
+		if($("#file1").is(":visible")){
+			data.append( "files", $("#file1")[0].files[0] );	
+		}
+		if($("#file2").is(":visible")){
+			data.append( "files", $("#file2")[0].files[0] );
+		}
+
+		
 		$.ajax({
-			
-			url:sUrl,
-			data: params,
-			method:"post",
-			datatype:"json",
+			type: 'POST',
+			enctype: 'multipart/form-data',
+			url: sUrl,
+			data: data,
+			processData: false,
+			contentType: false,
+			cache: false,
+			timeout: 60000,
 			success: function(response) {
 				
 				alert("수정되었습니다.");
@@ -106,6 +121,47 @@
 		
 	}
 	
+	function fn_del_file(obj){
+		var data_seq = $(obj).attr("data-seq");
+		var data_id = $(obj).attr("data-id");
+		var data_num = $(obj).attr("data-num");
+		var data_filepath = $(obj).attr("data-filepath");
+		
+		var sUrl = "${pageContext.request.contextPath}/notice/notice_del_file.ajax" ;
+		var params = {
+				seqno:data_seq,
+				data_id:data_id,
+				data_num:data_num,
+				data_filepath:data_filepath
+		};
+		
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				var flag = response.result.flag;
+				var msg = response.result.msg;
+				
+				alert(msg);
+				if (flag == "T"){
+					//첨부파일 삭제 성공했을 경우
+					if (data_num == "1"){
+						$("#origin_file_name1").remove();
+					} else if (data_num == "2"){
+						$("#origin_file_name2").remove();
+					}
+				}			
+			},	
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+		    }
+		});
+	}
+	
 	/******************************************************************************************** 
 	 4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	*********************************************************************************************/ 
@@ -114,10 +170,40 @@
 		var title = response.result.TITLE;
 		var contents = response.result.CONTENTS;
 		var category = response.result.CATEGORY;
+		var origin_file_name1 = response.result.ORIGIN_FILE_NAME1;
+		var target_file_name1 = response.result.TARGET_FILE_NAME1;
+		var file_size1 = response.result.FILE_SIZE1;
+		var file_ext1 = response.result.FILE_EXT1;
+		var origin_file_name2 = response.result.ORIGIN_FILE_NAME2;
+		var target_file_name2 = response.result.TARGET_FILE_NAME2;
+		var file_size2 = response.result.FILE_SIZE2;
+		var file_ext2 = response.result.FILE_EXT2;
+		var file_path = response.result.FILE_PATH;
+		
+		var seqno = "<%=seqno%>";
 		
 		$(".notice_title").val(title);
 		$(".notice_contents").val(contents);
 		$("input[name='category'][value='" + category + "']").prop("checked", true);
+		
+		var img_path = "<img src='../../img/ico_fileDown_black.png'>";
+
+		if (origin_file_name1 !== null && origin_file_name1 !== undefined && origin_file_name1 !== ""){
+			origin_file_name1 = origin_file_name1 + "<button type='button' class='btn_del_file' data-seq='"+seqno+"' data-id='"+target_file_name1+"' data-num='1' data-filepath='"+file_path+"'>삭제</button>";
+		
+			$("#origin_file_name1").html(img_path);
+			$("#origin_file_name1").append(origin_file_name1);
+		} else {
+			$("#origin_file_name1").hide();
+		}
+		if (origin_file_name2 !== null && origin_file_name2 !== undefined && origin_file_name2 !== ""){
+			origin_file_name2 = origin_file_name2 + "<button type='button' class='btn_del_file' data-seq='"+seqno+"' data-id='"+target_file_name2+"' data-num='2'  data-filepath='"+file_path+"'>삭제</button>";
+
+			$("#origin_file_name2").html(img_path);
+			$("#origin_file_name2").append(origin_file_name2);
+		} else {
+			$("#origin_file_name2").hide();
+		}
 	}
 	
 	
@@ -149,6 +235,12 @@
 		}
 		
         fn_modify();
+	});
+	
+	$(document).on("click", ".btn_del_file", function(){
+		if(confirm("이 파일을 삭제하시겠습니까?")){
+			fn_del_file(this);	
+		}	
 	});
 </script>
 </head>
@@ -200,8 +292,18 @@
                             <th colspan="2" style="height: 20px;"></th>
                         </tr>
                         <tr>
+                        	<td colspan="2">
+	                        	<span id="origin_file_name1">첨부파일이 없습니다.</span>
+		                        <span id="origin_file_name2"></span>
+                        	</td>
+                        </tr>
+                        <tr>
                             <th>FILE</th>
-                            <td><input type="file" style="width: 100%"></td>
+                            <td><input type="file" name="files" id="file1" style="width: 100%"></td>
+                        </tr>
+                         <tr>
+                            <th>FILE</th>
+                            <td><input type="file" name="files" id="file2" style="width: 100%"></td>
                         </tr>
                         <tr>
                             <th colspan="2" style="height: 20px;"></th>

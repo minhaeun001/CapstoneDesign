@@ -48,4 +48,6 @@ public interface NoticeDAO {
 	public int NoticeSave(Map<String, Object> hm);
 	
 	public int NoticeMod(Map<String, Object> hm);
+
+	public int DeleteFile(Map<String, Object> hm);
 }
