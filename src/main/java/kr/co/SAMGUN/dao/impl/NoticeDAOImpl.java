@@ -138,4 +138,9 @@ public class NoticeDAOImpl implements NoticeDAO{
 	public int NoticeMod(Map<String, Object> hm) {
 		return sqlSession.update(namespace+".NoticeMod", hm);
 	}
+	
+	@Override
+	public int DeleteFile(Map<String, Object> hm) {
+		return sqlSession.delete(namespace+".DeleteFile", hm);
+	}
 }

@@ -1,5 +1,6 @@
 package kr.co.SAMGUN.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.SAMGUN.service.LoginService;
 import kr.co.SAMGUN.service.NoticeService;
+import kr.co.SAMGUN.util.SHA256;
 
 @Controller
 @RequestMapping("/login")
@@ -72,7 +74,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/member_signup.ajax")
-	public String member_signup(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+	public String member_signup(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws NoSuchAlgorithmException {
 		
 		String m_id = request.getParameter("m_id");
 		String m_pwd = request.getParameter("m_pwd");
@@ -82,6 +84,10 @@ public class LoginController {
 		String m_birth = request.getParameter("m_birth");
 		String use_yn = request.getParameter("use_yn");
 
+		SHA256 sha256 = new SHA256();
+		 
+		m_pwd = sha256.encrypt(m_pwd); 
+		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
 		hm.put("m_pwd", m_pwd);
@@ -132,13 +138,17 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/checkLoginLogic.ajax")
-	public String checkLoginLogic(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+	public String checkLoginLogic(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws NoSuchAlgorithmException {
 		
 		String m_id = request.getParameter("m_id");
 		String m_pwd = request.getParameter("m_pwd");
 		String m_nm = "";
 		String m_grade = "";
 
+		SHA256 sha256 = new SHA256();
+		 
+		m_pwd = sha256.encrypt(m_pwd); 
+		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
 		hm.put("m_pwd", m_pwd);

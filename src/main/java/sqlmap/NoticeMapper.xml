@@ -300,7 +300,44 @@ UPDATE BOARD SET
 ,	CATEGORY = #{category}
 ,   MOD_ID = #{modid}
 ,   MOD_DTM = (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL)
+,	ORIGIN_FILE_NAME1 = #{originFileName1}
+,	TARGET_FILE_NAME1 = #{targetFileName1}
+,	FILE_EXT1 = #{fileExt1}
+,	FILE_SIZE1 = #{fileSize1}
+,	ORIGIN_FILE_NAME2 = #{originFileName2}
+,	TARGET_FILE_NAME2 = #{targetFileName2}
+,	FILE_EXT2 = #{fileExt2}
+,	FILE_SIZE2 = #{fileSize2}
+,	FILE_PATH = #{filePath}
 WHERE seq_no = #{seqno}
 
+</update>
+
+<update  id="DeleteFile" parameterType="Map">
+	
+	UPDATE BOARD SET
+	<if test = '"1".equals(data_num)'>
+		ORIGIN_FILE_NAME1 = '',
+		TARGET_FILE_NAME1 = '',
+		FILE_EXT1 = '',
+		FILE_SIZE1 = '',
+	</if>
+	<if test = '"2".equals(data_num)'>
+		ORIGIN_FILE_NAME2 = '',
+		TARGET_FILE_NAME2 = '',
+		FILE_EXT2 = '',
+		FILE_SIZE2 = '',
+	</if>
+	SEQ_NO = #{seqno}
+	
+	WHERE 1=1
+	AND SEQ_NO = #{seqno}
+	<if test = '"1".equals(data_num)'>
+		AND TARGET_FILE_NAME1 = #{data_id}
+	</if>
+	<if test = '"2".equals(data_num)'>
+		AND TARGET_FILE_NAME2 = #{data_id}
+	</if>
+	
 </update>
 </mapper>
