@@ -299,7 +299,7 @@ SELECT
 	WHERE 1=1
 	AND SEQ_NO = #{seqno}
 	AND BOARD_TYPE = #{boardType}
-	AND BOARD_SUB_TYPE IS #{boardSubType}
+	AND BOARD_SUB_TYPE = #{boardSubType}
 </update>
 
 <insert id="ReviewReplySave" parameterType="Map">
@@ -316,7 +316,8 @@ SELECT
 	MOD_ID,
 	MOD_DTM,
 	BOARD_TYPE,
-	BOARD_SUB_TYPE
+	BOARD_SUB_TYPE,
+	DISABLED
 	)
 	VALUES
 	(
@@ -331,7 +332,8 @@ SELECT
 	#{m_id},
 	(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 	#{boardType},
-	'C'
+	'C',
+	'1'
 	)
 </insert>
 
