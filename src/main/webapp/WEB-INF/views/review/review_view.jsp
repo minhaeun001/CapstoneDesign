@@ -12,6 +12,7 @@
     <title>MAKEGYM_review_view</title>
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/review.css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <script src="../../js/jquery-1.7.2.min.js"></script>
@@ -484,25 +485,31 @@
 		
 		if(params.result && params.result.length > 0) {
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
+				var cls = "";
+				var content = params.result[i].CONTENTS;
+				if (params.result[i].DISABLED == "0"){
+					content = "삭제된 댓글입니다."
+					cls = "class=disabled";
+				}
 				
 				if(params.result[i].STEP == 0){
 					if(params.result[i].REGNT_ID == m_id){
-						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_ID +"</em>";
+						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"' "+cls+"><p><em>"+ params.result[i].REGNT_ID +"</em>";
 						tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
 						tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
 						tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
-						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
-						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+content+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ content +"</div>";
 						tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
 						tmpStr += "<div class='reply_write clear'>";
 						tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
 						tmpStr += "<div class='rp_btn'><button id='rp_"+params.result[i].SEQ_NO+"'>댓글 등록</button></div>";
 						tmpStr += "</li>"
 					} else {
-						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"'><p><em>"+ params.result[i].REGNT_ID +"</em>";
+						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"' "+cls+"><p><em>"+ params.result[i].REGNT_ID +"</em>";
 						tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
-						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
-						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+content+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ content +"</div>";
 						tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
 						tmpStr += "<div class='reply_write clear'>";
 						tmpStr += "<textarea class='comments_reply' id='comments_reply_"+params.result[i].SEQ_NO+"' cols='100' rows='2' placeholder='댓글을 입력해주세요.'></textarea>";
@@ -512,17 +519,17 @@
 					
 				} else {
 					if(params.result[i].REGNT_ID == m_id){
-						tmpStr += "<li><div class='reply_view'>";
+						tmpStr += "<li "+cls+"><div class='reply_view'>";
 						tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
 						tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
 						tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
-						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+params.result[i].CONTENTS+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
-						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+content+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ content +"</div>";
 						tmpStr += "</div></div></li>"
 					} else {
-						tmpStr += "<li><div class='reply_view'>";
+						tmpStr += "<li "+cls+"><div class='reply_view'>";
 						tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
-						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ params.result[i].CONTENTS +"</div>";
+						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ content +"</div>";
 						tmpStr += "</div></div></li>"
 					}
 				}
