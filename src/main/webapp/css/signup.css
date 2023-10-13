@@ -159,3 +159,6 @@ label.disn {position: absolute; left: -10000px; top: auto; height: 1px; overflow
 
 /*회원 탈퇴*/
 .withdraw{height: 400px!important;}
+
+/*아이디, 비밀번호 찾기*/
+.close-button {color: #000; width: 10px; height: 35px; cursor:pointer;}

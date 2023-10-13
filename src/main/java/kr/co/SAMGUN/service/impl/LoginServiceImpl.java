@@ -121,4 +121,88 @@ public class LoginServiceImpl implements LoginService {
 		return result;
 	}
 	
+	@Override
+	public List<Map<String, Object>> FindMyId(Map<String, Object> hm) {
+	
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+			
+		// 휴대폰 번호 존재여부
+		int hpCheck = loginDAO.CheckNumber(hm);
+		
+		String msg = "해당 정보가 없습니다.";
+		String flag = "F";
+		
+		if(hpCheck > 0) {
+			//핸드폰 번호가 존재한다면 이름 확인
+			int nameCheck = loginDAO.CheckName(hm);
+			
+			if(nameCheck>0) {
+				//핸드폰 번호와 이름이 같이 존재한다면
+				Map<String, Object> map = loginDAO.FindMyId(hm);
+				
+				flag = "T";
+				
+				msg = "성공";
+				hm.put("m_id", map.get("M_ID"));
+				hm.put("flag", flag);
+				resultMap.put("m_id", map.get("M_ID"));
+			}
+			
+		}
+		
+		resultMap.put("flag", flag);
+		resultMap.put("msg", msg);
+		
+		result.add(resultMap);
+		
+		return result;
+	}
+	
+	@Override
+	public List<Map<String, Object>> FindMyPwd(Map<String, Object> hm) {
+	
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+			
+		// 휴대폰 번호 존재여부
+		int hpCheck = loginDAO.CheckNumber(hm);
+		
+		String msg = "해당 정보가 없습니다.";
+		String flag = "F";
+		
+		if(hpCheck > 0) {
+			//핸드폰 번호가 존재한다면 이름 확인
+			int nameCheck = loginDAO.CheckName(hm);
+			
+			if(nameCheck>0) {
+				//핸드폰 번호와 이름이 같이 존재한다면 아이디 확인
+				int idCheck = loginDAO.SignupCheck(hm);
+				
+				if(idCheck>0) {
+					Map<String, Object> map = loginDAO.FindMyPwd(hm);
+					
+					flag = "T";
+					
+					msg = "성공";
+					hm.put("seq_no", map.get("SEQ_NO"));
+					hm.put("flag", flag);
+					resultMap.put("seq_no", map.get("SEQ_NO"));
+				}
+			}
+			
+		}
+		
+		resultMap.put("flag", flag);
+		resultMap.put("msg", msg);
+		
+		result.add(resultMap);
+		
+		return result;
+	}
+	
+	@Override
+	public int ModPwd(Map<String, Object> hm) {
+		return loginDAO.ModPwd(hm);
+	}
 }
