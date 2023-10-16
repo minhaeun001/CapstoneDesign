@@ -487,17 +487,18 @@
 			for (var i=0, j=params.result.length ; i < j ; i++ ) {
 				var cls = "";
 				var content = params.result[i].CONTENTS;
+				var btn_bar = "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button><button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
 				if (params.result[i].DISABLED == "0"){
 					content = "삭제된 댓글입니다."
 					cls = "class=disabled";
+					btn_bar = "";
 				}
 				
 				if(params.result[i].STEP == 0){
 					if(params.result[i].REGNT_ID == m_id){
 						tmpStr += "<li id='comment_grp_"+params.result[i].GRP_SEQNO+"' "+cls+"><p><em>"+ params.result[i].REGNT_ID +"</em>";
 						tmpStr += "<span>"+params.result[i].REGNT_DTM+"</span>";
-						tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
-						tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+						tmpStr += btn_bar;
 						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+content+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
 						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ content +"</div>";
 						tmpStr += "<button class='btn_reply' id='btn_reply_"+params.result[i].GRP_SEQNO+"'>댓글</button>";
@@ -521,8 +522,7 @@
 					if(params.result[i].REGNT_ID == m_id){
 						tmpStr += "<li "+cls+"><div class='reply_view'>";
 						tmpStr += "<p><em>"+params.result[i].REGNT_ID+"</em><span>"+params.result[i].REGNT_DTM+"</span>";
-						tmpStr += "<span class='rp_btn_cm'><button class='btn_comment_mod'><i class='fa-duotone fa-m' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6e6e6e;'></i></button>";
-						tmpStr += "<button class='btn_comment_del' id='del_"+params.result[i].SEQ_NO+"'><i class='fa-duotone fa-x' style='--fa-primary-color: #6d6f82; --fa-secondary-color: #6d6f82;'></i></button></span></p>";
+						tmpStr += btn_bar;
 						tmpStr += "<div class='wrap_txt_mod'> <textarea class='txtarea_mod' id='rpl_"+params.result[i].SEQ_NO+"'cols='100' rows='2'>"+content+"</textarea><button class='btn_reply_mod' id='mod_"+params.result[i].SEQ_NO+"'>수정</button> </div>"
 						tmpStr += "<div class='cm_txt cm_"+ params.result[i].SEQ_NO+"'>"+ content +"</div>";
 						tmpStr += "</div></div></li>"
