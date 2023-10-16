@@ -12,6 +12,14 @@ public interface LoginDAO {
 	public int CheckNumber(Map<String, Object> hm);
 	
 	public int SelectIdCnt(Map<String, Object> hm);
+	
+	public Map<String,Object> FindMyId(Map<String, Object> hm);
+	
+	public int CheckName (Map<String, Object> hm);
 
 	public Map<String,Object> SelectMember(Map<String, Object> hm);
+	
+	public Map<String,Object> FindMyPwd(Map<String, Object> hm);
+	
+	public int ModPwd(Map<String, Object> hm);
 }

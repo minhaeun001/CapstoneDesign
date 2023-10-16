@@ -25,7 +25,7 @@ public class LoginDAOImpl implements LoginDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	private static String namespace = "kr.co.SAMGUN.dao.MotivationDAO";
+	private static String namespace = "kr.co.SAMGUN.dao.LoginDAO";
 	private static final Logger logger = LoggerFactory.getLogger(LoginDAOImpl.class);
 	
 	@Override
@@ -48,10 +48,29 @@ public class LoginDAOImpl implements LoginDAO {
 		return sqlSession.selectOne(namespace+".SelectIdCnt", hm);
 	}
 	
-	
 	@Override
 	public Map<String,Object> SelectMember(Map<String, Object> hm) {
 		return sqlSession.selectOne(namespace+".SelectMember", hm);
+	}
+	
+	@Override
+	public Map<String,Object> FindMyId(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".FindMyId", hm);
+	}
+	
+	@Override
+	public int CheckName(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".CheckName", hm);
+	}
+	
+	@Override
+	public Map<String,Object> FindMyPwd(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".FindMyId", hm);
+	}
+	
+	@Override
+	public int ModPwd(Map<String, Object> hm) {
+		return sqlSession.update(namespace+".ModPwd", hm);
 	}
 
 }

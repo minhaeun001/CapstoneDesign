@@ -18,8 +18,13 @@ public interface LoginService {
 	
 	int CheckNumber(Map<String, Object> hm);
 	
+	int ModPwd(Map<String, Object> hm);
+	
 	List<Map<String, Object>> SignupCheck(Map<String, Object> hm);
 
 	List<Map<String, Object>> checkLoginLogic(Map<String, Object> hm);
 	
+	List<Map<String, Object>> FindMyId(Map<String, Object> hm);
+	
+	List<Map<String, Object>> FindMyPwd(Map<String, Object> hm);
 }

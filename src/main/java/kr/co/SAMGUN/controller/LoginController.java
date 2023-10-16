@@ -73,6 +73,14 @@ public class LoginController {
 		return "login/find_pwd";
 	}
 	
+	@RequestMapping("/pwd_modify.do")
+	public String pwd_modify(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "login/pwd_modify");
+		return "login/pwd_modify";
+	}
+	
 	@RequestMapping("/member_signup.ajax")
 	public String member_signup(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws NoSuchAlgorithmException {
 		
@@ -172,6 +180,76 @@ public class LoginController {
 		result.put("checkLoginResult", checkLoginResult);
 				
 		model.addAttribute("result", result);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/find_my_id.ajax")
+	public String find_my_id(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		
+		String m_hp = request.getParameter("m_hp");
+		String m_nm = request.getParameter("m_nm");
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_hp", m_hp);
+		hm.put("m_nm", m_nm);
+		
+		List<Map<String, Object>> FindMyId = loginService.FindMyId(hm); //결과적으로 리턴받는 타입 int
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("FindMyId",FindMyId);
+		
+		model.addAttribute("result",result);
+		return "jsonView";
+	}
+	
+	@RequestMapping("/find_my_pwd.ajax")
+	public String find_my_pwd(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		
+		String m_id = request.getParameter("m_id");
+		String m_hp = request.getParameter("m_hp");
+		String m_nm = request.getParameter("m_nm");
+
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+		hm.put("m_hp", m_hp);
+		hm.put("m_nm", m_nm);
+		
+		List<Map<String, Object>> FindMyPwd = loginService.FindMyPwd(hm); //결과적으로 리턴받는 타입 int
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("FindMyPwd",FindMyPwd);
+		
+		model.addAttribute("result",result);
+		return "jsonView";
+	}
+	
+	@RequestMapping("/modify_pwd.ajax")
+	public String modify_pwd(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws NoSuchAlgorithmException {
+		
+		String seqno = request.getParameter("seqno");
+		String m_pwd = request.getParameter("m_pwd");
+
+		SHA256 sha256 = new SHA256();
+		 
+		m_pwd = sha256.encrypt(m_pwd); 
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_pwd", m_pwd);
+		hm.put("seqno", seqno);
+		
+		int ModPwd = loginService.ModPwd(hm); //결과적으로 리턴받는 타입 int
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String flag = "F";
+		result.put("msg", "실패!");
+		
+		if (ModPwd>0) {
+			result.put("msg", "변경이 완료되었습니다. 로그인을 해주세요.");
+			result.put("flag", "T");
+		}
+		
+		model.addAttribute("result",result);
 		
 		return "jsonView";
 	}

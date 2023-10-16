@@ -60,6 +60,20 @@
 	  AND M_HP = #{m_hp}
 </select>
 
+<select id="CheckName" parameterType="Map" resultType="Integer">
+	  SELECT COUNT(*) FROM MEMBER
+	  WHERE 1=1
+	  AND M_NM = #{m_nm}
+	  AND M_HP = #{m_hp}
+</select>
+
+<select id="FindMyId" parameterType="Map" resultType="Map">
+	  SELECT M_ID FROM MEMBER
+	  WHERE 1=1
+	  AND M_NM = #{m_nm}
+	  AND M_HP = #{m_hp}
+</select>
+
 <select id="SelectMember" parameterType="Map" resultType="Map">
 	  SELECT M_NM, M_ID, M_GRADE FROM MEMBER
 	  WHERE 1=1
@@ -67,4 +81,18 @@
 	  AND M_PWD = #{m_pwd}
 </select>
 
+<select id="FindMyPwd" parameterType="Map" resultType="Map">
+	  SELECT SEQ_NO FROM MEMBER
+	  WHERE 1=1
+	  AND M_NM = #{m_nm}
+	  AND M_HP = #{m_hp}
+	  AND M_ID = #{m_id}
+</select>
+
+<update  id="ModPwd" parameterType="Map">
+	UPDATE MEMBER
+	SET M_PWD = #{m_pwd}
+	WHERE 1=1
+	AND seq_no = #{seqno}
+</update>
 </mapper>
