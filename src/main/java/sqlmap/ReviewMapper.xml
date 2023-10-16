@@ -281,6 +281,20 @@ SELECT
     AND BOARD_TYPE = #{boardType}
     AND PRT_SEQNO = #{prt_seqno}
 	AND BOARD_SUB_TYPE = #{boardSubType}
+	AND GRP_SEQNO not in  
+	(
+	SELECT 
+	GRP_SEQNO
+	FROM
+	BOARD
+	WHERE 1=1
+	AND BOARD_TYPE = #{boardType}
+    AND PRT_SEQNO = #{prt_seqno}
+	AND BOARD_SUB_TYPE = #{boardSubType}
+	GROUP BY GRP_SEQNO
+	HAVING COUNT(DISTINCT DISABLED) = 1
+	AND MIN(DISABLED) = '0'
+	)
 	ORDER BY GRP_SEQNO DESC, regnt_dtm asc
 </select>
 
