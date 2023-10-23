@@ -24,67 +24,62 @@
 	//******************************************************************************************** 
 	// 1. 전역변수 선언                               						                              														  
 	//*********************************************************************************************/ 
-	
+
 	//******************************************************************************************** 
 	// 2. 최초 실행 함수                               						                              														  
 	//*********************************************************************************************/ 
 
 	$(document).ready(function() {
 
-		init_();
+		init();
 
 	});
 
-	function init_() {
-		fn_InfoDetail();
+	function init() {
 	}
 
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/
-	//게시글 상세 페이지 호출
-	function fn_InfoDetail() {
-		
-		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax" ;
+	function fn_with_draw() {
+		var sUrl = "${pageContext.request.contextPath}/mypage/with_draw_ajax.ajax"
+		var m_nm = $(".m_nm").val();
+		var m_pwd = $(".m_pwd").val();
+
 		var params = {
-				m_id:""
+			m_nm : m_nm,
+			m_pwd : m_pwd
 		};
-		
+
 		$.ajax({
 			url : sUrl,
 			data : params,
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
-				
-				fn_Bind(response);
-				
-			},	
-			error : function(xhr, status, error) {
-				alert("error");
+				var msg = response.result.msg;
+				var flag = response.result.flag;
+
+				alert(msg);
+
+				if (flag == "T") {
+					location.href = "../login/logout.do";
+				}
+
+			},
+			error : function(xhr, error, status) {
+				alert("실패했습니다. 다시 시도해주세요.");
 			},
 			complete : function() {
-		    }
+			}
+
 		});
+
 	}
-	
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-	function fn_Bind(response) {
-		
-		var m_id = response.result.m_id;
-		var m_nm = response.result.m_nm;
-		var m_hp = response.result.m_hp;
-		var m_email = response.result.m_email;
-		var m_birth = response.result.m_birth;
-		
-		$("#m_id").val(m_id);
-		$("#m_nm").val(m_nm);
-		$("#m_hp").val(m_hp);
-		$("#m_email").val(m_email);
-		$("#m_birth").val(m_birth);
-	}
+
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -92,7 +87,13 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
+	$(document).on("click", ".btn_withdraw", function() {
+		var confirmLogout = confirm("탈퇴하시겠습니까?");
 
+		if (confirmLogout) {
+			fn_with_draw();
+		}
+	});
 </script>
 </head>
 
@@ -111,72 +112,63 @@
 					<div class="exTab_sub" data-aos="fade-up" data-aos-duration="1000">
 						<div class="group clear" style="display: block;">
 							<div class="mypage_left">
-								<%@include file="../include/mypage_left_area.jsp"%>
+							<%@include file="../include/mypage_left_area.jsp"%>
 							</div>
 							<div class="mypage_right">
 								<!-- 마이페이지 우측 콘텐츠 -->
-								<h2>회원정보 수정</h2>
-								<p>
-									<i class="essR"> </i> "필수입력"
-								</p>
-								<div class="signup_wrapper">
-									<table>
-										<colgroup>
-											<col style="width: 160px">
-											<col style="width: 280px">
-											<col style="width: 100px">
-											<col class="sm-wd">
-										</colgroup>
-										<tbody>
-											<tr class="id">
-												<th scope="row">아이디</th>
-												<td colspan="3"><span id="m_id">아이디</span></td>
-											</tr>
-											<tr class="name">
-												<th scope="row">성명</th>
-												<td colspan="3"><span>이름</span></td>
-											</tr>
-											<tr class="phone">
-												<th scope="row">전화번호 <span class="essR">
-														::before "필수" </span>
-												</th>
-												<td colspan="3" class="hp"><input type="text"
-													class="m_hp inTxt rs-w150" id="phone1" maxlength="11"
-													placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)"
-													style="width: 80px" title="휴대폰 번호 입력"></td>
-											</tr>
-											<tr class="eml">
-												<th scope="row">이메일 주소 <span class="essR">
-														::before "필수" </span>
-												</th>
-												<td colspan="3" class="email"><input type="text"
-													class="m_email_01 inTxt rs-w40" id="email_01"
-													placeholder="이메일 주소"
-													style="width: 120px; ime-mode: disabled;"
-													title="이메일 아이디 입력"> <span class="dash"> @ </span> <label
-													class="disn ">이메일 입력</label> <input type="text"
-													class="m_email_02 inTxt rs-w45" id="email_02"
-													style="width: 120px; ime-mode: disabled;" title="이메일 입력">
-													<span class="selectboxWrap" style="width: 180px"> <label
-														class="disn">이메일 선택</label> <select
-														class="m_email_03 select selectBg" id="email_03"
-														title="이메일 선택">
-															<option value="">직접입력</option>
-															<option value="naver.com">naver.com</option>
-															<option value="gmail.com">gmail.com</option>
-															<option value="hanmail.net">hanmail.net</option>
-													</select>
-												</span></td>
-											</tr>
-											<tr class="birth">
-												<th scope="row">생년 월일</th>
-												<td><span>생일</span></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="btn_area">
-									<button class="tb_top btn_blue btn_mp btn_modify">정보수정</button>
+								<h2>회원탈퇴</h2>
+								<div class="signup_FindId withdraw">
+									<p>
+										<i class="essR"> </i> "필수입력"
+									</p>
+									<div class="signup_wrapper">
+										<table>
+											<caption>
+												<strong>웹 회원 아이디 찾기위한 정보 입력</strong>
+												<p>웹 회원 정보입력으로 이름, 휴대폰, 이메일 정보를 입력</p>
+											</caption>
+											<colgroup>
+												<col style="width: 160px">
+												<col style="width: 280px">
+												<col style="width: 100px">
+												<col class="sm-wd">
+											</colgroup>
+											<tbody>
+												<tr class="name">
+													<th scope="row">성명 <span class="essR"> ::before
+															"필수" </span>
+													</th>
+													<td colspan="3"><input type="text"
+														class="m_nm inTxt rs-w100" id="m_szName" value
+														maxlength="50" style="width: 180px;" title="이름 입력"></td>
+												</tr>
+												<tr class="pswd">
+													<th scope="row">비밀번호 <span class="essR">
+															::before "필수" </span>
+													</th>
+													<td colspan="3"><input type="password"
+														class="m_pwd inTxt rs-w100" id="m_szPwd"
+														placeholder="8~14자리" maxlength="14"
+														style="width: 180px; ime-mode: disabled;" title="비밀번호">
+														<span class="cau05 pw_info pwd_message">8~14자리 (영문
+															대소문자, 숫자, 특수문자 조합)</span></td>
+												</tr>
+												<tr class="repswd">
+													<th scope="row">비밀번호 확인 <span class="essR">
+															::before "필수" </span>
+													</th>
+													<td colspan="3" class="line2"><input type="password"
+														class="m_pwd_chk inTxt rs-w100" id="m_szPwdChk"
+														placeholder="비밀번호 재입력" maxlength="14"
+														style="width: 180px; ime-mode: disabled;" title="비밀번호 확인">
+														<span class="cau05 pw_info pwd_message_chk"></span></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="btn_area">
+										<button class="tb_top btn_blue btn_mp btn_withdraw">회원탈퇴</button>
+									</div>
 								</div>
 							</div>
 						</div>
