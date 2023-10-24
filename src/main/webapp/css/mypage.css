@@ -20,9 +20,11 @@
 
 .admin_main, .mypage_main{padding-top: 100px!important; padding-bottom: 50px;}
 
-.admin_right, .mypage_right {float: right; width: 1000px; height: 700px; background-color: white; padding-top: 20px; float: right; color: black; padding: 20;}
+.admin_right, .mypage_right {float: right; width: 1000px; height: 700px; background-color: white; padding-top: 20px; float: right; color: black; padding: 20px;}
+.mypage_right > h2 {color:#000; margin-top:5%;}
 .admin_tbody, .mypage_tbody {display: table-row-group; vertical-align: middle; border-color: inherit; color: black;}
 .mypage_tbody th {text-align: center;}
+.btn_mp {margin-top:5%;}
 
 td:nth-child(1){padding-left: 15px!important;}
 
@@ -38,3 +40,10 @@ select {border-radius: 10px; writing-mode: horizontal-tb !important; text-render
 .selectboxWrap .select option {color: #555; height: 27px; line-height: 27px; font-size: 14px;}
 .selectBg{border-radius: 0; height: 30px;}
 .selectboxWrap {vertical-align: top;}
+
+/*비밀정보 수정*/
+.btn_change {background-color: black; margin-top: 10px;}
+.tb_change > span {color: black;}
+
+.li_style {cursor: pointer;}
+.li_style:hover {background:#26c8c2;}
