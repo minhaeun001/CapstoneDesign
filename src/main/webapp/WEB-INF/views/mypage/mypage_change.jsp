@@ -24,7 +24,7 @@
 	//******************************************************************************************** 
 	// 1. 전역변수 선언                               						                              														  
 	//*********************************************************************************************/ 
-	
+
 	//******************************************************************************************** 
 	// 2. 최초 실행 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -44,12 +44,12 @@
 	//*********************************************************************************************/
 	//게시글 상세 페이지 호출
 	function fn_InfoDetail() {
-		
-		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax" ;
+
+		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax";
 		var params = {
-				seq:""	
+			seq : ""
 		};
-		
+
 		$.ajax({
 			url : sUrl,
 			data : params,
@@ -57,31 +57,36 @@
 			dataType : 'json',
 			success : function(response) {
 				fn_Bind(response);
-			},	
+			},
 			error : function(xhr, status, error) {
 				alert("error");
 			},
 			complete : function() {
-		    }
+			}
 		});
 	}
-	
+
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
 	function fn_Bind(response) {
-		
+
 		var m_id = response.result[0].M_ID;
 		var m_nm = response.result[0].M_NM;
 		var m_hp = response.result[0].M_HP;
 		var m_email = response.result[0].M_EMAIL;
 		var m_birth = response.result[0].M_BIRTH;
-		
+
+		var atIndex = m_email.indexOf('@'); // '@' 기준으로 인덱스 찾기
+		var m_email_01 = m_email.slice(0, atIndex); // '@' 이전 부분을 추출
+		var m_email_02 = m_email.slice(atIndex + 1); // '@' 이후 부분을 추출
+
 		$("#m_id").html(m_id);
 		$("#m_nm").html(m_nm);
 		$("#m_hp").val(m_hp);
-		$("#m_email").val(m_email);
-		$("#m_birth").val(m_birth);
+		$("#m_email_01").val(m_email_01);
+		$("#m_email_02").val(m_email_02);
+		$("#m_birth").html(m_birth);
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -90,7 +95,10 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
-
+	$(document).on("change", "#m_email_03", function() {
+		var m_email_03 = $(this).val();
+		$("#m_email_02").eq(0).val(m_email_03);
+	});
 </script>
 </head>
 
@@ -148,16 +156,16 @@
 														::before "필수" </span>
 												</th>
 												<td colspan="3" class="email"><input type="text"
-													class="m_email_01 inTxt rs-w40" id="email_01"
+													class="m_email_01 inTxt rs-w40" id="m_email_01"
 													placeholder="이메일 주소"
 													style="width: 120px; ime-mode: disabled;"
 													title="이메일 아이디 입력"> <span class="dash"> @ </span> <label
 													class="disn ">이메일 입력</label> <input type="text"
-													class="m_email_02 inTxt rs-w45" id="email_02"
+													class="m_email_02 inTxt rs-w45" id="m_email_02"
 													style="width: 120px; ime-mode: disabled;" title="이메일 입력">
 													<span class="selectboxWrap" style="width: 180px"> <label
 														class="disn">이메일 선택</label> <select
-														class="m_email_03 select selectBg" id="email_03"
+														class="m_email_03 select selectBg" id="m_email_03"
 														title="이메일 선택">
 															<option value="">직접입력</option>
 															<option value="naver.com">naver.com</option>

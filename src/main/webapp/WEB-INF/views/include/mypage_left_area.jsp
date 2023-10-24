@@ -59,16 +59,16 @@
 <div class="mypage_left_middle1">
 	<div class="middle1_list">
 		<li class="middle1_list_top">예약관리</li>
-		<li class="running">수강중인 강좌(1)</li>
-		<li class="review">리뷰 관리</li>
+		<li class="running li_style">수강중인 강좌(1)</li>
+		<li class="review li_style">리뷰 관리</li>
 	</div>
 </div>
 <div class="mypage_left_middle2">
 	<div class="middle2_list">
 		<li class="middle2_list_top">회원정보</li>
-		<li class="mypage_change">회원정보 수정</li>
-		<li class="mypage_password_change">비밀번호 수정</li>
-		<li class="mypage_withdraw">회원 탈퇴</li>
+		<li class="mypage_change li_style">회원정보 수정</li>
+		<li class="mypage_password_change li_style">비밀번호 수정</li>
+		<li class="mypage_withdraw li_style">회원 탈퇴</li>
 	</div>
 </div>
 <div class="mypage_left_bottom">
