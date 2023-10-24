@@ -24,65 +24,28 @@
 	//******************************************************************************************** 
 	// 1. 전역변수 선언                               						                              														  
 	//*********************************************************************************************/ 
-	
+
 	//******************************************************************************************** 
 	// 2. 최초 실행 함수                               						                              														  
 	//*********************************************************************************************/ 
 
 	$(document).ready(function() {
 
-		init_();
+		init();
 
 	});
 
-	function init_() {
-		fn_InfoDetail();
+	function init() {
 	}
 
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/
-	//게시글 상세 페이지 호출
-	function fn_InfoDetail() {
-		
-		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax" ;
-		var params = {
-				seq:""	
-		};
-		
-		$.ajax({
-			url : sUrl,
-			data : params,
-			method : 'post',
-			dataType : 'json',
-			success : function(response) {
-				fn_Bind(response);
-			},	
-			error : function(xhr, status, error) {
-				alert("error");
-			},
-			complete : function() {
-		    }
-		});
-	}
-	
+
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-	function fn_Bind(response) {
-		
-		var m_id = response.result[0].M_ID;
-		var m_nm = response.result[0].M_NM;
-		var m_hp = response.result[0].M_HP;
-		var m_email = response.result[0].M_EMAIL;
-		var m_birth = response.result[0].M_BIRTH;
-		
-		$("#m_id").html(m_id);
-		$("#m_nm").html(m_nm);
-		$("#m_hp").val(m_hp);
-		$("#m_email").val(m_email);
-		$("#m_birth").val(m_birth);
-	}
+
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -90,7 +53,6 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
-
 </script>
 </head>
 
@@ -105,7 +67,6 @@
 		<%@include file="../include/header.jsp"%>
 		<div class="main mypage_main" style="position: relative;">
 			<div class="inner" style="width: 1300px;">
-				<section class="introduce" style="margin-top: 0px;">
 					<div class="exTab_sub" data-aos="fade-up" data-aos-duration="1000">
 						<div class="group clear" style="display: block;">
 							<div class="mypage_left">
@@ -113,73 +74,76 @@
 							</div>
 							<div class="mypage_right">
 								<!-- 마이페이지 우측 콘텐츠 -->
-								<h2>회원정보 수정</h2>
-								<p>
-									<i class="essR"> </i> "필수입력"
-								</p>
-								<div class="signup_wrapper">
-									<table>
+								<div class="tit">
+									<h2 class="mypage_h2">REVIEW</h2>
+									<p>리뷰 관리</p>
+								</div>
+								<div class="baord aos-init aos-animate" data-aos="fade-up"
+									data-aos-duration="1000">
+									<table class="tb_type1 notice">
 										<colgroup>
-											<col style="width: 160px">
-											<col style="width: 280px">
-											<col style="width: 100px">
-											<col class="sm-wd">
+											<col style="width: 30%">
+											<col style="width: 40%">
+											<col style="width: 30%">
 										</colgroup>
-										<tbody>
-											<tr class="id">
-												<th scope="row">아이디</th>
-												<td colspan="3"><span id="m_id"></span></td>
+										<tbody class="mypage_tbody">
+											<tr>
+												<th scope="col" id="lectureTitl">제목</th>
+												<th scope="col" id="trainer">내용</th>
+												<th scope="col" id="remainlecture">날짜</th>
 											</tr>
-											<tr class="name">
-												<th scope="row">성명</th>
-												<td colspan="3"><span span id="m_nm">이름</span></td>
+											<tr>
+												<td>강좌 이름</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
 											</tr>
-											<tr class="phone">
-												<th scope="row">전화번호 <span class="essR">
-														::before "필수" </span>
-												</th>
-												<td colspan="3" class="hp"><input type="text"
-													class="m_hp inTxt rs-w150" id="m_hp" maxlength="11"
-													placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)"
-													style="width: 80px" title="휴대폰 번호 입력"></td>
+											<tr>
+												<td>샘플1</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
 											</tr>
-											<tr class="eml">
-												<th scope="row">이메일 주소 <span class="essR">
-														::before "필수" </span>
-												</th>
-												<td colspan="3" class="email"><input type="text"
-													class="m_email_01 inTxt rs-w40" id="email_01"
-													placeholder="이메일 주소"
-													style="width: 120px; ime-mode: disabled;"
-													title="이메일 아이디 입력"> <span class="dash"> @ </span> <label
-													class="disn ">이메일 입력</label> <input type="text"
-													class="m_email_02 inTxt rs-w45" id="email_02"
-													style="width: 120px; ime-mode: disabled;" title="이메일 입력">
-													<span class="selectboxWrap" style="width: 180px"> <label
-														class="disn">이메일 선택</label> <select
-														class="m_email_03 select selectBg" id="email_03"
-														title="이메일 선택">
-															<option value="">직접입력</option>
-															<option value="naver.com">naver.com</option>
-															<option value="gmail.com">gmail.com</option>
-															<option value="hanmail.net">hanmail.net</option>
-													</select>
-												</span></td>
+											<tr>
+												<td>샘플2</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
 											</tr>
-											<tr class="birth">
-												<th scope="row">생년 월일</th>
-												<td><span id="m_birth">생일</span></td>
+											<tr>
+												<td>샘플3</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
+											</tr>
+											<tr>
+												<td>샘플4</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
+											</tr>
+											<tr>
+												<td>샘플5</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
+											</tr>
+											<tr>
+												<td>샘플6</td>
+												<td>박정윤</td>
+												<td>23.09.06 ~ 23.11.30</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
-								<div class="btn_area">
-									<button class="tb_top btn_blue btn_mp btn_modify">정보수정</button>
+								<div class="paging">
+									<a href="#" class="prev_end"></a> <a href="#" class="prev"></a>
+									<a href="#" class="on">1</a> <a href="#">2</a> <a href="#">3</a>
+									<a href="#">4</a> <a href="#">5</a> <a href="#" class="next"></a>
+									<a href="#" class="next_end"></a>
 								</div>
 							</div>
 						</div>
+						<div class="group">내용2</div>
+						<div class="group">내용3</div>
+						<div class="group">내용4</div>
+						<div class="group">내용5</div>
+						<div class="group">내용6</div>
 					</div>
-				</section>
 			</div>
 		</div>
 	</div>

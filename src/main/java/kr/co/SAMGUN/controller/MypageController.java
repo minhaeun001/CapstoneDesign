@@ -26,20 +26,12 @@ public class MypageController {
 	MypageService mypageService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MypageController.class);
-
-	
-	@RequestMapping("/mypage.do")
-	public String mypage(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
-		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
-		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
-		logger.info("프로그램:" + "mypage/mypage");
-		return "mypage/mypage";
-	}
 	
 	@RequestMapping("/admin.do")
 	public String admin(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
 		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
 		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		
 		logger.info("프로그램:" + "mypage/admin");
 		return "mypage/admin";
 	}
@@ -58,6 +50,14 @@ public class MypageController {
 		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
 		logger.info("프로그램:" + "mypage/mypage_change");
 		return "mypage/mypage_change";
+	}
+	
+	@RequestMapping("/mypage_review.do")
+	public String mypage_review(HttpServletRequest request , HttpServletResponse response, ModelMap model ) {
+		//클라이언트에서 넘어온 변수를  map 에 자동으로 할당함
+		//Map<String,String> hm = RequestUtil.requestToMap(request) ;
+		logger.info("프로그램:" + "mypage/mypage_review");
+		return "mypage/mypage_review";
 	}
 	
 	@RequestMapping("/mypage_running.do")

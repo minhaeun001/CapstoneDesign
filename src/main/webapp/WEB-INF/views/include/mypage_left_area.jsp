@@ -10,11 +10,11 @@
 	//*********************************************************************************************/ 
 	$(document).ready(function() {
 
-		fn_init();
+		fn_init_mp();
 
 	});
 
-	function fn_init() {
+	function fn_init_mp() {
 
 	}
 
@@ -38,7 +38,7 @@
 	});
 	
 	$(document).on("click", ".review", function() {
-		location.href = "../mypage/mypage_running.do";
+		location.href = "../mypage/mypage_review.do";
 	});
 	
 	$(document).on("click", ".mypage_change", function() {
@@ -66,8 +66,8 @@
 <div class="mypage_left_middle2">
 	<div class="middle2_list">
 		<li class="middle2_list_top">회원정보</li>
-		<li class="mypage_change">회원정보 변경</li>
-		<li class="mypage_password_change">비밀번호 변경</li>
+		<li class="mypage_change">회원정보 수정</li>
+		<li class="mypage_password_change">비밀번호 수정</li>
 		<li class="mypage_withdraw">회원 탈퇴</li>
 	</div>
 </div>
