@@ -1,6 +1,7 @@
 package kr.co.SAMGUN.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +42,14 @@ public class ProgramController {
 	@RequestMapping("/get_program.ajax")
 	public String get_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
 		
-		Map<String, Object> hm = new HashMap<String, Object>();
-
+		String garbage = "1";
 		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("garbage",garbage);
+		
+		List<Map<String, Object>> result = programservice.listProgramType(hm);
+		
+		model.addAttribute("result", result);
 		return "jsonView";
 	}
 }

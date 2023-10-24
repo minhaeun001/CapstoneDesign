@@ -35,28 +35,30 @@
 		
 		
 		function init(){
-			
+// 			fn_getProgram();
 		}
 		
 		//******************************************************************************************** 
 		//3. ajax 함수                                 						                              														  
 		//*********************************************************************************************/ 
-		function fn_getProgram(){
-			var sUrl = "${pageContext.request.contextPath}/program/get_program.ajax" ;
-			var params = {}
+// 		function fn_getProgram(){
+// 			var sUrl = "${pageContext.request.contextPath}/program/get_program.ajax" ;
+// 			var params = {
+					
+// 			}
 			
 			
-			$.ajax({
-				url : sUrl,
-				data : params,
-				method : 'post',
-				dataType : 'json',
-				success : function(response){
-					console.log(response);
-				}
+// 			$.ajax({
+// 				url : sUrl,
+// 				data : params,
+// 				method : 'post',
+// 				dataType : 'json',
+// 				success : function(response){
+// 					console.log(response.result);
+// 				}
 				
-			})
-		}
+// 			})
+// 		}
 		
 		//******************************************************************************************** 
 		//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  

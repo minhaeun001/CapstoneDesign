@@ -42,10 +42,7 @@
 
 		WITH SEARCH AS (
 			SELECT
-			ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS RNUM,
-			A.*,
-			(SELECT M_NAME FROM MEMBER WHERE M_ID=A.REG_ID) REG_NAME,
-			(SELECT M_NAME FROM MEMBER WHERE M_ID=A.MOD_ID) MOD_NAME
+			A.*
 			FROM PROGRAM A
 			WHERE 1=1
 			<if test='dataType != null'>
@@ -253,7 +250,6 @@
 		WHERE 1=1 
 		AND SEQ = #{seq} 
 	</update>
-	
 	
 	<!--  댓글 좋아요 값 가져오기 -->
 	<select  id="commentBad" parameterType="Map" resultType="java.util.HashMap">
