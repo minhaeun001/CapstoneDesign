@@ -35,35 +35,56 @@
 		
 		
 		function init(){
-// 			fn_getProgram();
+			fn_getProgram(); 
 		}
 		
 		//******************************************************************************************** 
 		//3. ajax 함수                                 						                              														  
 		//*********************************************************************************************/ 
-// 		function fn_getProgram(){
-// 			var sUrl = "${pageContext.request.contextPath}/program/get_program.ajax" ;
-// 			var params = {
-					
-// 			}
+		function fn_getProgram(){
+			var sUrl = "${pageContext.request.contextPath}/program/get_program.ajax" ;
+			var params = {
+			}
 			
 			
-// 			$.ajax({
-// 				url : sUrl,
-// 				data : params,
-// 				method : 'post',
-// 				dataType : 'json',
-// 				success : function(response){
-// 					console.log(response.result);
-// 				}
+			$.ajax({
+				url : sUrl,
+				data : params,
+				method : 'post',
+				dataType : 'json',
+				success : function(response){
+					fn_program_bind(response.result)
+				}
 				
-// 			})
-// 		}
+			})
+		}
 		
 		//******************************************************************************************** 
 		//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
-		//*********************************************************************************************/ 
-		
+		//*********************************************************************************************/ .
+		function fn_program_bind(params){
+			$(".program_box div").remove();
+			for(var i=0; i<params.length; i++){
+				var tmp_str = "";
+				tmp_str += '<div class="thumb">';
+                tmp_str += '<input type="checkbox" class="btn_checked">';
+                tmp_str += '<span class="thumb_imgBox" href="#">';
+                tmp_str += '<img scr="'+params[i].PROGRAM_THUMBNAIL+'" />';
+                tmp_str += '</span>';
+                tmp_str += '<div class="thumb_textBox">';
+                tmp_str += '<div class="thumb_eyebrow">';
+                tmp_str += '<span class="thumb_category">트레이너 '+params[i].M_NM+'</span><span class="thumb_date">'+params[i].MOD_DTM+'</span>';
+                tmp_str += '</div>';
+                tmp_str += '<a href="#" class="article_link">';
+                tmp_str += '<strong class="thumb_tit">'+params[i].PROGRAM_TITLE+'</strong>';
+                tmp_str += '<p class="desc">'+params[i].PROGRAM_CONTENTS+'</p>';
+                tmp_str += '</a>';
+                tmp_str += '</div>';
+                tmp_str += '</div>';
+                
+                $(".program_box").append(tmp_str);
+			}
+		}
 		
 		//******************************************************************************************** 
 		//5. 기타 함수                            						                              														  
@@ -110,72 +131,7 @@
                 </div>
                 <div class="news clear" data-aos="fade-up" data-aos-duration="2000">
                     <section>
-                        <div>
-                            <div class="thumb">
-                                <input type="checkbox" class="btn_checked">
-                                <span class="thumb_imgBox" href="#"></span>
-                                <div class="thumb_textBox">
-                                    <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
-                                    </div>
-                                    <a href="#" class="article_link">
-                                        <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
-                                        <p class="desc">
-                                            안녕하세요.
-                                            트레이너 박정윤 입니다.
-                                            제 커리큘럼에 대해 소개해드리겠습니다.
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="thumb">
-                                <span class="thumb_imgBox" href="#"></span>
-                                <div class="thumb_textBox">
-                                    <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
-                                    </div>
-                                    <a href="#" class="article_link">
-                                        <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
-                                        <p class="desc">
-                                            안녕하세요.
-                                            트레이너 박정윤 입니다.
-                                            제 커리큘럼에 대해 소개해드리겠습니다.
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="thumb">
-                                <span class="thumb_imgBox" href="#"></span>
-                                <div class="thumb_textBox">
-                                    <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
-                                    </div>
-                                    <a href="#" class="article_link">
-                                        <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
-                                        <p class="desc">
-                                            안녕하세요.
-                                            트레이너 박정윤 입니다.
-                                            제 커리큘럼에 대해 소개해드리겠습니다.
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="thumb">
-                                <span class="thumb_imgBox" href="#"></span>
-                                <div class="thumb_textBox">
-                                    <div class="thumb_eyebrow">
-                                        <span class="thumb_category">트레이너 박정윤</span><span class="thumb_date">2023-06-01</span>
-                                    </div>
-                                    <a href="#" class="article_link">
-                                        <strong class="thumb_tit">최고의 결과를 위한 맞춤형 코칭, 전문 트레이너와 함께하세요!</strong>
-                                        <p class="desc">
-                                            안녕하세요.
-                                            트레이너 박정윤 입니다.
-                                            제 커리큘럼에 대해 소개해드리겠습니다.
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="program_box">
                             <div class="tac">
                                 <button class="btn_more">더보기</button>
                             </div>

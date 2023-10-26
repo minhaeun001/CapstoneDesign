@@ -6,8 +6,6 @@ import java.util.Map;
 
 public interface ProgramService {
 
-	public List<Map<String, Object>> listProgramType(Map<String, Object> hm);
-
 	public int selectTotalCnt(Map<String, Object> hm);
 	
 	public int boardDetailCount(Map<String, Object> hm);
@@ -25,7 +23,7 @@ public interface ProgramService {
 	public int listTotalComments(Map<String, Object> hm);
 
 	public int boardUpdateGood(Map<String, Object> hm);
-
+	
 	public Map<String, Object> boardGood(Map<String, Object> hm);
 	
 	public int boardUpdateBad(Map<String, Object> hm);
@@ -40,4 +38,5 @@ public interface ProgramService {
 
 	public Map<String, Object> commentBad(Map<String, Object> hm);
 
+	public List<Map<String, Object>> listProgramType(Map<String, Object> hm);
 }

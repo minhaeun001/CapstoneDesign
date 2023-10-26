@@ -40,42 +40,13 @@
 	<!-- 부위별 /시간별 리스트 -->
 	<select id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
 
-		WITH SEARCH AS (
-			SELECT
-			A.*
-			FROM PROGRAM A
-			WHERE 1=1
-			<if test='dataType != null'>
-				<if test='"1".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-						AND BODY_TYPE = #{programType}
-					</if>
-				</if>
-				<if test='"2".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-						AND TIME_TYPE = #{programType}
-					</if>
-				</if>
-				<if test='"3".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-						AND PERIOD_TYPE = #{programType}
-					</if>
-				</if>
-				<if test='"4".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-					</if>
-				</if>
-			</if>
-
-		)
-
-		SELECT
-		*
-		FROM SEARCH
+		SELECT 
+		P.*,
+		M.M_NM
+		FROM 
+		PROGRAM P
+		LEFT JOIN MEMBER M on M.REG_ID = P.TRAINER_ID
 		WHERE 1=1
-		AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize})
-
-
 	</select>
 
 
