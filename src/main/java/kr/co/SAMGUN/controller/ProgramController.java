@@ -1,6 +1,7 @@
 package kr.co.SAMGUN.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import kr.co.SAMGUN.service.ProgramService;
 
 @Controller
 @RequestMapping("/program")
 public class ProgramController {
+	@Autowired
 	ProgramService programservice;
 
 	private static final Logger logger = LoggerFactory.getLogger(ProgramController.class);
@@ -42,8 +43,10 @@ public class ProgramController {
 	public String get_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
-
 		
+		List<Map<String, Object>> result = programservice.listProgramType(hm);
+		
+		model.addAttribute("result", result);
 		return "jsonView";
 	}
 }

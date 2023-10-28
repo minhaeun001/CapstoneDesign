@@ -40,45 +40,13 @@
 	<!-- 부위별 /시간별 리스트 -->
 	<select id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
 
-		WITH SEARCH AS (
-			SELECT
-			ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS RNUM,
-			A.*,
-			(SELECT M_NAME FROM MEMBER WHERE M_ID=A.REG_ID) REG_NAME,
-			(SELECT M_NAME FROM MEMBER WHERE M_ID=A.MOD_ID) MOD_NAME
-			FROM PROGRAM A
-			WHERE 1=1
-			<if test='dataType != null'>
-				<if test='"1".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-						AND BODY_TYPE = #{programType}
-					</if>
-				</if>
-				<if test='"2".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-						AND TIME_TYPE = #{programType}
-					</if>
-				</if>
-				<if test='"3".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-						AND PERIOD_TYPE = #{programType}
-					</if>
-				</if>
-				<if test='"4".equals(dataType)'>
-					<if test='!"all".equals(programType) and programType != null'>
-					</if>
-				</if>
-			</if>
-
-		)
-
-		SELECT
-		*
-		FROM SEARCH
+		SELECT 
+		P.*,
+		M.M_NM
+		FROM 
+		PROGRAM P
+		LEFT JOIN MEMBER M on M.REG_ID = P.TRAINER_ID
 		WHERE 1=1
-		AND SEARCH.RNUM BETWEEN TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize}) - TO_NUMBER(#{pageSize}) + 1 AND TO_NUMBER(#{pageNo}) * TO_NUMBER(#{pageSize})
-
-
 	</select>
 
 
@@ -253,7 +221,6 @@
 		WHERE 1=1 
 		AND SEQ = #{seq} 
 	</update>
-	
 	
 	<!--  댓글 좋아요 값 가져오기 -->
 	<select  id="commentBad" parameterType="Map" resultType="java.util.HashMap">

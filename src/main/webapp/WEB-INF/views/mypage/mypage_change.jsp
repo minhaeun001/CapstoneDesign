@@ -46,7 +46,11 @@
 
 		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax";
 		var params = {
+<<<<<<< HEAD
 			m_id : "i"
+=======
+			seq : ""
+>>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 		};
 
 		$.ajax({
@@ -104,6 +108,7 @@
 		var m_email_01 = m_email.slice(0, atIndex); // '@' 이전 부분을 추출
 		var m_email_02 = m_email.slice(atIndex + 1); // '@' 이후 부분을 추출
 
+<<<<<<< HEAD
 		// 연도, 월, 일 부분을 추출
 		var year = m_birth.slice(0, 4);
 		var month = m_birth.slice(4, 5);
@@ -118,12 +123,18 @@
 		// 변환된 날짜 문자열 생성
 		var formattedDate = year + "년 " + month + "월 " + day + "일";
 
+=======
+>>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 		$("#m_id").html(m_id);
 		$("#m_nm").html(m_nm);
 		$("#m_hp").val(m_hp);
 		$("#m_email_01").val(m_email_01);
 		$("#m_email_02").val(m_email_02);
+<<<<<<< HEAD
 		$("#m_birth").html(formattedDate);
+=======
+		$("#m_birth").html(m_birth);
+>>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -136,6 +147,7 @@
 		var m_email_03 = $(this).val();
 		$("#m_email_02").eq(0).val(m_email_03);
 	});
+<<<<<<< HEAD
 
 	//"저장" 버튼 클릭 시 수정 내용 서버로 전송
 $(document).on("click", ".btn_modify", function() {
@@ -176,6 +188,8 @@ $(document).on("click", ".btn_modify", function() {
     }
 });
 
+=======
+>>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 </script>
 </head>
 

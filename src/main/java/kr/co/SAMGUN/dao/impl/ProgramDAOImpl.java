@@ -25,7 +25,7 @@ public class ProgramDAOImpl implements ProgramDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	private static String namespace = "kr.co.SAMGUN.dao.";
+	private static String namespace = "kr.co.SAMGUN.dao.ProgramDAO";
 	private static final Logger logger = LoggerFactory.getLogger(ProgramDAOImpl.class);
 	
 //	운동 타입 리스트

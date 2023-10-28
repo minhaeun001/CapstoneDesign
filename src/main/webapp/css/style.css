@@ -390,7 +390,8 @@ program
 .main .news .nw_left .items {border-bottom: 1px solid #d2d2d2;}
 .thumb {height: 222px; margin-bottom: 20px; transition: all .3s; padding: 20px 0px;}
 /*.thumb:hover {transform: translateX(10px)}*/
-.thumb .thumb_imgBox {background:  url(../img/thumb_bg.png) center center no-repeat;display: block;float: left;width: 280px;height: 180px;overflow: hidden;background-size: cover; transition: all .4s;}
+.thumb .thumb_imgBox {display: block;float: left;width: 280px;height: 180px;overflow: hidden;background-size: cover; transition: all .4s;}
+.thumb .thumb_imgBox img{width:100%; height:100%;}
 .thumb .thumb_imgBox + .thumb_textBox {float: right;width: calc(100% - 295px);padding: 10px 24px;}
 .thumb .thumb_date,.thumb_tag {font-size: 14px;display: inline-block;vertical-align: middle;}
 .thumb_eyebrow {font-size: 14px; font-weight: 500; color: #888;margin-top:-12px;}
