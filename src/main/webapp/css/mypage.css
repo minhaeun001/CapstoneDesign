@@ -44,3 +44,6 @@ select {border-radius: 10px; writing-mode: horizontal-tb !important; text-render
 /*비밀정보 수정*/
 .btn_change {background-color: black; margin-top: 10px;}
 .tb_change > span {color: black;}
+
+.li_style {cursor:pointer;}
+.li_style:hover {background:#26c8c2;}

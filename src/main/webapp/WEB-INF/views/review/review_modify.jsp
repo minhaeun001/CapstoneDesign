@@ -180,13 +180,6 @@
                         <tr>
                             <th colspan="2" style="height: 20px;"></th>
                         </tr>
-                        <tr>
-                            <th>FILE</th>
-                            <td><input type="file" style="width: 100%"></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="height: 20px;"></th>
-                        </tr>
                     </table>
  				<div class="navigation clear">
 							<a href="../review/review.do">LIST</a>

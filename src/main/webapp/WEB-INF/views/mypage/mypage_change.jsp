@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -24,7 +23,7 @@
 	//******************************************************************************************** 
 	// 1. 전역변수 선언                               						                              														  
 	//*********************************************************************************************/ 
-	
+
 	//******************************************************************************************** 
 	// 2. 최초 실행 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -44,12 +43,12 @@
 	//*********************************************************************************************/
 	//게시글 상세 페이지 호출
 	function fn_InfoDetail() {
-		
-		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax" ;
+
+		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax";
 		var params = {
-				seq:""	
+			m_id : "i"
 		};
-		
+
 		$.ajax({
 			url : sUrl,
 			data : params,
@@ -57,31 +56,74 @@
 			dataType : 'json',
 			success : function(response) {
 				fn_Bind(response);
-			},	
+			},
 			error : function(xhr, status, error) {
 				alert("error");
 			},
 			complete : function() {
-		    }
+			}
 		});
 	}
-	
+
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
+	function validatePhoneNumber(phoneNumber) {
+		// 숫자 이외의 문자 제거
+		var cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
+
+		// 정확히 10자리인지 확인 (일반적인 국내 휴대폰 번호 길이)
+		if (cleanedPhoneNumber.length !== 11) {
+			return false;
+		}
+
+		// 숫자만으로 이루어져 있는지 확인
+		if (!/^\d+$/.test(cleanedPhoneNumber)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	function validateEmail(email) {
+		// 이메일 주소의 유효성을 검사하는 정규 표현식
+		var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+		return emailRegex.test(email);
+	}
+
 	function fn_Bind(response) {
-		
+
 		var m_id = response.result[0].M_ID;
 		var m_nm = response.result[0].M_NM;
 		var m_hp = response.result[0].M_HP;
 		var m_email = response.result[0].M_EMAIL;
 		var m_birth = response.result[0].M_BIRTH;
-		
+
+		var atIndex = m_email.indexOf('@'); // '@' 기준으로 인덱스 찾기
+		var m_email_01 = m_email.slice(0, atIndex); // '@' 이전 부분을 추출
+		var m_email_02 = m_email.slice(atIndex + 1); // '@' 이후 부분을 추출
+
+		// 연도, 월, 일 부분을 추출
+		var year = m_birth.slice(0, 4);
+		var month = m_birth.slice(4, 5);
+		var day = m_birth.slice(5, 7);
+
+		// 월이나 일이 한 자리 수일 경우 앞에 0을 붙이기
+		month = month.charAt(0) === "0" ? month.charAt(1) : month;
+		day = day.charAt(0) === "0" ? day.charAt(1) : day;
+
+		console.log($("#m_id").html());
+
+		// 변환된 날짜 문자열 생성
+		var formattedDate = year + "년 " + month + "월 " + day + "일";
+
 		$("#m_id").html(m_id);
 		$("#m_nm").html(m_nm);
 		$("#m_hp").val(m_hp);
-		$("#m_email").val(m_email);
-		$("#m_birth").val(m_birth);
+		$("#m_email_01").val(m_email_01);
+		$("#m_email_02").val(m_email_02);
+		$("#m_birth").html(formattedDate);
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -90,6 +132,49 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
+	$(document).on("change", "#m_email_03", function() {
+		var m_email_03 = $(this).val();
+		$("#m_email_02").eq(0).val(m_email_03);
+	});
+
+	//"저장" 버튼 클릭 시 수정 내용 서버로 전송
+$(document).on("click", ".btn_modify", function() {
+    var m_hp = $("#m_hp").val();
+    var m_email_01 = $("#m_email_01").val();
+    var m_email_02 = $("#m_email_02").val();
+    var m_email_03 = $("#m_email_03").val();
+    var email = m_email_01 + "@" + m_email_02;
+
+    if (!validatePhoneNumber(m_hp)) {
+        alert("전화번호를 확인해주세요.");
+        $("#m_hp").focus();
+        return;
+    }
+
+    if (m_hp === "") {
+        alert("휴대폰 번호는 필수항목입니다.");
+        $("#m_hp").focus();
+        return;
+    }
+
+    if (m_email_01 === "") {
+        alert("이메일은 필수항목입니다.");
+        $("#m_email_01").focus();
+        return;
+    }
+
+    if (m_email_02 === "") {
+        alert("이메일은 필수항목입니다.");
+        $("#m_email_02").focus();
+        return;
+    }
+
+    if (!validateEmail(email)) {
+        alert("유효하지 않은 이메일 주소입니다.");
+        $("#m_email_02").focus();
+        return;
+    }
+});
 
 </script>
 </head>
@@ -148,16 +233,16 @@
 														::before "필수" </span>
 												</th>
 												<td colspan="3" class="email"><input type="text"
-													class="m_email_01 inTxt rs-w40" id="email_01"
+													class="m_email_01 inTxt rs-w40" id="m_email_01"
 													placeholder="이메일 주소"
 													style="width: 120px; ime-mode: disabled;"
 													title="이메일 아이디 입력"> <span class="dash"> @ </span> <label
 													class="disn ">이메일 입력</label> <input type="text"
-													class="m_email_02 inTxt rs-w45" id="email_02"
+													class="m_email_02 inTxt rs-w45" id="m_email_02"
 													style="width: 120px; ime-mode: disabled;" title="이메일 입력">
 													<span class="selectboxWrap" style="width: 180px"> <label
 														class="disn">이메일 선택</label> <select
-														class="m_email_03 select selectBg" id="email_03"
+														class="m_email_03 select selectBg" id="m_email_03"
 														title="이메일 선택">
 															<option value="">직접입력</option>
 															<option value="naver.com">naver.com</option>
