@@ -20,4 +20,20 @@
   ]]>
 </select>
 
+<update  id="MypageMod" parameterType="Map">
+	UPDATE MEMBER
+	SET M_HP = #{m_hp},
+	M_EMAIL = #{m_email},
+	MOD_ID = #{mod_id},
+	MOD_DATE = (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL)
+	WHERE 1=1
+	AND seq_no = #{seq_no}
+</update>
+
+<select id="Chkhp" parameterType="Map" resultType="integer">
+  SELECT COUNT(*) 
+  FROM MEMBER
+  WHERE 1=1
+  AND M_HP = #{m_hp}
+</select>
 </mapper>

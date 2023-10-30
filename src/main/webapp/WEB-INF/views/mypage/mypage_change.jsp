@@ -47,10 +47,14 @@
 		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax";
 		var params = {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			m_id : "i"
 =======
 			seq : ""
 >>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
+=======
+			m_id : "i"
+>>>>>>> 0cd248cc9177b3ba4271e88312efdf04b5d86ca6
 		};
 
 		$.ajax({
@@ -60,6 +64,39 @@
 			dataType : 'json',
 			success : function(response) {
 				fn_Bind(response);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+			}
+		});
+	}
+
+	function fn_mypage_modify(seq_no, m_hp, email) {
+		
+		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_modify.ajax";
+		var params = {
+			seq_no:seq_no,
+			m_hp:m_hp,
+			m_email:email
+		};
+
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				var flag = response.result.flag;
+				var msg = response.result.msg;
+				
+				alert(msg);
+				
+				if(flag=="T"){
+					fn_InfoDetail();
+				}
+
 			},
 			error : function(xhr, status, error) {
 				alert("error");
@@ -103,12 +140,12 @@
 		var m_hp = response.result[0].M_HP;
 		var m_email = response.result[0].M_EMAIL;
 		var m_birth = response.result[0].M_BIRTH;
+		var seq_no = response.result[0].SEQ_NO;
 
 		var atIndex = m_email.indexOf('@'); // '@' 기준으로 인덱스 찾기
 		var m_email_01 = m_email.slice(0, atIndex); // '@' 이전 부분을 추출
 		var m_email_02 = m_email.slice(atIndex + 1); // '@' 이후 부분을 추출
 
-<<<<<<< HEAD
 		// 연도, 월, 일 부분을 추출
 		var year = m_birth.slice(0, 4);
 		var month = m_birth.slice(4, 5);
@@ -123,18 +160,13 @@
 		// 변환된 날짜 문자열 생성
 		var formattedDate = year + "년 " + month + "월 " + day + "일";
 
-=======
->>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 		$("#m_id").html(m_id);
 		$("#m_nm").html(m_nm);
 		$("#m_hp").val(m_hp);
 		$("#m_email_01").val(m_email_01);
 		$("#m_email_02").val(m_email_02);
-<<<<<<< HEAD
 		$("#m_birth").html(formattedDate);
-=======
-		$("#m_birth").html(m_birth);
->>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
+		$("#m_id").html(m_id).addClass("seq_no" + seq_no);
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -147,49 +179,49 @@
 		var m_email_03 = $(this).val();
 		$("#m_email_02").eq(0).val(m_email_03);
 	});
-<<<<<<< HEAD
 
 	//"저장" 버튼 클릭 시 수정 내용 서버로 전송
-$(document).on("click", ".btn_modify", function() {
-    var m_hp = $("#m_hp").val();
-    var m_email_01 = $("#m_email_01").val();
-    var m_email_02 = $("#m_email_02").val();
-    var m_email_03 = $("#m_email_03").val();
-    var email = m_email_01 + "@" + m_email_02;
+	$(document).on("click", ".btn_modify", function() {
+		var m_hp = $("#m_hp").val();
+		var m_email_01 = $("#m_email_01").val();
+		var m_email_02 = $("#m_email_02").val();
+		var m_email_03 = $("#m_email_03").val();
+		var email = m_email_01 + "@" + m_email_02;
 
-    if (!validatePhoneNumber(m_hp)) {
-        alert("전화번호를 확인해주세요.");
-        $("#m_hp").focus();
-        return;
-    }
+		if (!validatePhoneNumber(m_hp)) {
+			alert("전화번호를 확인해주세요.");
+			$("#m_hp").focus();
+			return;
+		}
 
-    if (m_hp === "") {
-        alert("휴대폰 번호는 필수항목입니다.");
-        $("#m_hp").focus();
-        return;
-    }
+		if (m_hp === "") {
+			alert("휴대폰 번호는 필수항목입니다.");
+			$("#m_hp").focus();
+			return;
+		}
 
-    if (m_email_01 === "") {
-        alert("이메일은 필수항목입니다.");
-        $("#m_email_01").focus();
-        return;
-    }
+		if (m_email_01 === "") {
+			alert("이메일 주소를 입력해주세요.");
+			$("#m_email_01").focus();
+			return;
+		}
 
-    if (m_email_02 === "") {
-        alert("이메일은 필수항목입니다.");
-        $("#m_email_02").focus();
-        return;
-    }
+		if (m_email_02 === "") {
+			alert("이메일 주소를 입력해주세요.");
+			$("#m_email_02").focus();
+			return;
+		}
 
-    if (!validateEmail(email)) {
-        alert("유효하지 않은 이메일 주소입니다.");
-        $("#m_email_02").focus();
-        return;
-    }
-});
+		if (!validateEmail(email)) {
+			alert("이메일 주소를 확인해주세요.");
+			$("#m_email_02").focus();
+			return;
+		}
 
-=======
->>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
+		var seq_no = $("#m_id").attr("class").replace(/seq_no/gi, "");
+
+		fn_mypage_modify(seq_no, m_hp, email);
+	});
 </script>
 </head>
 

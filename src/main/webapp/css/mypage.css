@@ -41,13 +41,9 @@ select {border-radius: 10px; writing-mode: horizontal-tb !important; text-render
 .selectBg{border-radius: 0; height: 30px;}
 .selectboxWrap {vertical-align: top;}
 
-/*비밀정보 수정*/
+/*鍮꾨��젙蹂� �닔�젙*/
 .btn_change {background-color: black; margin-top: 10px;}
 .tb_change > span {color: black;}
 
-<<<<<<< HEAD
 .li_style {cursor:pointer;}
-=======
-.li_style {cursor: pointer;}
->>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 .li_style:hover {background:#26c8c2;}

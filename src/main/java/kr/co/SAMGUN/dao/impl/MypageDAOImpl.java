@@ -38,4 +38,14 @@ public class MypageDAOImpl implements MypageDAO {
 	public List<Map<String, Object>> InfoList(Map<String, Object> hm) {
 		return sqlSession.selectList(namespace+".InfoList", hm);
 	}
+	
+	@Override
+	public int MypageMod(Map<String, Object> hm) {
+		return sqlSession.update(namespace+".MypageMod", hm);
+	}
+	
+	@Override
+	public int Chkhp(Map<String, Object> hm) {
+		return sqlSession.selectOne(namespace+".Chkhp", hm);
+	}
 }

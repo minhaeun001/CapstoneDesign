@@ -8,4 +8,8 @@ public interface MypageService {
 	int WithDraw(Map<String, Object> hm);
 
 	List<Map<String, Object>> InfoList(Map<String, Object> hm);
+	
+	int MypageMod(Map<String, Object> hm);
+	
+	int Chkhp(Map<String, Object> hm);
 }

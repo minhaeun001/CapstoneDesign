@@ -7,4 +7,8 @@ public interface MypageDAO {
 	public int WithDraw(Map<String, Object> hm);
 	
 	List<Map<String, Object>> InfoList(Map<String, Object> hm);
+	
+	public int MypageMod(Map<String, Object> hm);
+	
+	public int Chkhp(Map<String, Object> hm);
 }
