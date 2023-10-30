@@ -196,8 +196,13 @@ public class MypageController {
 		HttpSession session = request.getSession();
 		String m_id = (String) session.getAttribute("m_id");
 		
+		SHA256 sha256 = new SHA256();
+		
 		String m_opwd = request.getParameter("m_opwd");
 		String m_szpwd =request.getParameter("m_szpwd");
+		
+		m_opwd = sha256.encrypt(m_opwd);
+		m_szpwd = sha256.encrypt(m_szpwd);
 		
 		String msg = "문제가 발생했습니다. 다시 시도해주세요.";
 		String flag = "F";
@@ -207,13 +212,22 @@ public class MypageController {
 		hm.put("m_opwd",m_opwd);
 		hm.put("m_szpwd", m_szpwd);
 		
-		int Updatepwd = mypageService.Updatepwd(hm);
+		int Chkpwd = mypageService.Chkpwd(hm);
 		
-		if(Updatepwd>0) {
-			msg = "수정 되었습니다.";
-			flag = "T";
+		
+		if(Chkpwd>0) {
+			//만약 기존 비밀번호와 동일하다면
+			
+			msg="기존 비밀번호와 동일한 비밀번호로는 변경이 불가능합니다.";
+		} else {
+			int Updatepwd = mypageService.Updatepwd(hm);
+			
+			if(Updatepwd>0) {
+				msg = "수정 되었습니다.";
+				flag = "T";
+			}
 		}
-	
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result.put("msg",msg);

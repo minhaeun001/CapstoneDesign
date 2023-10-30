@@ -46,15 +46,8 @@
 
 		var sUrl = "${pageContext.request.contextPath}/mypage/mypage_view.ajax";
 		var params = {
-<<<<<<< HEAD
-<<<<<<< HEAD
-			m_id : "i"
-=======
+			m_id : "",
 			seq : ""
->>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
-=======
-			m_id : "i"
->>>>>>> 0cd248cc9177b3ba4271e88312efdf04b5d86ca6
 		};
 
 		$.ajax({

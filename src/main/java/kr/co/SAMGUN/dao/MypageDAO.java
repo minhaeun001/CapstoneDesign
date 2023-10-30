@@ -12,5 +12,7 @@ public interface MypageDAO {
 	
 	public int Chkhp(Map<String, Object> hm);
 	
+	public int Chkpwd(Map<String, Object> hm);
+	
 	public int Updatepwd(Map<String, Object> hm);
 }
