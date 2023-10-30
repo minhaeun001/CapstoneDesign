@@ -322,28 +322,5 @@
 		)
 
 	</insert>
-	
-	<insert id="buyProgram" parameterType="java.util.HashMap">
-		insert into MYPAGE
-		(
-		M_ID,
-		PROGRAM_ID,
-		REGNT_DTM,
-		REGNT_ID,
-		MOD_ID,
-		MOD_DTM
-		)
-		VALUES
-		<foreach collection="program_id" item="item" separator=" ,">
-		(
-		#{member_id},
-		#{item.val},
-		(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-		#{member_id},
-		#{member_id},
-		(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-		);
-		</foreach>
-	</insert>
 
 </mapper>

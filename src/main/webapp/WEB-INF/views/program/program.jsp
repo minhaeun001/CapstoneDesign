@@ -21,7 +21,7 @@
 		//******************************************************************************************** 
 		// 1. 전역변수 선언                               						                              														  
 		//*********************************************************************************************/ 
-		var m_id = "<%=(String) session.getAttribute("m_id")%>";
+		
 		
 		//******************************************************************************************** 
 		//2. 최초 실행 함수                               						                              														  
@@ -59,24 +59,6 @@
 			})
 		}
 		
-		function fn_register(p_id){
-			var sUrl = "${pageContext.request.contextPath}/program/buy_program.ajax" ;
-			params = {
-					member_id : m_id,
-					program_id : p_id
-					
-			}
-			console.log(params);
-			$.ajax({
-				url : sUrl,
-				data : params,
-				method : 'post',
-				dataType : 'json',
-				success : function(response){
-					console.log(response);
-				}
-			});
-		}
 		//******************************************************************************************** 
 		//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 		//*********************************************************************************************/ .
@@ -85,7 +67,7 @@
 			for(var i=0; i<params.length; i++){
 				var tmp_str = "";
 				tmp_str += '<div class="thumb">';
-                tmp_str += '<input type="checkbox" name="btn_checked" class="btn_checked" value="'+params[i].PROGRAM_ID+'">';
+                tmp_str += '<input type="checkbox" class="btn_checked">';
                 tmp_str += '<span class="thumb_imgBox" href="#">';
                 tmp_str += '<img scr="'+params[i].PROGRAM_THUMBNAIL+'" />';
                 tmp_str += '</span>';
@@ -104,19 +86,6 @@
 			}
 		}
 		
-		
-		function fn_check(){
-			var p_id = {};
-			var idx = 0;
-			$("input:checkbox[name='btn_checked']").each(function(){
-				if($(this).is(":checked") == true){
-					p_id[idx] = $(this).val();
-					idx++;
-				}
-			});
-			fn_register(p_id);
-		}
-		
 		//******************************************************************************************** 
 		//5. 기타 함수                            						                              														  
 		//*********************************************************************************************/ 
@@ -125,10 +94,6 @@
 		//******************************************************************************************** 
 		//6. 이벤트 함수                            						                              														  
 		//*********************************************************************************************/ 
-		$(document).on("click", ".register_btn", function(){
-			fn_check();
-		});
-		
 		
 	</script>
     <style>
@@ -158,7 +123,7 @@
                     </div>
                     <div class="subscript">
                         <div class="in">
-                            <button class="register_btn">
+                            <button onclick="alert('결제창으로 이동합니다.');">
                                 등록하기<img src="../../img/icon_arrow.svg">
                             </button>
                         </div>

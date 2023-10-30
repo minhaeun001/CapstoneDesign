@@ -40,6 +40,4 @@ public interface ProgramDAO {
 
 	public Map<String, Object> commentBad(Map<String, Object> hm);
 	
-	public int buyProgram(Map<String, Object> hm);
-	
 }

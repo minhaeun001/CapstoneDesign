@@ -39,6 +39,4 @@ public interface ProgramService {
 	public Map<String, Object> commentBad(Map<String, Object> hm);
 
 	public List<Map<String, Object>> listProgramType(Map<String, Object> hm);
-	
-	public int buyProgram(Map<String, Object> hm);
 }

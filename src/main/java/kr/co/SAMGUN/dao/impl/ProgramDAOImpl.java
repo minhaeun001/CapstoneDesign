@@ -118,10 +118,5 @@ public class ProgramDAOImpl implements ProgramDAO {
 	public Map<String, Object> commentBad(Map<String, Object> hm) {
 		return sqlSession.selectOne(namespace+".commentBad", hm);
 	}
-	
-	@Override
-	public int buyProgram(Map<String,Object> hm) {
-		return sqlSession.insert(namespace+".buyProgram", hm);
-	}
 			
 }

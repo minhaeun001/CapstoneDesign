@@ -49,19 +49,4 @@ public class ProgramController {
 		model.addAttribute("result", result);
 		return "jsonView";
 	}
-	@RequestMapping("/buy_program.ajax")
-	public String buy_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
-		
-		Map<String,Object> hm = new HashMap<String, Object>();
-		hm.put("member_id", request.getParameter("member_id"));
-		hm.put("program_id", request.getParameter("program_id"));
-		
-		
-//		int result = programservice.buyProgram(hm);
-		
-		model.addAttribute("result", request.getParameter("program_id"));
-		
-		return "jsonView";
-	}
-	
 }

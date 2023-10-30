@@ -107,9 +107,4 @@ public class ProgramServiceImpl implements ProgramService {
 	public Map<String, Object> commentBad(Map<String, Object> hm) {
 		return programDAO.commentBad(hm);
 	}
-	
-	@Override
-	public int buyProgram(Map<String, Object> hm) {
-		return programDAO.buyProgram(hm);
-	}
 }
