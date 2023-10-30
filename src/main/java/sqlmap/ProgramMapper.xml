@@ -334,10 +334,10 @@
 		MOD_DTM
 		)
 		VALUES
-		<foreach collection="program_id" item="item" separator=" ,">
+		<foreach collection="program_id.split(',')" item="item" separator=",">
 		(
 		#{member_id},
-		#{item.val},
+		#{item},
 		(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
 		#{member_id},
 		#{member_id},
