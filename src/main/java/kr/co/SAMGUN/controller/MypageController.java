@@ -190,4 +190,35 @@ public class MypageController {
 		model.addAttribute("result",result);
 		return "jsonView";
 	}
+	
+	@RequestMapping("/fn_mod_pwd.ajax")
+	public String fn_mod_pwd(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		
+		String m_opwd = request.getParameter("m_opwd");
+		String m_szpwd =request.getParameter("m_szpwd");
+		
+		String msg = "문제가 발생했습니다. 다시 시도해주세요.";
+		String flag = "F";
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("modid", m_id);
+		hm.put("m_opwd",m_opwd);
+		hm.put("m_szpwd", m_szpwd);
+		
+		int Updatepwd = mypageService.Updatepwd(hm);
+		
+		if(Updatepwd>0) {
+			msg = "수정 되었습니다.";
+			flag = "T";
+		}
+	
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("msg",msg);
+		result.put("flag",flag);
+		model.addAttribute("result",result);
+		return "jsonView";
+	}
 }

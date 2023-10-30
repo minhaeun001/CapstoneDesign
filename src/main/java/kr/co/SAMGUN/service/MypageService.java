@@ -12,4 +12,6 @@ public interface MypageService {
 	int MypageMod(Map<String, Object> hm);
 	
 	int Chkhp(Map<String, Object> hm);
+	
+	int Updatepwd(Map<String, Object> hm);
 }

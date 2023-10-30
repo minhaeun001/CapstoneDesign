@@ -48,4 +48,9 @@ public class MypageDAOImpl implements MypageDAO {
 	public int Chkhp(Map<String, Object> hm) {
 		return sqlSession.selectOne(namespace+".Chkhp", hm);
 	}
+	
+	@Override
+	public int Updatepwd(Map<String, Object> hm) {
+		return sqlSession.update(namespace+".Updatepwd", hm);
+	}
 }
