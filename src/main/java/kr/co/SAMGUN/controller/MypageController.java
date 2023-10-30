@@ -152,4 +152,42 @@ public class MypageController {
 		
 		return "jsonView";
 	}
+	
+	@RequestMapping("/mypage_modify.ajax")
+	public String mypage_modify(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		
+		String seq_no = request.getParameter("seq_no");
+		String m_hp =request.getParameter("m_hp");
+		String m_email = request.getParameter("m_email");
+		String msg = "전화번호를 확인해주세요.";
+		String flag = "F";
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("modid", m_id);
+		hm.put("seq_no",seq_no);
+		hm.put("m_hp", m_hp);
+		hm.put("m_email", m_email);
+		
+		int Chkhp = mypageService.Chkhp(hm);
+		
+		//이미 등록된 휴대폰 번호라면
+		if(Chkhp>0) {
+			msg = "이미 등록된 휴대폰 번호입니다.";
+		} else {
+			int modCnt = mypageService.MypageMod(hm);
+			if(modCnt>0) {
+				msg="수정되었습니다.";
+				flag="T";
+			}
+		}
+	
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("msg",msg);
+		result.put("flag",flag);
+		model.addAttribute("result",result);
+		return "jsonView";
+	}
 }

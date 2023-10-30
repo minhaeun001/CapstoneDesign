@@ -33,4 +33,14 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> InfoList(Map<String, Object> hm) {
 		return mypageDAO.InfoList(hm);
 	}
+	
+	@Override
+	public int MypageMod(Map<String, Object> hm) {
+		return mypageDAO.MypageMod(hm);
+	}
+	
+	@Override
+	public int Chkhp(Map<String, Object> hm) {
+		return mypageDAO.Chkhp(hm);
+	}
 }
