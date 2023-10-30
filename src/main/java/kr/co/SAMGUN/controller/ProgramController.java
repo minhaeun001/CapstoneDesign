@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,7 @@ public class ProgramController {
 		logger.info("프로그램:" + "program/program_write");
 		return "program/program_write";
 	}
+	
 	@RequestMapping("/get_program.ajax")
 	public String get_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
 		
@@ -49,12 +51,17 @@ public class ProgramController {
 		model.addAttribute("result", result);
 		return "jsonView";
 	}
+	
 	@RequestMapping("/buy_program.ajax")
 	public String buy_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
 		
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		String program_id = request.getParameter("program_id");
+		
 		Map<String,Object> hm = new HashMap<String, Object>();
-		hm.put("member_id", request.getParameter("member_id"));
-		hm.put("program_id", request.getParameter("program_id"));
+		hm.put("m_id", m_id);
+		hm.put("program_id", program_id);
 		
 		
 //		int result = programservice.buyProgram(hm);
