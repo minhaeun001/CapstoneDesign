@@ -53,7 +53,7 @@
 		var sUrl = "${pageContext.request.contextPath}/login/fn_mod_pwd.ajax"
 		
 		var m_opwd  = $("#m_oPwd").val();
-		var m_szpwd = $(".m_szPwd").val();
+		var m_szpwd = $(".m_pwd").val();
 		
 		var params = {
 				m_opwd:m_opwd,
@@ -66,7 +66,10 @@
 			method:"post",
 			dataType:"json",
 			success: function(response){
-					alert("성공");
+				var flag = response.result.flag;
+				var msg = response.result.msg;
+				
+				alert(msg);
 			},
 			error: function(xhr, status, error){
 				alert("error");
@@ -150,7 +153,7 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
-	$(document).on("click", ".btn_modify", function() {
+	$(document).on("click", ".btn_change", function() {
 		var pwd_tf = $("#pwd_tf").val();
 		var pwd_chk_check = $("#pwd_chk_check").val();
 		
@@ -214,7 +217,7 @@
 												<th scope="row">기존 비밀번호 <span class="essR"> </span>
 												</th>
 												<td colspan="3"><input type="password"
-													class="m_pwd inTxt rs-w100" id="m_oPwd"
+													class="m_opwd inTxt rs-w100" id="m_oPwd"
 													placeholder="8~14자리" maxlength="14"
 													style="width: 180px; ime-mode: disabled;" title="비밀번호"></td>
 											</tr>

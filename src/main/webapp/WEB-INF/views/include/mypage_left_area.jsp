@@ -65,11 +65,8 @@
 </div>
 <div class="mypage_left_middle2">
 	<div class="middle2_list">
-<<<<<<< HEAD
-		<li class="middle2_list_top ">회원정보</li>
-=======
+
 		<li class="middle2_list_top">회원정보</li>
->>>>>>> 8ab28b8556012a75daf4511874bc45c1b964cc7b
 		<li class="mypage_change li_style">회원정보 수정</li>
 		<li class="mypage_password_change li_style">비밀번호 수정</li>
 		<li class="mypage_withdraw li_style">회원 탈퇴</li>
