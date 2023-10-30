@@ -65,7 +65,7 @@ public class ProgramController {
 		
 		Map<String,Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
-		hm.put("program_id", program_id);
+//		hm.put("program_id", program_id);
 		
 		
 //		int result = programservice.buyProgram(hm);
