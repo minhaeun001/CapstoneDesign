@@ -45,6 +45,11 @@ public class MypageServiceImpl implements MypageService {
 	}
 	
 	@Override
+	public int Chkpwd(Map<String, Object> hm) {
+		return mypageDAO.Chkpwd(hm);
+	}
+	
+	@Override
 	public int Updatepwd(Map<String, Object> hm) {
 		return mypageDAO.Updatepwd(hm);
 	}

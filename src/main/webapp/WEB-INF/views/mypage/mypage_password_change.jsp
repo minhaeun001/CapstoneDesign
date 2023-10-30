@@ -50,7 +50,7 @@
 	//*********************************************************************************************/
 	function fn_mod_pwd(){
 	    
-		var sUrl = "${pageContext.request.contextPath}/login/fn_mod_pwd.ajax"
+		var sUrl = "${pageContext.request.contextPath}/mypage/fn_mod_pwd.ajax"
 		
 		var m_opwd  = $("#m_oPwd").val();
 		var m_szpwd = $(".m_pwd").val();
@@ -70,6 +70,10 @@
 				var msg = response.result.msg;
 				
 				alert(msg);
+				
+				if(flag=="T"){
+	                $(".inTxt").val("");
+				}
 			},
 			error: function(xhr, status, error){
 				alert("error");
