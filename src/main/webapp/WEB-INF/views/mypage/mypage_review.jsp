@@ -145,9 +145,9 @@
 									</colgroup>
 									<tbody class="mypage_tbody">
 										<tr>
-											<th scope="col" id="lectureTitl">제목</th>
-											<th scope="col" id="trainer">내용</th>
-											<th scope="col" id="remainlecture">날짜</th>
+											<th scope="col" id="reviewTit">제목</th>
+											<th scope="col" id="reviewCon">내용</th>
+											<th scope="col" id="reviewDate">날짜</th>
 										</tr>
 									</tbody>
 								</table>

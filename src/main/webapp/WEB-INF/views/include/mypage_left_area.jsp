@@ -33,11 +33,11 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
-	$(document).on("click", ".running", function() {
+	$(document).on("click", ".mypage_running", function() {
 		location.href = "../mypage/mypage_running.do";
 	});
 	
-	$(document).on("click", ".review", function() {
+	$(document).on("click", ".mypage_review", function() {
 		location.href = "../mypage/mypage_review.do";
 	});
 	
@@ -59,8 +59,8 @@
 <div class="mypage_left_middle1">
 	<div class="middle1_list">
 		<li class="middle1_list_top">예약관리</li>
-		<li class="running li_style">수강중인 강좌(1)</li>
-		<li class="review li_style">리뷰 관리</li>
+		<li class="mypage_running li_style">수강중인 강좌(1)</li>
+		<li class="mypage_review li_style">리뷰 관리</li>
 	</div>
 </div>
 <div class="mypage_left_middle2">
