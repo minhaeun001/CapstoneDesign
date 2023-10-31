@@ -16,4 +16,6 @@ public interface MypageService {
 	int Chkpwd(Map<String, Object> hm);
 	
 	int Updatepwd(Map<String, Object> hm);
+	
+	List<Map<String, Object>> listReviewType(Map<String, Object> hm);
 }

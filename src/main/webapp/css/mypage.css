@@ -47,3 +47,5 @@ select {border-radius: 10px; writing-mode: horizontal-tb !important; text-render
 
 .li_style {cursor:pointer;}
 .li_style:hover {background:#26c8c2;}
+
+.td_overflow {overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100px; height: 20px;}

@@ -36,16 +36,69 @@
 	});
 
 	function init() {
+		fn_review_info();
 	}
 
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/
+	function fn_review_info() {
 
+		var sUrl = "${pageContext.request.contextPath}/mypage/fn_review_info.ajax";
+		var params = {
+			m_id : "",
+			board_type : '30',
+			board_sub_type : 'R'
+		};
+
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				fn_listType_bind(response);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+			}
+		});
+	}
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
+	function fn_listType_bind(params) {
 
+		$(".tb_type1:eq(0) tr:gt(0)").remove();
+
+		var tmpStr = "";
+
+		if (params.result.length > 0) {
+
+			for (var i = 0, j = params.result.length; i < j; i++) {
+
+				tmpStr += "<tr class='mp_review' data-seqno='"+params.result[i].SEQ_NO+"'>";
+				tmpStr += "<td class='td_overflow'>" + params.result[i].TITLE
+						+ "</td>";
+				tmpStr += "<td class='td_overflow'>"
+						+ params.result[i].CONTENTS + "</td>";
+				tmpStr += "<td>" + params.result[i].MOD_DTM + "</td>";
+				tmpStr += "</tr>";
+
+			}
+
+		} else {
+
+			tmpStr += "<tr>";
+			tmpStr += "	<td colspan='3' style='text-align:center;'> 등록된 게시글이 없습니다. </td>";
+			tmpStr += "</tr>";
+		}
+
+		$(".tb_type1 tbody").append(tmpStr);
+
+	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -53,6 +106,10 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
+	$(document).on("click", ".mp_review", function() {
+		var seqno= $(this).data("seqno");
+		window.location.href = "../review/review_view.do?seqno="+seqno;
+	});
 </script>
 </head>
 
@@ -67,83 +124,43 @@
 		<%@include file="../include/header.jsp"%>
 		<div class="main mypage_main" style="position: relative;">
 			<div class="inner" style="width: 1300px;">
-					<div class="exTab_sub" data-aos="fade-up" data-aos-duration="1000">
-						<div class="group clear" style="display: block;">
-							<div class="mypage_left">
-								<%@include file="../include/mypage_left_area.jsp"%>
+				<div class="exTab_sub" data-aos="fade-up" data-aos-duration="1000">
+					<div class="group clear" style="display: block;">
+						<div class="mypage_left">
+							<%@include file="../include/mypage_left_area.jsp"%>
+						</div>
+						<div class="mypage_right">
+							<!-- 마이페이지 우측 콘텐츠 -->
+							<div class="tit">
+								<h2 class="mypage_h2">REVIEW</h2>
+								<p>리뷰 관리</p>
 							</div>
-							<div class="mypage_right">
-								<!-- 마이페이지 우측 콘텐츠 -->
-								<div class="tit">
-									<h2 class="mypage_h2">REVIEW</h2>
-									<p>리뷰 관리</p>
-								</div>
-								<div class="baord aos-init aos-animate" data-aos="fade-up"
-									data-aos-duration="1000">
-									<table class="tb_type1 notice">
-										<colgroup>
-											<col style="width: 30%">
-											<col style="width: 40%">
-											<col style="width: 30%">
-										</colgroup>
-										<tbody class="mypage_tbody">
-											<tr>
-												<th scope="col" id="lectureTitl">제목</th>
-												<th scope="col" id="trainer">내용</th>
-												<th scope="col" id="remainlecture">날짜</th>
-											</tr>
-											<tr>
-												<td>강좌 이름</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr>
-												<td>샘플1</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr>
-												<td>샘플2</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr>
-												<td>샘플3</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr>
-												<td>샘플4</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr>
-												<td>샘플5</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr>
-												<td>샘플6</td>
-												<td>박정윤</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="paging">
-									<a href="#" class="prev_end"></a> <a href="#" class="prev"></a>
-									<a href="#" class="on">1</a> <a href="#">2</a> <a href="#">3</a>
-									<a href="#">4</a> <a href="#">5</a> <a href="#" class="next"></a>
-									<a href="#" class="next_end"></a>
-								</div>
+							<div class="baord aos-init aos-animate" data-aos="fade-up"
+								data-aos-duration="1000">
+								<table class="tb_type1 review">
+									<colgroup>
+										<col style="width: 30%">
+										<col style="width: 40%">
+										<col style="width: 30%">
+									</colgroup>
+									<tbody class="mypage_tbody">
+										<tr>
+											<th scope="col" id="reviewTit">제목</th>
+											<th scope="col" id="reviewCon">내용</th>
+											<th scope="col" id="reviewDate">날짜</th>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="paging">
+								<a href="#" class="prev_end"></a> <a href="#" class="prev"></a>
+								<a href="#" class="on">1</a> <a href="#">2</a> <a href="#">3</a>
+								<a href="#">4</a> <a href="#">5</a> <a href="#" class="next"></a>
+								<a href="#" class="next_end"></a>
 							</div>
 						</div>
-						<div class="group">내용2</div>
-						<div class="group">내용3</div>
-						<div class="group">내용4</div>
-						<div class="group">내용5</div>
-						<div class="group">내용6</div>
 					</div>
+				</div>
 			</div>
 		</div>
 	</div>

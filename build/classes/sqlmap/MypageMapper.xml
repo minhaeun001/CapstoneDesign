@@ -54,4 +54,13 @@
 	AND M_ID = #{modid}
 	AND M_PWD = #{m_opwd}
 </update>
+
+<select  id="listReviewType" parameterType="Map" resultType="java.util.HashMap">
+	SELECT *
+	FROM BOARD
+	WHERE 1=1
+	AND REGNT_ID = #{m_id}
+	AND BOARD_TYPE = #{board_type}
+	AND BOARD_SUB_TYPE = #{board_sub_type}
+</select>
 </mapper>

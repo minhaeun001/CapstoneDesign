@@ -15,4 +15,6 @@ public interface MypageDAO {
 	public int Chkpwd(Map<String, Object> hm);
 	
 	public int Updatepwd(Map<String, Object> hm);
+	
+	public List<Map<String, Object>> listReviewType(Map<String, Object> hm);
 }

@@ -235,4 +235,24 @@ public class MypageController {
 		model.addAttribute("result",result);
 		return "jsonView";
 	}
+	
+	@RequestMapping("/fn_review_info.ajax")
+	public String fn_review_info(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+
+		String board_type = request.getParameter("board_type");
+		String board_sub_type = request.getParameter("board_sub_type");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+		hm.put("board_type", board_type);
+		hm.put("board_sub_type", board_sub_type);
+
+		List<Map<String, Object>> rstList = mypageService.listReviewType(hm);
+		
+		model.addAttribute("result", rstList);
+		
+		return "jsonView";
+	}
 }

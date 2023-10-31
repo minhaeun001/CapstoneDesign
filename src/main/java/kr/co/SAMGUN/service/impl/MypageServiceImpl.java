@@ -53,4 +53,9 @@ public class MypageServiceImpl implements MypageService {
 	public int Updatepwd(Map<String, Object> hm) {
 		return mypageDAO.Updatepwd(hm);
 	}
+	
+	@Override
+	public List<Map<String, Object>> listReviewType(Map<String, Object> hm) {
+		return mypageDAO.listReviewType(hm);
+	}
 }
