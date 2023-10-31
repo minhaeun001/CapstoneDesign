@@ -63,4 +63,11 @@
 	AND BOARD_TYPE = #{board_type}
 	AND BOARD_SUB_TYPE = #{board_sub_type}
 </select>
+
+<select  id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
+	SELECT *
+	FROM MYPAGE
+	WHERE 1=1
+	AND M_ID = #{m_id}
+</select>
 </mapper>

@@ -18,4 +18,6 @@ public interface MypageService {
 	int Updatepwd(Map<String, Object> hm);
 	
 	List<Map<String, Object>> listReviewType(Map<String, Object> hm);
+
+	List<Map<String, Object>> listProgramType(Map<String, Object> hm);
 }
