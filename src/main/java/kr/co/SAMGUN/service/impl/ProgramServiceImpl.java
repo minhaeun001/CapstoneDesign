@@ -112,4 +112,10 @@ public class ProgramServiceImpl implements ProgramService {
 	public int buyProgram(Map<String, Object> hm) {
 		return programDAO.buyProgram(hm);
 	}
+	
+	@Override
+	public int chkProgram(Map<String, Object> hm) {
+		return programDAO.chkProgram(hm);
+	}
+	
 }

@@ -124,4 +124,8 @@ public class ProgramDAOImpl implements ProgramDAO {
 		return sqlSession.insert(namespace+".buyProgram", hm);
 	}
 
+	@Override
+	public int chkProgram(Map<String,Object> hm) {
+		return sqlSession.selectOne(namespace+".chkProgram", hm);
+	}
 }

@@ -70,7 +70,13 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
-				console.log(response);
+				if(response.flag){
+					if (response.result > 0){
+						alert("등록되었습니다.");
+					}
+				}else{
+					alert("이미 구매한 강좌가 포함되어 있습니다.")
+				}
 			},
 			error : function(xhr, status, error) {
 				alert("error");

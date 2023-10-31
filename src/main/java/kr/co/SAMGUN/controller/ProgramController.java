@@ -67,11 +67,14 @@ public class ProgramController {
 		hm.put("m_id", m_id);
 		hm.put("program_id", program_id);
 		
-		
-		int result = programservice.buyProgram(hm);
-		
-		model.addAttribute("result", result);
-		
+		int cnt = programservice.chkProgram(hm);
+		if(cnt>0) {
+			model.addAttribute("flag", false);
+		}else {
+			int result = programservice.buyProgram(hm);
+			model.addAttribute("flag", true);
+			model.addAttribute("result", result);	
+		}
 		return "jsonView";
 	}
 	

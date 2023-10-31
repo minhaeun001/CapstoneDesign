@@ -42,4 +42,5 @@ public interface ProgramDAO {
 	
 	public int buyProgram(Map<String, Object> hm);
 	
+	public int chkProgram(Map<String, Object> hm);
 }
