@@ -58,19 +58,19 @@ public class ProgramController {
 		String m_id = (String) session.getAttribute("m_id");
 		String temp = request.getParameter("program_id");
 		String[] list = temp.substring(1,temp.length()-1).split(",");
-		String[] program_id;
-		for(String str : list) {
-			 str.substring(1,str.length()-1);
+		String[] program_id = new String[list.length];
+		for(int i=0; i<list.length; i++) {
+			 program_id[i] = list[i].substring(1,list[i].length()-1);
 		}
 		
 		Map<String,Object> hm = new HashMap<String, Object>();
 		hm.put("m_id", m_id);
-//		hm.put("program_id", program_id);
+		hm.put("program_id", program_id);
 		
 		
-//		int result = programservice.buyProgram(hm);
+		int result = programservice.buyProgram(hm);
 		
-		model.addAttribute("result", list);
+		model.addAttribute("result", result);
 		
 		return "jsonView";
 	}
