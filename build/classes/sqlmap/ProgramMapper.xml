@@ -324,27 +324,30 @@
 	</insert>
 
 	<insert id="buyProgram" parameterType="java.util.HashMap">
-		<foreach collection="program_id" item="item" open="INSERT ALL" separator=",">
-		into MYPAGE
-		(
-		M_ID,
-		PROGRAM_ID,
-		REGNT_DTM,
-		REGNT_ID,
-		MOD_ID,
-		MOD_DTM
-		)
-		VALUES
-		
-		(
-		#{m_id},
-		#{item},
-		(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-		#{m_id},
-		#{m_id},
-		(SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
-		)
-		</foreach>
-	</insert>
+    <foreach collection="program_id" index="index" item="item" open="INSERT ALL " close="SELECT * FROM DUAL" separator=" ">
+        INTO MYPAGE 
+        (
+        SEQ_NO,
+        M_ID, 
+        PROGRAM_ID, 
+        REGNT_DTM, 
+        REGNT_ID, 
+        MOD_ID, 
+        MOD_DTM,
+        TRAINER_ID
+        ) 
+        VALUES
+        (
+        (SELECT MAX(SEQ_NO)+1+#{index} FROM MYPAGE),
+        #{m_id}, 
+        #{item}, 
+        (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL), 
+        #{m_id}, 
+        #{m_id}, 
+        (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL),
+        (SELECT TRAINER_ID FROM PROGRAM WHERE 1=1 AND PROGRAM_ID = #{item})
+        )
+    </foreach>
+</insert>
 	
 </mapper>
