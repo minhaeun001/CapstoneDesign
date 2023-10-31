@@ -255,4 +255,19 @@ public class MypageController {
 		
 		return "jsonView";
 	}
+	
+	@RequestMapping("/program_info.ajax")
+	public String program_info(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+
+		List<Map<String, Object>> rstList = mypageService.listProgramType(hm);
+		
+		model.addAttribute("result", rstList);
+		
+		return "jsonView";
+	}
 }

@@ -63,4 +63,9 @@ public class MypageDAOImpl implements MypageDAO {
 	public List<Map<String, Object>> listReviewType(Map<String, Object> hm) {
 		return  sqlSession.selectList(namespace+".listReviewType", hm);
 	}
+	
+	@Override
+	public List<Map<String, Object>> listProgramType(Map<String, Object> hm) {
+		return  sqlSession.selectList(namespace+".listProgramType", hm);
+	}
 }

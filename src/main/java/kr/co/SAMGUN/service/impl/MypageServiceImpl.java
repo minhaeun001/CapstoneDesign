@@ -58,4 +58,9 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> listReviewType(Map<String, Object> hm) {
 		return mypageDAO.listReviewType(hm);
 	}
+	
+	@Override
+	public List<Map<String, Object>> listProgramType(Map<String, Object> hm) {
+		return mypageDAO.listProgramType(hm);
+	}
 }

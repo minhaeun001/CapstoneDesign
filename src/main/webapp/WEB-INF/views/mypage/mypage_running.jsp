@@ -36,16 +36,67 @@
 	});
 
 	function init() {
+		fn_program_info();
 	}
 
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/
+	function fn_program_info() {
 
+		var sUrl = "${pageContext.request.contextPath}/mypage/program_info.ajax";
+		var params = {
+			m_id : ""
+		};
+
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				fn_listType_bind(response);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+			}
+		});
+	}
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
+	function fn_listType_bind(params) {
 
+		$(".tb_type1:eq(0) tr:gt(0)").remove();
+
+		var tmpStr = "";
+
+		if (params.result.length > 0) {
+
+			for (var i = 0, j = params.result.length; i < j; i++) {
+
+				tmpStr += "<tr class='training' data-seqno='"+params.result[i].SEQ_NO+"'>";
+				tmpStr += "<td class='td_overflow'>" + params.result[i].PROGRAM_TITLE
+						+ "</td>";
+				tmpStr += "<td class='td_overflow'>"
+						+ params.result[i].M_NM + "</td>";
+				tmpStr += "<td>" + params.result[i].REGNT_DTM + "</td>";
+				tmpStr += "</tr>";
+
+			}
+
+		} else {
+
+			tmpStr += "<tr>";
+			tmpStr += "	<td colspan='3' style='text-align:center;'> 등록된 프로그램이 없습니다. </td>";
+			tmpStr += "</tr>";
+		}
+
+		$(".tb_type1 tbody").append(tmpStr);
+
+	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -54,7 +105,9 @@
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
 	$(document).on("click", ".training", function() {
-		location.href = "../mypage/training.do";
+		seqno = $(this).data("seqno");
+		
+		location.href = "../mypage/training.do?"+seqno;
 	});
 </script>
 </head>
@@ -82,61 +135,17 @@
 								<p class="mypage_h2">현재 수강중인 강좌</p>
 								<div class="baord aos-init aos-animate" data-aos="fade-up"
 									data-aos-duration="1000">
-									<table class="tb_type1 notice">
+									<table class="tb_type1">
 										<colgroup>
-											<col style="width: 40%;">
-											<col style="width: 15%">
-											<col style="width: 15%">
-											<col style="width: 30%">
+										<col style="width: 30%">
+										<col style="width: 40%">
+										<col style="width: 30%">
 										</colgroup>
 										<tbody class="mypage_tbody">
 											<tr>
 												<th scope="col" id="lectureTitl">강좌 이름</th>
 												<th scope="col" id="trainer">트레이너</th>
-												<th scope="col" id="remainlecture">남은 강좌</th>
 												<th scope="col" id="deadline">기한</th>
-											</tr>
-											<tr class="training">
-												<td>강좌 이름</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr class="training">
-												<td>샘플1</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr class="training">
-												<td>샘플2</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr class="training">
-												<td>샘플3</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr class="training">
-												<td>샘플4</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr class="training">
-												<td>샘플5</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
-											</tr>
-											<tr class="training">
-												<td>샘플6</td>
-												<td>박정윤</td>
-												<td>2</td>
-												<td>23.09.06 ~ 23.11.30</td>
 											</tr>
 										</tbody>
 									</table>
