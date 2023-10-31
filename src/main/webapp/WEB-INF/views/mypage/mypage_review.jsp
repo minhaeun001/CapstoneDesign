@@ -69,39 +69,35 @@
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-	function fn_listType_bind(params){
-		
+	function fn_listType_bind(params) {
+
 		$(".tb_type1:eq(0) tr:gt(0)").remove();
-		
+
 		var tmpStr = "";
-		
-		if(params.result.length > 0) {
-			
-			for (var i=0, j=params.result.length ; i < j ; i++ ) {
-	
-				tmpStr += "<tr> <a href='../review/review_view.do?seqno="+params.result[i].SEQ_NO+"'>";
-				tmpStr += "<td>"+params.result[i].TITLE+"</td>";
-				tmpStr += "<td>"+params.result[i].CONTENTS+"</td>";
-				tmpStr += "<td>"+params.result[i].MOD_DTM+"</td>";
-				tmpStr += "</a></tr>";
+
+		if (params.result.length > 0) {
+
+			for (var i = 0, j = params.result.length; i < j; i++) {
+
+				tmpStr += "<tr class='mp_review' data-seqno='"+params.result[i].SEQ_NO+"'>";
+				tmpStr += "<td class='td_overflow'>" + params.result[i].TITLE
+						+ "</td>";
+				tmpStr += "<td class='td_overflow'>"
+						+ params.result[i].CONTENTS + "</td>";
+				tmpStr += "<td>" + params.result[i].MOD_DTM + "</td>";
+				tmpStr += "</tr>";
 
 			}
-			
-// 			//페이징 처리가 필요할 만큼 데이터가 있다면
-// 			params.totalCnt = params.result[0].TOTALCNT;
-// 			fn_paging(params); //페이징  호출
-			
+
 		} else {
-			
+
 			tmpStr += "<tr>";
 			tmpStr += "	<td colspan='3' style='text-align:center;'> 등록된 게시글이 없습니다. </td>";
 			tmpStr += "</tr>";
 		}
-		
-		
+
 		$(".tb_type1 tbody").append(tmpStr);
-		
-					
+
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -110,6 +106,10 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
+	$(document).on("click", ".mp_review", function() {
+		var seqno= $(this).data("seqno");
+		window.location.href = "../review/review_view.do?seqno="+seqno;
+	});
 </script>
 </head>
 
@@ -160,11 +160,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="group">내용2</div>
-					<div class="group">내용3</div>
-					<div class="group">내용4</div>
-					<div class="group">내용5</div>
-					<div class="group">내용6</div>
 				</div>
 			</div>
 		</div>
