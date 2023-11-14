@@ -54,8 +54,13 @@ public class ProgramController {
 	@RequestMapping("/buy_program.ajax")
 	public String buy_program(HttpServletRequest request, HttpServletResponse response, ModelMap model ) {
 		
+		String flag = "F";
+		
 		HttpSession session = request.getSession();
 		String m_id = (String) session.getAttribute("m_id");
+		if(m_id!=null) {
+			
+		}
 		String temp = request.getParameter("program_id");
 		String[] list = temp.substring(1,temp.length()-1).split(",");
 		String[] program_id = new String[list.length];
@@ -72,9 +77,11 @@ public class ProgramController {
 			model.addAttribute("flag", false);
 		}else {
 			int result = programservice.buyProgram(hm);
-			model.addAttribute("flag", true);
+			flag = "T";
+		
 			model.addAttribute("result", result);	
 		}
+		model.addAttribute("flag", flag);
 		return "jsonView";
 	}
 	

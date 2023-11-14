@@ -107,7 +107,7 @@
 	$(document).on("click", ".training", function() {
 		seqno = $(this).data("seqno");
 		
-		location.href = "../mypage/training.do?"+seqno;
+		location.href = "../mypage/training.do?seqno="+seqno;
 	});
 </script>
 </head>

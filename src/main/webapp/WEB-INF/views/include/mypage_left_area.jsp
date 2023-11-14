@@ -15,17 +15,38 @@
 	});
 
 	function fn_init_mp() {
-
+		fn_program_cnt();
 	}
 
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/ 
+	function fn_program_cnt() {
 
+		var sUrl = "${pageContext.request.contextPath}/mypage/program_cnt.ajax";
+		var params = {
+			m_id : ""
+		};
+
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				$(".cnt").html(response.result.length);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+			}
+		});
+	}
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-
+	
 	//******************************************************************************************** 
 	//5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -59,7 +80,7 @@
 <div class="mypage_left_middle1">
 	<div class="middle1_list">
 		<li class="middle1_list_top">예약관리</li>
-		<li class="mypage_running li_style">수강중인 강좌(1)</li>
+		<li class="mypage_running li_style">수강중인 강좌(<span class="cnt"></span>)</li>
 		<li class="mypage_review li_style">리뷰 관리</li>
 	</div>
 </div>

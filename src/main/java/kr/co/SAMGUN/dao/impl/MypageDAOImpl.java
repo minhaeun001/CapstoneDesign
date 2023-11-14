@@ -68,4 +68,8 @@ public class MypageDAOImpl implements MypageDAO {
 	public List<Map<String, Object>> listProgramType(Map<String, Object> hm) {
 		return  sqlSession.selectList(namespace+".listProgramType", hm);
 	}
+	
+	public List<Map<String, Object>> getProgramInfo(Map<String, Object> hm) {
+		return  sqlSession.selectList(namespace+".getProgramInfo", hm);
+	}
 }

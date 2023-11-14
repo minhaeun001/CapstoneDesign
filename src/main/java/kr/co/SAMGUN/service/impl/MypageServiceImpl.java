@@ -63,4 +63,9 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> listProgramType(Map<String, Object> hm) {
 		return mypageDAO.listProgramType(hm);
 	}
+	
+	@Override
+	public List<Map<String, Object>> getProgramInfo(Map<String, Object> hm) {
+		return mypageDAO.getProgramInfo(hm);
+	}
 }

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<%
+String seqno = request.getParameter("seqno");
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -24,7 +28,7 @@
 	//******************************************************************************************** 
 	// 1. 전역변수 선언                               						                              														  
 	//*********************************************************************************************/ 
-
+	var seqno = "<%=seqno%>";
 	//******************************************************************************************** 
 	// 2. 최초 실행 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -36,13 +40,33 @@
 	});
 
 	function init() {
-
+		fn_running_program_info()
 	}
 
 	//******************************************************************************************** 
 	//3. ajax 함수                                 						                              														  
 	//*********************************************************************************************/
+	function fn_running_program_info() {
 
+		var sUrl = "${pageContext.request.contextPath}/mypage/get_program_info.ajax";
+		var params = {
+			seq_no : seqno
+		};
+		$.ajax({
+			url : sUrl,
+			data : params,
+			method : 'post',
+			dataType : 'json',
+			success : function(response) {
+				console.log(response);
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
+			}
+		});
+	}
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
@@ -54,7 +78,6 @@
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
-
 </script>
 </head>
 
@@ -332,38 +355,38 @@
 		</div>
 	</div>
 	<script>
-        var myAOS = function() {
-            AOS.init({
-                easing: 'ease-out-back',
-                duration: 1500
-            });
-        }
-        myAOS();
+		var myAOS = function() {
+			AOS.init({
+				easing : 'ease-out-back',
+				duration : 1500
+			});
+		}
+		myAOS();
 
-        $('.btn_viewAll, btn_popClose').click(function() {
-            $('.all_comments').toggleClass('display', 'block');
-        });
+		$('.btn_viewAll, btn_popClose').click(function() {
+			$('.all_comments').toggleClass('display', 'block');
+		});
 
-        /* $(".go_top").click(function() {
-             $('html, body').animate({
-                 scrollTop : 0
-             }, 400);
-             return false;
-         });*/
+		/* $(".go_top").click(function() {
+		     $('html, body').animate({
+		         scrollTop : 0
+		     }, 400);
+		     return false;
+		 });*/
 
-        $(".side_link .btn").click(function() {
-            $(".side_link .btn").toggleClass('on');
-        });
+		$(".side_link .btn").click(function() {
+			$(".side_link .btn").toggleClass('on');
+		});
 
-        //PDF 레이어 팝업
-        function popWindowOpen() {
-            $(".pop_pdf").css("display", "block");
-            $(".pop_pdf").draggable();
-        }
-        function pdf_close() {
-            $(".pop_pdf").css("display", "none");
-        }
-    </script>
+		//PDF 레이어 팝업
+		function popWindowOpen() {
+			$(".pop_pdf").css("display", "block");
+			$(".pop_pdf").draggable();
+		}
+		function pdf_close() {
+			$(".pop_pdf").css("display", "none");
+		}
+	</script>
 </body>
 
 </html>

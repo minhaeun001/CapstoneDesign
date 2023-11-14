@@ -65,9 +65,32 @@
 </select>
 
 <select  id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
-	SELECT *
-	FROM MYPAGE
-	WHERE 1=1
-	AND M_ID = #{m_id}
+	SELECT
+	M.SEQ_NO SEQ_NO,
+	P.PROGRAM_NAME PROGRAM_TITLE,
+	MEM.M_NM M_NM,
+	M.REGNT_DTM REGNT_DTM
+	FROM 
+	MYPAGE M 
+	LEFT JOIN PROGRAM P on P.PROGRAM_ID = M.PROGRAM_ID
+	LEFT JOIN MEMBER MEM on MEM.M_ID = M.TRAINER_ID
+	WHERE
+	1=1
+	AND M.M_ID =  #{m_id}
 </select>
+<select  id="getProgramInfo" parameterType="Map" resultType="java.util.HashMap">
+	SELECT
+	M.SEQ_NO SEQ_NO,
+	P.PROGRAM_NAME PROGRAM_TITLE,
+	MEM.M_NM M_NM,
+	M.REGNT_DTM REGNT_DTM
+	FROM 
+	MYPAGE M 
+	LEFT JOIN PROGRAM P on P.PROGRAM_ID = M.PROGRAM_ID
+	LEFT JOIN MEMBER MEM on MEM.M_ID = M.TRAINER_ID
+	WHERE
+	1=1
+	AND M.SEQ_NO =  #{seq_no}
+</select>
+
 </mapper>

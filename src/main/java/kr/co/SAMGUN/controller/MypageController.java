@@ -270,4 +270,51 @@ public class MypageController {
 		
 		return "jsonView";
 	}
+	
+	@RequestMapping("/program_cnt.ajax")
+	public String program_cnt(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+
+		List<Map<String, Object>> rstList = mypageService.listProgramType(hm);
+		
+		model.addAttribute("result", rstList);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/running_program_info.ajax")
+	public String running_program_info(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String m_id = (String) session.getAttribute("m_id");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("m_id", m_id);
+
+		List<Map<String, Object>> rstList = mypageService.listProgramType(hm);
+		
+		model.addAttribute("result", rstList);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/get_program_info.ajax")
+	public String get_program_info(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
+		HttpSession session = request.getSession();
+		String seq_no = (String) session.getAttribute("seq_no");
+		
+		Map<String, Object> hm = new HashMap<String, Object>();
+		hm.put("seq_no", seq_no);
+
+		List<Map<String, Object>> rstList = mypageService.getProgramInfo(hm);
+		
+		model.addAttribute("result", rstList);
+		
+		return "jsonView";
+	}
+	
+	
 }

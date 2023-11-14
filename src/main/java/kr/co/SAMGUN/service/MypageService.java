@@ -20,4 +20,6 @@ public interface MypageService {
 	List<Map<String, Object>> listReviewType(Map<String, Object> hm);
 
 	List<Map<String, Object>> listProgramType(Map<String, Object> hm);
+	
+	List<Map<String, Object>> getProgramInfo(Map<String, Object> hm);
 }

@@ -51,6 +51,11 @@
 			dataType : 'json',
 			success : function(response) {
 				fn_program_bind(response.result)
+			},
+			error : function(xhr, status, error) {
+				alert("error");
+			},
+			complete : function() {
 			}
 
 		})
@@ -73,6 +78,7 @@
 				if(response.flag){
 					if (response.result > 0){
 						alert("등록되었습니다.");
+						window.location.href="../mypage/mypage_running.do";
 					}
 				}else{
 					alert("이미 구매한 강좌가 포함되어 있습니다.")
