@@ -18,11 +18,15 @@
     padding: 10px;
     border-radius: 30px;
     margin-top: 30px;
+    background-image: url(https://lovinglifeco.com/wp-content/uploads/2023/06/IMPROVE-YOUR-PHYSICAL-HEALTH.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .card {
     position: relative;
-    width: 500px;
+    width: 350px;
     height: 200px;
     padding-top: 65px;
     background: rgba(255, 255, 255, 0.1);
@@ -38,6 +42,7 @@
     align-items: center;
     margin-left: 5px;
     margin-right: 5px;
+    background-color: white;
 }
 
 .card:hover {
@@ -104,3 +109,9 @@
 .contact {margin-top: 15px;}
 
 .point {color: #2de7e0 !important;}
+
+.container tr {border-bottom: none;}
+
+.card_wrapper{background-image: url(https://lovinglifeco.com/wp-content/uploads/2023/06/IMPROVE-YOUR-PHYSICAL-HEALTH.jpg); background-repeat: no-repeat; background-position: center; background-size: cover;}
+
+.date{line-height: 35px;}

@@ -19,11 +19,10 @@
     <script src="../../js/aos.js"></script> 
 </head>
 <body class="bg_black">
-    <!--<div class="bg"></div>-->
     <div class="wrap intro">
 	<%@include file="../include/header.jsp" %>
         <video muted autoplay loop style="position: fixed; right: 0; left: 0; width: 100%;">
-            <source  src="http://65.130.11.186:8080/contech/2021/intro.mp4" type="video/mp4">
+            <source  src="../../img/clip2_640.mp4" type="video/mp4">
         </video>
         <div data-aos="fade-up" data-aos-duration="9000">
             <div class="intro_wrap">
@@ -42,73 +41,110 @@
                         <p class="date">언제 어디서나 MAKEGYM과 함께라면, 당신은 건강하고 행복한 삶을 쉽게 이뤄낼 수 있습니다.</p>
                     </div>
                         <p class="contact">Contact us</p>
-                    <div class="container">
-                        <div class="card">
-                          <div class="content">
-                            <div class="avatar">
-                              <img src="../..\img\human_sample.png" alt="avatar">
-                            </div>
-                            <div class="details">
-                              <div>
-                                <h3>민하은</h3>
-                              </div>
-                              <div>
-                                <h5>웹 디자인 및 개발 담당</h5>
-                              </div>
-                              <div>
-                                <ion-icon name="call-outline"></ion-icon>
-                                <span>+82 010-1111-2222</span>
-                              </div>
-                              <div>
-                                <ion-icon name="globe-outline"></ion-icon>
-                                <span>testme.com</span>
-                              </div>
-                              <div>
-                                <ion-icon name="mail-outline"></ion-icon>
-                                <span>test@testme.com</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-    
-                        <div class="card">
-                            <div class="content">
-                              <div class="avatar">
-                                <img src="../..\img\human_sample.png" alt="avatar">
-                              </div>
-                              <div class="details">
-                                <div>
-                                  <h3>박윤선</h3>
-                                </div>
-                                <div>
-                                    <h5>웹 디자인 및 개발 담당</h5>
+                        <div class="container">
+                          <table class="card_wrapper">
+                            <tr>
+                              <td>
+                                <div class="card">
+                                  <div class="content">
+                                    <div class="details">
+                                      <div>
+                                        <h3>민하은</h3>
+                                      </div>
+                                      <div>
+                                        <h5>웹 디자인 및 개발 담당</h5>
+                                      </div>
+                                      <div>
+                                        <ion-icon name="call-outline"></ion-icon>
+                                        <span>+82 010-1111-2222</span>
+                                      </div>
+                                      <div>
+                                        <ion-icon name="globe-outline"></ion-icon>
+                                        <span>testme.com</span>
+                                      </div>
+                                      <div>
+                                        <ion-icon name="mail-outline"></ion-icon>
+                                        <span>test@testme.com</span>
+                                      </div>
+                                    </div>
                                   </div>
-                                <div>
-                                  <ion-icon name="call-outline"></ion-icon>
-                                  <span>+82 010-1111-2222</span>
                                 </div>
-                                <div>
-                                  <ion-icon name="globe-outline"></ion-icon>
-                                  <span>testme.com</span>
+                                <th>
+                                </th>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <th>
+                                  <div class="card">
+                                    <div class="content">
+                                      <div class="details">
+                                        <div>
+                                          <h3>박윤선</h3>
+                                        </div>
+                                        <div>
+                                            <h5>웹 디자인 및 개발 담당</h5>
+                                          </div>
+                                        <div>
+                                          <ion-icon name="call-outline"></ion-icon>
+                                          <span>+82 010-1111-2222</span>
+                                        </div>
+                                        <div>
+                                          <ion-icon name="globe-outline"></ion-icon>
+                                          <span>testme.com</span>
+                                        </div>
+                                        <div>
+                                          <ion-icon name="mail-outline"></ion-icon>
+                                          <span>test@testme.com</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </th>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="card">
+                                  <div class="content">
+                                    <div class="details">
+                                      <div>
+                                        <h3>박정윤</h3>
+                                      </div>
+                                      <div>
+                                          <h5>웹 디자인 및 개발 담당</h5>
+                                        </div>
+                                      <div>
+                                        <ion-icon name="call-outline"></ion-icon>
+                                        <span>+82 010-1111-2222</span>
+                                      </div>
+                                      <div>
+                                        <ion-icon name="globe-outline"></ion-icon>
+                                        <span>testme.com</span>
+                                      </div>
+                                      <div>
+                                        <ion-icon name="mail-outline"></ion-icon>
+                                        <span>test@testme.com</span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div>
-                                  <ion-icon name="mail-outline"></ion-icon>
-                                  <span>test@testme.com</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                </div>
+                              </td>
+                              <th></th>
+                            </tr>
+                          </table>
+                        </div>
+                  </div>
 
                   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
                   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
                 </div>
+                  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+                  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+                </div>
             </div>
-        </div>
-    </div>
-    
     <script>
          var myAOS = function() {
                 AOS.init({
