@@ -303,8 +303,7 @@ public class MypageController {
 	
 	@RequestMapping("/get_program_info.ajax")
 	public String get_program_info(HttpServletRequest request , HttpServletResponse response, ModelMap model ) throws Exception {
-		HttpSession session = request.getSession();
-		String seq_no = (String) session.getAttribute("seq_no");
+		String seq_no = (String) request.getParameter("seq_no");
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("seq_no", seq_no);

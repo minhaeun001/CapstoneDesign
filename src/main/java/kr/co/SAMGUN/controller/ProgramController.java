@@ -77,11 +77,10 @@ public class ProgramController {
 			model.addAttribute("flag", false);
 		}else {
 			int result = programservice.buyProgram(hm);
-			flag = "T";
+			model.addAttribute("flag", true);
 		
 			model.addAttribute("result", result);	
 		}
-		model.addAttribute("flag", flag);
 		return "jsonView";
 	}
 	

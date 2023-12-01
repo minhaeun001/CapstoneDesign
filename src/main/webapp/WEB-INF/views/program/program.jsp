@@ -68,7 +68,6 @@
 			m_id : "",
 			program_id : JSON.stringify(p_id)
 		};
-
 		$.ajax({
 			url : sUrl,
 			data : params,
@@ -140,6 +139,7 @@
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/ 
 	$(document).on("click", ".register_btn", function() {
+		
 		fn_check();
 	});
 </script>

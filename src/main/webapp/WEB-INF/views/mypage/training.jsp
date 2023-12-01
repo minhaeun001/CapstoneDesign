@@ -40,7 +40,7 @@ String seqno = request.getParameter("seqno");
 	});
 
 	function init() {
-		fn_running_program_info()
+		fn_running_program_info();
 	}
 
 	//******************************************************************************************** 
@@ -58,7 +58,7 @@ String seqno = request.getParameter("seqno");
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
-				console.log(response);
+				fn_member_bind(response.result[0]);
 			},
 			error : function(xhr, status, error) {
 				alert("error");
@@ -70,7 +70,28 @@ String seqno = request.getParameter("seqno");
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-
+	function fn_member_bind(params){
+		var tmpStr = params.M_NM + " / 만 " + params.AGE+"세";
+		$(".member_info").html(tmpStr);
+		var height = "-";
+		var weight = "-";
+		var day = params.REGNT_DTM;
+		if(params.M_HEIGHT != null){
+			height = params.M_HEIGHT;
+		}
+		if(params.M_WEIGHT != null){
+			weight = params.M_WEIGHT;
+		}
+		var tmpStr = height+"cm/ " + weight+"kg/ " + day +"일차";
+		$(".en").html(tmpStr);
+		
+		var trainer = "-";
+		if(params.TRAINER != null){
+			trainer = params.TRAINER;
+		}
+		$(".name").append(trainer);
+		
+	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
 	//*********************************************************************************************/ 
@@ -100,13 +121,13 @@ String seqno = request.getParameter("seqno");
 						<div class="group clear" style="display: block;">
 							<div class="left">
 								<div class="titTxt">
-									<strong>박윤선/24세/남</strong>
-									<p class="en">-cm/ -kg / n일차</p>
+									<strong class="member_info"></strong>
+									<p class="en"></p>
 								</div>
 								<div class="teamTxt">
 									<p>
 										<span class="team">2023.04.23</span><span class="name">트레이너
-											박정윤</span>
+											</span>
 									</p>
 								</div>
 								<div class="video">

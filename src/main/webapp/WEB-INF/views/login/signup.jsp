@@ -340,11 +340,17 @@
    	    }
    	    
    	    for (var month = 1; month <= 12; month++) {
+   	    	if(month<10){
+   	    		month="0"+month;
+   	    	}
    	        var option = $("<option>").val(month).text(month);
    	        monthSelect.append(option);
    	    }
    	   
    	    for (var day = 1; day <= 31; day++) {
+   	    	if(day<10){
+   	    		day = "0"+day;
+   	    	}
    	        var option = $("<option>").val(day).text(day);
    	        daySelect.append(option);
    	    }
