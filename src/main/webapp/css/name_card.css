@@ -39,9 +39,7 @@
     transition: 1s;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 0 auto;
     background-color: white;
 }
 
@@ -50,7 +48,7 @@
     background: rgba(255, 255, 255, 0.25);
 }
 
-.card::before {
+/* .card::before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -58,7 +56,7 @@
     width: 100%;
     height: 80px;
     background: rgba(255, 255, 255, 0.25);
-}
+} */
 
 .card .content {
     position: relative;
@@ -106,12 +104,12 @@
     font-size: 1.5em;
 }
 
-.contact {margin-top: 15px;}
+.contact {margin-top: 15px; font-size:32px; font-weight:bold;}
 
 .point {color: #2de7e0 !important;}
 
 .container tr {border-bottom: none;}
 
-.card_wrapper{background-image: url(https://lovinglifeco.com/wp-content/uploads/2023/06/IMPROVE-YOUR-PHYSICAL-HEALTH.jpg); background-repeat: no-repeat; background-position: center; background-size: cover;}
+.card_wrapper{background: none;}
 
 .date{line-height: 35px;}
