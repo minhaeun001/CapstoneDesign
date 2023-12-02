@@ -100,7 +100,7 @@
 			tmp_str += '<div class="thumb">';
 			tmp_str += '<input type="checkbox" name="btn_checked" class="btn_checked" value="'+params[i].PROGRAM_ID+'">';
 			tmp_str += '<span class="thumb_imgBox" href="#">';
-			tmp_str += '<img scr="'+params[i].PROGRAM_THUMBNAIL+'" />';
+			tmp_str += '<img src="'+params[i].PROGRAM_THUMBNAIL+'" />';
 			tmp_str += '</span>';
 			tmp_str += '<div class="thumb_textBox">';
 			tmp_str += '<div class="thumb_eyebrow">';
