@@ -193,7 +193,26 @@ String seqno = request.getParameter("seqno");
 								<div class="pdf_img" style="width: 100%;">
 									<video controls width="100%" src="../../img/exercise_-_32937 (720p).mp4"></video>
 								</div>
-
+								<div class="video_list">
+									<ul>
+										<li>
+											<img src="../../../img/ackeem.jpg" alt="" />
+											<span>1. 재활을 위한 스트레칭의 정석</span>
+										</li>
+										<li>
+											<img src="../../../img/jade.jpg" alt="" />
+											<span>2. 튼튼한 신체를 위한 코어 운동</span>
+										</li>
+										<li>
+											<img src="../../../img/john.jpg" alt="" />
+											<span>3. 일상생활에서 가능한 교정 운동</span>
+										</li>
+										<li>
+											<img src="../../../img/rochelle.jpg" alt="" />
+											<span>4. 집에서 쉽게 배우는 맨몸운동</span>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 						<div class="group">내용2</div>
