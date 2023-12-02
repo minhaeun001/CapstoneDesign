@@ -41,9 +41,11 @@
 	<select id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
 
 		SELECT 
-		P.*
+		P.*,
+		M.M_NM TRAINER
 		FROM 
 		PROGRAM P
+		LEFT JOIN MEMBER M on M.M_ID = P.TRAINER_ID
 		WHERE 1=1
 	</select>
 

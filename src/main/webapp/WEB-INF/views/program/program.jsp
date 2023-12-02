@@ -50,6 +50,7 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
+				console.log(response);
 				fn_program_bind(response.result)
 			},
 			error : function(xhr, status, error) {
@@ -104,7 +105,7 @@
 			tmp_str += '</span>';
 			tmp_str += '<div class="thumb_textBox">';
 			tmp_str += '<div class="thumb_eyebrow">';
-			tmp_str += '<span class="thumb_category">트레이너 ' + params[i].M_NM
+			tmp_str += '<span class="thumb_category">트레이너 ' + params[i].TRAINER
 					+ '</span><span class="thumb_date">' + params[i].MOD_DTM
 					+ '</span>';
 			tmp_str += '</div>';
