@@ -131,7 +131,7 @@ String seqno = request.getParameter("seqno");
 									</p>
 								</div>
 								<div class="video">
-									<img src="../../img/no_image.png" width="100%">
+									<img src="../../img/meeting.png" width="100%">
 								</div>
 								<div class="comment_area">
 									<p class="cm_info">
@@ -191,7 +191,7 @@ String seqno = request.getParameter("seqno");
 							</div>
 							<div class="right">
 								<div class="pdf_img" style="width: 100%;">
-									<video controls width="100%" src="../../img/test.mp4"></video>
+									<video controls width="100%" src="../../img/exercise_-_32937 (720p).mp4"></video>
 								</div>
 
 							</div>
