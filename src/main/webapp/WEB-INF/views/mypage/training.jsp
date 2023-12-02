@@ -159,80 +159,29 @@ String seqno = request.getParameter("seqno");
 									<ul class="cm_list">
 										<li>
 											<p>
-												<i>기타</i><em>민하은</em><span>답변완료</span>
+												<i>질문</i><em>민하은</em><span>답변완료</span>
 											</p>
-											<div class="cm_txt">제목을 입력해주세요.</div> <!--<button class="btn_reply">Reply</button>-->
-											<!--<div class="reply_write clear">
-                                                    <textarea name="" id="" cols="100" rows="2" placeholder="댓글입력"></textarea>
-                                                    <div class="rp_btn">
-                                                        <button>Modify</button>
-                                                        <button>Delete</button>
-                                                    </div>
-                                                </div>-->
+											<div class="cm_txt">운동은 매일 하는 것이 좋을까요?</div>
 											<div class="btnRight">
 												<button>Delete</button>
 											</div>
+											<p><span>한 부위에서 근육통이 느껴진다면 다른 부위의 운동을 진행하는 것이 좋습니다.</span></p>
 										</li>
-										<li>
+																				<li>
 											<p>
-												<i>기타</i><em>민하은</em><span>대기중</span>
+												<i>질문</i><em>민하은</em><span>답변완료</span>
 											</p>
-											<div class="cm_txt">제목을 입력해주세요.</div> <!--<button class="btn_reply">Reply</button>-->
-											<!--<div class="reply_write clear">
-                                                    <textarea name="" id="" cols="100" rows="2" placeholder="댓글입력"></textarea>
-                                                    <div class="rp_btn">
-                                                        <button>Modify</button>
-                                                        <button>Delete</button>
-                                                    </div>
-                                                </div>-->
+											<div class="cm_txt">단백질은 어느정도 먹는 게 좋아요?</div>
 											<div class="btnRight">
 												<button>Delete</button>
 											</div>
+											<p><span>운동이 끝난 후 자신의 체중정도를 먹는 것이 좋습니다. 예를 들어 50kg이라면 50g 정도의 섭취가 좋아요.</span></p>
 										</li>
-										<li>
+																				<li>
 											<p>
-												<i>기타</i><em>민하은</em><span>답변완료</span>
+												<i>질문</i><em>민하은</em><span>답변중</span>
 											</p>
-											<div class="cm_txt">제목을 입력해주세요.</div> <!--<button class="btn_reply">Reply</button>-->
-											<!--<div class="reply_write clear">
-                                                    <textarea name="" id="" cols="100" rows="2" placeholder="댓글입력"></textarea>
-                                                    <div class="rp_btn">
-                                                        <button>Modify</button>
-                                                        <button>Delete</button>
-                                                    </div>
-                                                </div>-->
-											<div class="btnRight">
-												<button>Delete</button>
-											</div>
-										</li>
-										<li>
-											<p>
-												<i>기타</i><em>민하은</em><span>답변완료 </span>
-											</p>
-											<div class="cm_txt">제목을 입력해주세요.</div> <!--<button class="btn_reply">Reply</button>-->
-											<!--<div class="reply_write clear">
-                                                    <textarea name="" id="" cols="100" rows="2" placeholder="댓글입력"></textarea>
-                                                    <div class="rp_btn">
-                                                        <button>Modify</button>
-                                                        <button>Delete</button>
-                                                    </div>
-                                                </div>-->
-											<div class="btnRight">
-												<button>Delete</button>
-											</div>
-										</li>
-										<li>
-											<p>
-												<i>기타</i><em>민하은</em><span>답변완료</span>
-											</p>
-											<div class="cm_txt">제목을 입력해주세요.</div> <!--<button class="btn_reply">Reply</button>-->
-											<!--<div class="reply_write clear">
-                                                    <textarea name="" id="" cols="100" rows="2" placeholder="댓글입력"></textarea>
-                                                    <div class="rp_btn">
-                                                        <button>Modify</button>
-                                                        <button>Delete</button>
-                                                    </div>
-                                                </div>-->
+											<div class="cm_txt">.</div>
 											<div class="btnRight">
 												<button>Delete</button>
 											</div>

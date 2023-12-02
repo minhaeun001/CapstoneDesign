@@ -528,7 +528,7 @@ mypage.html
 
 .exTab_sub .group {text-align: left; display: none;}
 .exTab_sub .group .left {float: left; width: 550px; color: #fff; text-align: left; background-color: #000; }
-.exTab_sub .group .right {float: right; width: 900px; height: 1264px; background-color: #393b45;}
+.exTab_sub .group .right {float: right; width: 900px; background-color: #393b45;}
 
 .exTab_sub .group .left { padding: 30px 20px; }
 .exTab_sub .group .left .titTxt strong {font-size: 25px; font-weight: 700; line-height: 37px;}
@@ -938,3 +938,4 @@ label.disn {position: absolute; left: -10000px; top: auto; height: 1px; overflow
 
 /*수강중인 강좌*/
 .training > .inner > .tit > h2 {color: #fff;}
+.input.btn_checked {margin-left:10px !important;}
