@@ -154,8 +154,7 @@
 							</div>
 							<div class="paging">
 								<a href="#" class="prev_end"></a> <a href="#" class="prev"></a>
-								<a href="#" class="on">1</a> <a href="#">2</a> <a href="#">3</a>
-								<a href="#">4</a> <a href="#">5</a> <a href="#" class="next"></a>
+								<a href="#" class="on">1</a><a href="#" class="next"></a>
 								<a href="#" class="next_end"></a>
 							</div>
 						</div>

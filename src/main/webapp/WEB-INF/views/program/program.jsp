@@ -75,12 +75,12 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
-				if(response.flag){
-					if (response.result > 0){
+				if (response.flag) {
+					if (response.result > 0) {
 						alert("등록되었습니다.");
-						window.location.href="../mypage/mypage_running.do";
+						window.location.href = "../mypage/mypage_running.do";
 					}
-				}else{
+				} else {
 					alert("이미 구매한 강좌가 포함되어 있습니다.")
 				}
 			},
@@ -140,7 +140,7 @@
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/ 
 	$(document).on("click", ".register_btn", function() {
-		
+
 		fn_check();
 	});
 </script>

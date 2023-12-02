@@ -41,6 +41,22 @@ String seqno = request.getParameter("seqno");
 
 	function init() {
 		fn_running_program_info();
+		
+		$(".video_01").click(function() {
+			changeVideoSource("../../img/148201 (720p).mp4");
+		});
+
+		$(".video_02").click(function() {
+			changeVideoSource("../../img/148202 (720p).mp4");
+		});
+
+		$(".video_03").click(function() {
+			changeVideoSource("../../img/135159 (720p).mp4");
+		});
+
+		$(".video_04").click(function() {
+			changeVideoSource("../../img/exercise_-_32937 (720p).mp4");
+		});
 	}
 
 	//******************************************************************************************** 
@@ -70,27 +86,27 @@ String seqno = request.getParameter("seqno");
 	//******************************************************************************************** 
 	//4. 사용자 일반 함수 - ajax 함수 이외 정의 함수                               						                              														  
 	//*********************************************************************************************/ 
-	function fn_member_bind(params){
-		var tmpStr = params.M_NM + " / 만 " + params.AGE+"세";
+	function fn_member_bind(params) {
+		var tmpStr = params.M_NM + " / 만 " + params.AGE + "세";
 		$(".member_info").html(tmpStr);
 		var height = "-";
 		var weight = "-";
 		var day = params.REGNT_DTM;
-		if(params.M_HEIGHT != null){
+		if (params.M_HEIGHT != null) {
 			height = params.M_HEIGHT;
 		}
-		if(params.M_WEIGHT != null){
+		if (params.M_WEIGHT != null) {
 			weight = params.M_WEIGHT;
 		}
-		var tmpStr = height+"cm/ " + weight+"kg/ " + day +"일차";
+		var tmpStr = height + "cm/ " + weight + "kg/ " + day + "일차";
 		$(".en").html(tmpStr);
-		
+
 		var trainer = "-";
-		if(params.TRAINER != null){
+		if (params.TRAINER != null) {
 			trainer = params.TRAINER;
 		}
 		$(".name").append(trainer);
-		
+
 	}
 	//******************************************************************************************** 
 	// 5. 기타 함수                            						                              														  
@@ -99,6 +115,10 @@ String seqno = request.getParameter("seqno");
 	//******************************************************************************************** 
 	//6. 이벤트 함수                            						                              														  
 	//*********************************************************************************************/
+
+	function changeVideoSource(newSource) {
+		$(".pdf_img video").attr("src", newSource);
+	}
 </script>
 </head>
 
@@ -127,7 +147,7 @@ String seqno = request.getParameter("seqno");
 								<div class="teamTxt">
 									<p>
 										<span class="team">2023.04.23</span><span class="name">트레이너
-											</span>
+										</span>
 									</p>
 								</div>
 								<div class="video">
@@ -165,9 +185,11 @@ String seqno = request.getParameter("seqno");
 											<div class="btnRight">
 												<button>Delete</button>
 											</div>
-											<p><span>한 부위에서 근육통이 느껴진다면 다른 부위의 운동을 진행하는 것이 좋습니다.</span></p>
+											<p>
+												<span>한 부위에서 근육통이 느껴진다면 다른 부위의 운동을 진행하는 것이 좋습니다.</span>
+											</p>
 										</li>
-																				<li>
+										<li>
 											<p>
 												<i>질문</i><em>민하은</em><span>답변완료</span>
 											</p>
@@ -175,9 +197,12 @@ String seqno = request.getParameter("seqno");
 											<div class="btnRight">
 												<button>Delete</button>
 											</div>
-											<p><span>운동이 끝난 후 자신의 체중정도를 먹는 것이 좋습니다. 예를 들어 50kg이라면 50g 정도의 섭취가 좋아요.</span></p>
+											<p>
+												<span>운동이 끝난 후 자신의 체중정도를 먹는 것이 좋습니다. 예를 들어 50kg이라면
+													50g 정도의 섭취가 좋아요.</span>
+											</p>
 										</li>
-																				<li>
+										<li>
 											<p>
 												<i>질문</i><em>민하은</em><span>답변중</span>
 											</p>
@@ -191,55 +216,21 @@ String seqno = request.getParameter("seqno");
 							</div>
 							<div class="right">
 								<div class="pdf_img" style="width: 100%;">
-									<video controls width="100%" src="../../img/exercise_-_32937 (720p).mp4"></video>
+									<video controls width="100%"
+										src="../../img/exercise_-_32937 (720p).mp4"></video>
 								</div>
 								<div class="video_list">
 									<ul>
-										<li>
-											<img src="../../../img/ackeem.jpg" alt="" />
-											<span>1. 재활을 위한 스트레칭의 정석</span>
-										</li>
-										<li>
-											<img src="../../../img/jade.jpg" alt="" />
-											<span>2. 튼튼한 신체를 위한 코어 운동</span>
-										</li>
-										<li>
-											<img src="../../../img/john.jpg" alt="" />
-											<span>3. 일상생활에서 가능한 교정 운동</span>
-										</li>
-										<li>
-											<img src="../../../img/rochelle.jpg" alt="" />
-											<span>4. 집에서 쉽게 배우는 맨몸운동</span>
-										</li>
+										<li class="video_01"><img src="../../../img/ackeem.jpg"
+											alt="" /> <span>1. 재활을 위한 스트레칭의 정석</span></li>
+										<li class="video_02"><img src="../../../img/jade.jpg"
+											alt="" /> <span>2. 튼튼한 신체를 위한 코어 운동</span></li>
+										<li class="video_03"><img src="../../../img/john.jpg"
+											alt="" /> <span>3. 일상생활에서 가능한 교정 운동</span></li>
+										<li class="video_04"><img src="../../../img/rochelle.jpg"
+											alt="" /> <span>4. 집에서 쉽게 배우는 맨몸운동</span></li>
 									</ul>
 								</div>
-							</div>
-						</div>
-						<div class="group">내용2</div>
-						<div class="group">내용3</div>
-						<div class="group">내용4</div>
-						<div class="group">내용5</div>
-						<div class="group">내용6</div>
-					</div>
-
-
-
-					<!-- PDF 레이어 팝업 -->
-					<div class="pop_pdf">
-						<div class="in">
-							<div class="pdf_img" style="width: 100%;">
-								<img src="../../img/test.jpg" alt="">
-							</div>
-							<div class="side_link">
-								<ul>
-									<li class="btn on"><button title="Korean">KO</button></li>
-									<li class="btn"><button title="English">EN</button></li>
-									<li><button title="download" class="down">
-											<img src="../../img/icon_down.svg" alt="PDF 다운받기">
-										</button></li>
-									<li class="btn close"><a href="javascript://"
-										title="close" onClick="pdf_close();">close</a></li>
-								</ul>
 							</div>
 						</div>
 					</div>
@@ -367,14 +358,6 @@ String seqno = request.getParameter("seqno");
 			$(".side_link .btn").toggleClass('on');
 		});
 
-		//PDF 레이어 팝업
-		function popWindowOpen() {
-			$(".pop_pdf").css("display", "block");
-			$(".pop_pdf").draggable();
-		}
-		function pdf_close() {
-			$(".pop_pdf").css("display", "none");
-		}
 	</script>
 </body>
 

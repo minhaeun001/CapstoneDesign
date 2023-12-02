@@ -1,24 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>MAKEGYM</title>
-    <link rel="stylesheet" href="../../css/common.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/signup.css">
-    
-    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="../../js/jquery-1.7.2.min.js"></script>
-    <script src="../../js/script.js"></script>
+<meta charset="UTF-8">
+<title>MAKEGYM</title>
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/signup.css">
 
-    <link href="../../js/aos.css" rel="stylesheet">
-    <script src="../../js/aos.js"></script>
-    
-    <script>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../js/jquery-1.7.2.min.js"></script>
+<script src="../../js/script.js"></script>
+
+<link href="../../js/aos.css" rel="stylesheet">
+<script src="../../js/aos.js"></script>
+
+<script>
 
 	//******************************************************************************************** 
 	// 1. 전역변수 선언                               						                              														  
@@ -540,204 +541,173 @@
 		$(".m_email_02").eq(0).val(m_email_03);
 	});
 </script>
-    
+
 </head>
 
 <body class="bg_black">
-    <!-- 팝업창 시작 -->
-    <div class="popup success hidden">
-        <div class="check_info">
-            <img src="../../../img/able.png" alt="">
-            <div class="text">
-                입력하신<span class="nickname"></span>는
-                <br>
-                사용가능합니다.
-            </div>
-            <button class="use">사용하기</button>
-        </div>
-    </div>
-    <div class="popup fail hidden">
-	    <div class="check_info">
-	        
-	        <span id="chk_img"></span>
-	        <div class="text">
-	            <span>
-	                입력하신<span class="nickname"></span>는
-	                <br>
-	                <span id="chk_msg"></span>
-	            </span>
-	        </div>
-	        <div class="diff_id">
-	            다른 아이디 입력
-	            <br>
-	            <input type="text" class="diff_id_input" id="m_szId2" placeholder="6~12자 아이디를 입력해주세요" >
-	            <button class="re_check">중복확인</button>
-	        </div>
-	        <div class="button_area">
-	            <button class="cancel">취소</button>
-	            <button class="confirm">확인</button>
-	        </div>
-	    </div>
+	<!-- 팝업창 시작 -->
+	<div class="popup success hidden">
+		<div class="check_info">
+			<img src="../../../img/able.png" alt="">
+			<div class="text">
+				입력하신<span class="nickname"></span>는 <br> 사용가능합니다.
+			</div>
+			<button class="use">사용하기</button>
+		</div>
 	</div>
-    <!-- 팝업창 종료 -->
-    <!-- 배경 동영상 -->
-    <video muted autoplay loop class="index_video">
-        <source src="../../img/clip2_640.mp4" type="video/mp4">
-    </video>
+	<div class="popup fail hidden">
+		<div class="check_info">
 
-    <div class="wrap index">
-    	<%@include file="../include/header.jsp" %>
-            </div>
-            <div class="main">
-                <h2>회원가입</h2>
-                <div class="signup">
-                    <p> 
-                        <i class="essR">
-                        </i>
-                        "필수입력"
-                    </p>
-                    <div class="signup_wrapper">
-                        <table>
-                            <caption>
-                                <strong>웹 회원 정보입력 표</strong>
-                                <p>웹 회원 정보입력으로 이름, 아이디, 비밀번호, 비밀번호 확인, 생년월일, 휴대폰, 이메일 정보를 입력</p>
-                            </caption>
-                            <colgroup>
-                                <col style="width:160px">
-                                <col style="width:280px">
-                                <col style="width:100px">
-                                <col class="sm-wd">
-                            </colgroup>
-                            <tbody>
-                                <tr class="id">
-                                    <th scope="row">
-                                        아이디
-                                        <span class="essR">
-                                        </span>
-                                    </th>
-                                    <td colspan="3">
-                                        <input type="text" class="m_id inTxt rs-w100 id_input" id="m_szId" placeholder="6~12자리" maxlength="20" title="아이디 입력">
-										<input type="hidden" id="id_check" value="false">
-										<button class="tbtns rs-mt5 btn_check btn_blue" title="중복확인">중복확인</button>
-                                    </td>
-                                </tr>
-                                <tr class="pswd">
-                                    <th scope="row">
-                                        비밀번호
-                                        <span class="essR">
-                                            ::before
-                                            "필수"
-                                        </span>
-                                    </th>
-                                    <td colspan="3">
-                                    	<input type="password" class="m_pwd inTxt rs-w100" id="m_szPwd" placeholder="8~14자리" maxlength="14" style="width:180px;ime-mode:disabled;" title="비밀번호">
-                                        <span class="cau05 pw_info pwd_message">8~14자리 (영문 대소문자, 숫자, 특수문자 조합)</span>
-                                        <input type="hidden" id="pwd_tf" value="false">
-                                    </td>
-                                </tr>
-                                <tr class="repswd">
-                                    <th scope="row">
-                                        비밀번호 확인
-                                        <span class="essR">
-                                            ::before
-                                            "필수"
-                                        </span>
-                                    </th>
-                                    <td colspan="3" class="line2">
-                                        <input type="password" class="m_pwd_chk inTxt rs-w100" id="m_szPwdChk" placeholder="비밀번호 재입력" maxlength="14" style="width:180px;ime-mode:disabled;" title="비밀번호 확인">
-                                        <span class="cau05 pw_info pwd_message_chk"></span>
-                                        <input type="hidden" id="pwd_chk_check" value="false">
-                                    </td>
-                                </tr>
-                                <tr class="name">
-                                    <th scope="row">
-                                        성명
-                                        <span class="essR">
-                                            ::before
-                                            "필수"
-                                        </span>
-                                    </th>
-                                    <td colspan="3">
-                                        <input type="text" class="m_nm inTxt rs-w100" id="m_szName" placeholder="이름을 입력해주세요." value maxlength="50" style="width: 180px;" title="이름 입력">
-                                    </td>
-                                </tr>
-                                <tr class="phone">
-                                    <th scope="row">
-                                        전화번호
-                                        <span class="essR">
-                                            ::before
-                                            "필수"
-                                        </span>
-                                    </th>
-                                    <td colspan="3" class="hp">
-                                        <input type="text" class="m_hp inTxt rs-w150" id="phone1" maxlength="11" placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)" style="width:80px" title="휴대폰 번호 입력">
-                                    </td>
-                                </tr>
-                                <tr class="eml">
-                                    <th scope="row">
-                                        이메일 주소
-                                        <span class="essR">
-                                            ::before
-                                            "필수"
-                                        </span>
-                                    </th>
-                                    <td colspan="3" class="email">
-                                        <input type="text" class="m_email_01 inTxt rs-w40" id="email_01" placeholder="이메일 주소" style="width:120px;ime-mode:disabled;" title="이메일 아이디 입력">
-                                        <span class="dash"> @ </span>
-                                        <label class="disn ">이메일 입력</label>
-                                        <input type="text" class="m_email_02 inTxt rs-w45" id="email_02" style="width:120px; ime-mode:disabled;" title="이메일 입력">
-                                        <span class="selectboxWrap" style="width:180px">
-                                            <label class="disn">이메일 선택</label>
-                                            <select class="m_email_03 select selectBg" id="email_03"  title="이메일 선택">
-                                                <option value="">직접입력</option>
-                                                
-                                                <option value="naver.com">naver.com</option>
-                                                
-                                                <option value="gmail.com">gmail.com</option>
+			<span id="chk_img"></span>
+			<div class="text">
+				<span> 입력하신<span class="nickname"></span>는 <br> <span
+					id="chk_msg"></span>
+				</span>
+			</div>
+			<div class="diff_id">
+				다른 아이디 입력 <br> <input type="text" class="diff_id_input"
+					id="m_szId2" placeholder="6~12자 아이디를 입력해주세요">
+				<button class="re_check">중복확인</button>
+			</div>
+			<div class="button_area">
+				<button class="cancel">취소</button>
+				<button class="confirm">확인</button>
+			</div>
+		</div>
+	</div>
+	<!-- 팝업창 종료 -->
+	<!-- 배경 동영상 -->
+	<video muted autoplay loop class="index_video">
+		<source src="../../img/clip2_640.mp4" type="video/mp4">
+	</video>
 
-                                                <option value="hanmail.net">hanmail.net</option>
-                                                
-                                            </select>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr class="birth">
-                                    <th scope="row">
-                                        <label >생년 월일</label>
-                                        <span class="essR">
-                                            ::before
-                                            "필수"
-                                        </span>
-                                    </th>
-                                    <td>
-                                        <span class="selectboxWrap" style="width:32%">
-                                            <select class="m_birth_01 select selectBg" id="birthyy" title="년도 선택">
-                                                <option value="">년도</option>
-                                            </select>
-                                        </span>
-                                        <span class="selectboxWrap" style="width:32%">
-                                            <select class="m_birth_02 select selectBg" id="birthmm" title="월 선택">
-                                                <option value="">월</option>
-                                            </select>
-                                        </span>
-                                        <label  class="disn">월</label>
-                                        <span class="selectboxWrap" style="width:32%">
-                                            <select class="m_birth_03 select selectBg" id="birthdd" title="일 선택">
-                                                <option value="">일</option>
-                                            </select>
-                                        </span>
-                                        <label  class="disn">일</label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-					<p class="identify"><label><span class="essR">::before "필수"</span> 개인정보 사용에 동의합니다. <input type="checkbox" id="use_yn"></label></p>
-                    <div class="right btn_area">
-                        <button class="tb_top right btn_blue btn_signup">가입</button>
-                    </div>
-                </div>            
-            </div>
-    </div>
+	<div class="wrap index">
+		<%@include file="../include/header.jsp"%>
+	</div>
+	<div class="main">
+		<h2>회원가입</h2>
+		<div class="signup">
+			<p>
+				<i class="essR"> </i> "필수입력"
+			</p>
+			<div class="signup_wrapper">
+				<table>
+					<caption>
+						<strong>웹 회원 정보입력 표</strong>
+						<p>웹 회원 정보입력으로 이름, 아이디, 비밀번호, 비밀번호 확인, 생년월일, 휴대폰, 이메일 정보를 입력</p>
+					</caption>
+					<colgroup>
+						<col style="width: 160px">
+						<col style="width: 280px">
+						<col style="width: 100px">
+						<col class="sm-wd">
+					</colgroup>
+					<tbody>
+						<tr class="id">
+							<th scope="row">아이디 <span class="essR"> </span>
+							</th>
+							<td colspan="3"><input type="text"
+								class="m_id inTxt rs-w100 id_input" id="m_szId"
+								placeholder="6~12자리" maxlength="20" title="아이디 입력"> <input
+								type="hidden" id="id_check" value="false">
+								<button class="tbtns rs-mt5 btn_check btn_blue" title="중복확인">중복확인</button>
+							</td>
+						</tr>
+						<tr class="pswd">
+							<th scope="row">비밀번호 <span class="essR"> ::before
+									"필수" </span>
+							</th>
+							<td colspan="3"><input type="password"
+								class="m_pwd inTxt rs-w100" id="m_szPwd" placeholder="8~14자리"
+								maxlength="14" style="width: 180px; ime-mode: disabled;"
+								title="비밀번호"> <span class="cau05 pw_info pwd_message">8~14자리
+									(영문 대소문자, 숫자, 특수문자 조합)</span> <input type="hidden" id="pwd_tf"
+								value="false"></td>
+						</tr>
+						<tr class="repswd">
+							<th scope="row">비밀번호 확인 <span class="essR"> ::before
+									"필수" </span>
+							</th>
+							<td colspan="3" class="line2"><input type="password"
+								class="m_pwd_chk inTxt rs-w100" id="m_szPwdChk"
+								placeholder="비밀번호 재입력" maxlength="14"
+								style="width: 180px; ime-mode: disabled;" title="비밀번호 확인">
+								<span class="cau05 pw_info pwd_message_chk"></span> <input
+								type="hidden" id="pwd_chk_check" value="false"></td>
+						</tr>
+						<tr class="name">
+							<th scope="row">성명 <span class="essR"> ::before "필수"
+							</span>
+							</th>
+							<td colspan="3"><input type="text"
+								class="m_nm inTxt rs-w100" id="m_szName"
+								placeholder="이름을 입력해주세요." value maxlength="50"
+								style="width: 180px;" title="이름 입력"></td>
+						</tr>
+						<tr class="phone">
+							<th scope="row">전화번호 <span class="essR"> ::before
+									"필수" </span>
+							</th>
+							<td colspan="3" class="hp"><input type="text"
+								class="m_hp inTxt rs-w150" id="phone1" maxlength="11"
+								placeholder="휴대폰 번호 입력 (‘-’ 제외 11자리 입력)" style="width: 80px"
+								title="휴대폰 번호 입력"></td>
+						</tr>
+						<tr class="eml">
+							<th scope="row">이메일 주소 <span class="essR"> ::before
+									"필수" </span>
+							</th>
+							<td colspan="3" class="email"><input type="text"
+								class="m_email_01 inTxt rs-w40" id="email_01"
+								placeholder="이메일 주소" style="width: 120px; ime-mode: disabled;"
+								title="이메일 아이디 입력"> <span class="dash"> @ </span> <label
+								class="disn ">이메일 입력</label> <input type="text"
+								class="m_email_02 inTxt rs-w45" id="email_02"
+								style="width: 120px; ime-mode: disabled;" title="이메일 입력">
+								<span class="selectboxWrap" style="width: 180px"> <label
+									class="disn">이메일 선택</label> <select
+									class="m_email_03 select selectBg" id="email_03" title="이메일 선택">
+										<option value="">직접입력</option>
+
+										<option value="naver.com">naver.com</option>
+
+										<option value="gmail.com">gmail.com</option>
+
+										<option value="hanmail.net">hanmail.net</option>
+
+								</select>
+							</span></td>
+						</tr>
+						<tr class="birth">
+							<th scope="row"><label>생년 월일</label> <span class="essR">
+									::before "필수" </span></th>
+							<td><span class="selectboxWrap" style="width: 32%"> <select
+									class="m_birth_01 select selectBg" id="birthyy" title="년도 선택">
+										<option value="">년도</option>
+								</select>
+							</span> <span class="selectboxWrap" style="width: 32%"> <select
+									class="m_birth_02 select selectBg" id="birthmm" title="월 선택">
+										<option value="">월</option>
+								</select>
+							</span> <label class="disn">월</label> <span class="selectboxWrap"
+								style="width: 32%"> <select
+									class="m_birth_03 select selectBg" id="birthdd" title="일 선택">
+										<option value="">일</option>
+								</select>
+							</span> <label class="disn">일</label></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="identify">
+				<label><span class="essR">::before "필수"</span> 개인정보 사용에
+					동의합니다. <input type="checkbox" id="use_yn"></label>
+			</p>
+			<div class="right btn_area">
+				<button class="tb_top right btn_blue btn_signup">가입</button>
+			</div>
+		</div>
+	</div>
+	</div>
 </body>
 </html>
