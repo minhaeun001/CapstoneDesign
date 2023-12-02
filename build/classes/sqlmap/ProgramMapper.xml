@@ -45,7 +45,6 @@
 		M.M_NM
 		FROM 
 		PROGRAM P
-		LEFT JOIN MEMBER M on M.REG_ID = P.TRAINER_ID
 		WHERE 1=1
 	</select>
 
