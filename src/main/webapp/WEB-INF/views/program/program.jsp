@@ -143,6 +143,15 @@
 
 		fn_check();
 	});
+	
+	$(document).on("click", ".thumb", function() {
+		var input = $(this).children("input");
+		input.prop("checked", !input.prop("checked"));
+		if(input.prop("checked")){
+			$(this).addClass("thumb_selected");
+		}else
+			$(this).removeClass("thumb_selected");
+	});
 </script>
 <style>
 .split:before {

@@ -388,8 +388,9 @@ program
 
 /* .nw_left */
 .main .news .nw_left .items {border-bottom: 1px solid #d2d2d2;}
-.thumb {height: 222px; margin-bottom: 20px; transition: all .3s; padding: 20px 0px;}
+.thumb {height: 222px; transition: all .3s; padding: 20px; border-bottom:1px solid#bababa; }
 /*.thumb:hover {transform: translateX(10px)}*/
+.thumb input{display:none;}
 .thumb .thumb_imgBox {display: block;float: left;width: 280px;height: 180px;overflow: hidden;background-size: cover; transition: all .4s;}
 .thumb .thumb_imgBox img{width:100%; height:100%;}
 .thumb .thumb_imgBox + .thumb_textBox {float: right;width: calc(100% - 295px);padding: 10px 24px;}
@@ -402,6 +403,7 @@ program
 .thumb .article_link .desc {overflow: hidden;text-overflow: ellipsis; display: block; display: -webkit-box;-webkit-line-clamp: 5; -webkit-box-orient: vertical;font-size: 15px;font-weight: 400;line-height: 22px;max-height: calc(38px * 3);}
 .thumb .article_link .btn_link {display: inline-block; margin-top: 30px;font-size: 13px;font-weight: 400;letter-spacing: 0.1em;color: #00b3e3;}
 .thumb .article_link .btn_link:after {content: '';  display: inline-block; width: 6px; height: 10px; margin-left: 5px; background:url(../img/arr07.png)}
+.thumb_selected{background-color:#ebebef;}
 .btn_more {background-color: #fff;display: inline-block;min-width: 200px;padding: 0 22px;font-size: 15px;font-weight: 500;text-transform: uppercase;line-height: 40px;border: solid 1px #000;border-radius: 42px;  transition: all 0.2s linear} 
 .btn_more:hover {background-color: #000; color: #fff;}
 
