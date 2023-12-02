@@ -41,8 +41,7 @@
 	<select id="listProgramType" parameterType="Map" resultType="java.util.HashMap">
 
 		SELECT 
-		P.*,
-		M.M_NM
+		P.*
 		FROM 
 		PROGRAM P
 		WHERE 1=1
