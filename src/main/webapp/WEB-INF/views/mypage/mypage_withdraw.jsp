@@ -123,10 +123,7 @@
 									</p>
 									<div class="signup_wrapper">
 										<table>
-											<caption>
-												<strong>웹 회원 아이디 찾기위한 정보 입력</strong>
-												<p>웹 회원 정보입력으로 이름, 휴대폰, 이메일 정보를 입력</p>
-											</caption>
+											
 											<colgroup>
 												<col style="width: 160px">
 												<col style="width: 280px">

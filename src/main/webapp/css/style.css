@@ -121,8 +121,8 @@ body {overflow-x: hidden; overflow-y: auto;}
 
 -------------------------------------*/
 .intro .bg {width: 100%;  position: fixed; top: 0; left: 0; }
-.intro {color: #fff; letter-spacing: 0;}
-.intro_wrap {position: absolute; top: 100px; left: 50%; transform: translateX(-425px); width: 900px;  height: 500px; margin-top: 50px; color: #fff; text-align: center; padding: 20px 60px; background-color: rgba(0,0,0,0.6); border-radius: 20px; box-sizing: border-box;}
+.intro {color: #fff; letter-spacing: 0; height:1200px;}
+.intro_wrap {position: absolute; top: 100px; left: 50%; transform: translateX(-425px); width: 900px;  height: 1200px; margin-top: 50px; color: #fff; text-align: center; padding: 20px 60px; background-color: rgba(0,0,0,0.6); border-radius: 20px; box-sizing: border-box;}
 .intro_wrap em {display: inline-block; margin-bottom: 32px;font-size: 32px; font-weight: 500; text-shadow: 4px 4px 10px #000;}
 .intro_wrap .title {margin-top:14px;position:relative;display:inline-block;}
 .intro_wrap .title .block {display:inline-block;height:58px;background:#2de7e0;position:absolute;top:-12px;left:0;animation:mainBlock .6s cubic-bezier(.74,.06,.4,.92) forwards}
@@ -381,18 +381,19 @@ program
 .tooltip:hover .tooltip_txt{display: block;}
 
 /* 공통 */
-.main .news {margin-top: 40px; background-color: #fff;}
+.main .news {padding-bottom:60px; background-color: #fff;}
 .main .news .nw_left {float: left; width: 67%;}
 .main .news .nw_right {float: right; width: 347px;}
 .main .news h2 {margin-top: 36px; padding-bottom: 20px; font-size: 28px; font-weight: 700;}
 
 /* .nw_left */
 .main .news .nw_left .items {border-bottom: 1px solid #d2d2d2;}
-.thumb {height: 222px; transition: all .3s; padding: 20px; border-bottom:1px solid#bababa; }
+.thumb {height: 222px; transition: all .3s; padding: 20px; border-bottom:1px solid #dcdcdc; }
 /*.thumb:hover {transform: translateX(10px)}*/
 .thumb input{display:none;}
-.thumb .thumb_imgBox {display: block;float: left;width: 280px;height: 180px;overflow: hidden;background-size: cover; transition: all .4s;}
-.thumb .thumb_imgBox img{width:100%; height:100%;}
+.thumb .thumb_imgBox {float: left;width: 280px;height: 180px;overflow: hidden;background-size: cover; transition: all .4s; position:relative;}
+.thumb .thumb_imgBox .play_btn{width: 60px; height:60px; display:block; position: absolute; top:50%; left: 50%; transform:translate(-50%, -50%); z-index: 100;}
+.thumb .thumb_imgBox img{width:100%; height:100%; position:absolute;}
 .thumb .thumb_imgBox + .thumb_textBox {float: right;width: calc(100% - 295px);padding: 10px 24px;}
 .thumb .thumb_date,.thumb_tag {font-size: 14px;display: inline-block;vertical-align: middle;}
 .thumb_eyebrow {font-size: 14px; font-weight: 500; color: #888;margin-top:-12px;}
@@ -853,7 +854,6 @@ p {display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline
 option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px 1px;}
 .check > a{color: white;}
 
-.id{border-top: 2px solid black;}
 .id a .tbns {padding: 5px 8px; height: auto; line-height: 20px;}
 .tbtns {display: inline-block; font-size: 14px; text-align: center; padding: 0 8px; height: 32px; line-height: 29px; color: #515e71; background: #e3e7ed; border: 1px solid #bcc1ca; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;}
 
@@ -875,9 +875,9 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 
 .signup_wrapper {width: 90%; font-size: 14px; color: black; width: 90%; margin: auto; border-top: 2px solid black; border: 1px solid #99a0aa; padding-top: 0px;}
 .signup_wrapper.inputForm tr {background: #f6f6f6;}
-.signup_wrapper.inputForm tr:first-child th {border-top: none !important;}
+/* .signup_wrapper.inputForm tr:first-child th {border-top: none !important;}
 .signup_wrapper.inputForm tr th:nth-child(n) {border-top: 1px solid #99a0aa !important;}
-.signup_wrapper.inputForm tr td:nth-child(n) {border-top: 1px solid #99a0aa !important;}
+.signup_wrapper.inputForm tr td:nth-child(n) {border-top: 1px solid #99a0aa !important;} */
 
 .signup_wrapper tbody th {padding: 11px 15px 14px 18px; background: #f6f6f6; color: #333333; border-bottom: 1px solid #cccccc; text-align: left; font-size: 14px; font-family: 'NotoKrM';}
 .signup_wrapper.inputForm th {padding: 10px 15px 10px 15px; background: #f6f6f6;}
@@ -892,7 +892,7 @@ option {font-weight: normal; display: block; min-height: 1.2em; padding: 0px 2px
 
 .signup_wrapper td .selectboxWrap {vertical-align: top;}
 
-.signup_wrapper table tbody {position: relative; top: 1px; z-index: 100;}
+.signup_wrapper table tbody {position: relative;  z-index: 100;}
 .signup_wrapper tbody td:last-child {border-right: 0;}
 
 .signup_wrapper.inputForm tr:first-child th {border-top: none !important;}

@@ -50,7 +50,6 @@
 			method : 'post',
 			dataType : 'json',
 			success : function(response) {
-				console.log(response);
 				fn_program_bind(response.result)
 			},
 			error : function(xhr, status, error) {
@@ -100,9 +99,10 @@
 			var tmp_str = "";
 			tmp_str += '<div class="thumb">';
 			tmp_str += '<input type="checkbox" name="btn_checked" class="btn_checked" value="'+params[i].PROGRAM_ID+'">';
-			tmp_str += '<span class="thumb_imgBox" href="#">';
+			tmp_str += '<div class="thumb_imgBox" href="#">';
 			tmp_str += '<img src="'+params[i].PROGRAM_THUMBNAIL+'" />';
-			tmp_str += '</span>';
+			tmp_str += '<img src="../../../img/play_btn.png" class="play_btn"/>';
+			tmp_str += '</div>';
 			tmp_str += '<div class="thumb_textBox">';
 			tmp_str += '<div class="thumb_eyebrow">';
 			tmp_str += '<span class="thumb_category">트레이너 ' + params[i].TRAINER
